@@ -1,1 +1,1 @@
-:- include('./map_fact.pl').
+:- include('./map_rules.pl').
