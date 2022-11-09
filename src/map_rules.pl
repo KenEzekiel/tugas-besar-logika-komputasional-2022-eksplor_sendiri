@@ -1,7 +1,3 @@
-:- include('./map_fact.pl').
-:- include('./list.pl').
-
-
 :- dynamic(curPropertyState/3).
 
 /* ini buat testing doang, nanti harusnya pake dynamic predicate */
@@ -91,4 +87,7 @@ map :-
   write('     | JL | B3 | B2 | B1 | CC | A3 | A2 | A1 | GO |'), nl,
   write('     ----------------------------------------------'), nl,
   write('          '), writeLocationStatus(b3), writeLocationStatus(b2), writeLocationStatus(b1),
-  write('     '), writeLocationStatus(a3), writeLocationStatus(a2), writeLocationStatus(a1).
+  write('     '), writeLocationStatus(a3), writeLocationStatus(a2), writeLocationStatus(a1), nl, nl,
+  write('     Posisi pemain:'), nl,
+  write('     v = '), location(v, LocV), write(LocV), nl,
+  write('     w = '), location(w, LocW), write(LocW), nl.
