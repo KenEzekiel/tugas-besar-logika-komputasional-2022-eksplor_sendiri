@@ -74,6 +74,26 @@ showLocNameNDesc(f2) :- write('\nNama Lokasi\t\t: Jakarta\n'),
 showLocNameNDesc(f3) :- write('\nNama Lokasi\t\t: Jakarta\n'),
   write('Deskripsi Lokasi\t: Ibukota Indonesia\n\n').
 
+/* g1 */
+showLocNameNDesc(f1) :- write('\nNama Lokasi\t\t: Jakarta\n'),
+  write('Deskripsi Lokasi\t: Ibukota Indonesia\n\n').
+
+/* g2 */
+showLocNameNDesc(f2) :- write('\nNama Lokasi\t\t: Jakarta\n'),
+  write('Deskripsi Lokasi\t: Ibukota Indonesia\n\n').
+
+/* g3 */
+showLocNameNDesc(f3) :- write('\nNama Lokasi\t\t: Jakarta\n'),
+  write('Deskripsi Lokasi\t: Ibukota Indonesia\n\n').
+
+/* h1 */
+showLocNameNDesc(f1) :- write('\nNama Lokasi\t\t: Jakarta\n'),
+  write('Deskripsi Lokasi\t: Ibukota Indonesia\n\n').
+
+/* h2 */
+showLocNameNDesc(f2) :- write('\nNama Lokasi\t\t: Jakarta\n'),
+  write('Deskripsi Lokasi\t: Ibukota Indonesia\n\n').
+
 propertyPrices(a1, Prices) :- Prices = [200, 1000, 2000, 3000, 3000].
 propertyPrices(a2, Prices) :- Prices = [200, 1000, 2000, 3000, 3000].
 propertyPrices(a3, Prices) :- Prices = [200, 1000, 2000, 3000, 3000].
@@ -92,6 +112,11 @@ propertyPrices(e3, Prices) :- Prices = [200, 1000, 2000, 3000, 3000].
 propertyPrices(f1, Prices) :- Prices = [200, 1000, 2000, 3000, 3000].
 propertyPrices(f2, Prices) :- Prices = [200, 1000, 2000, 3000, 3000].
 propertyPrices(f3, Prices) :- Prices = [200, 1000, 2000, 3000, 3000].
+propertyPrices(g1, Prices) :- Prices = [200, 1000, 2000, 3000, 3000].
+propertyPrices(g2, Prices) :- Prices = [200, 1000, 2000, 3000, 3000].
+propertyPrices(g3, Prices) :- Prices = [200, 1000, 2000, 3000, 3000].
+propertyPrices(h1, Prices) :- Prices = [200, 1000, 2000, 3000, 3000].
+propertyPrices(h2, Prices) :- Prices = [200, 1000, 2000, 3000, 3000].
 
 propertyRents(a1, Prices) :- Prices = [20, 120, 350, 600, 1000].
 propertyRents(a2, Prices) :- Prices = [20, 120, 350, 600, 1000].
@@ -111,3 +136,8 @@ propertyRents(e3, Prices) :- Prices = [20, 120, 350, 600, 1000].
 propertyRents(f1, Prices) :- Prices = [20, 120, 350, 600, 1000].
 propertyRents(f2, Prices) :- Prices = [20, 120, 350, 600, 1000].
 propertyRents(f3, Prices) :- Prices = [20, 120, 350, 600, 1000].
+propertyRents(g1, Prices) :- Prices = [20, 120, 350, 600, 1000].
+propertyRents(g2, Prices) :- Prices = [20, 120, 350, 600, 1000].
+propertyRents(g3, Prices) :- Prices = [20, 120, 350, 600, 1000].
+propertyRents(h1, Prices) :- Prices = [20, 120, 350, 600, 1000].
+propertyRents(h2, Prices) :- Prices = [20, 120, 350, 600, 1000].
