@@ -1,34 +1,32 @@
-
-
 chancecard(tax, Player) :- pajak(Player).
 chancecard(prize, Player) :- hadiah(Player).
 chancecard(getout, Player) :- getkeluarpenjara(Player).
 chancecard(gotojail, Player) :- pergikepenjara(Player).
 
-pajak(P) :-
+kartupajak(P) :-
     movePlayerTo(P, tx),
     bayarPajak(P).
 
-hadiah(P) :-
+kartuhadiah(P) :-
     random(M),
     plusMoney(P, M).
 
-getkeluarpenjara(P, CardInventory) :-
+kartugetkeluarpenjara(P, CardInventory) :-
     insertElmtLast(CardInventory, kartukeluarpenjara, A),
     CardInventory = A.
 
-usekeluarpenjara(P, CardInventory) :-
+kartukeluarpenjara(P, CardInventory) :-
     deleteElmt(CardInventory, kartukeluarpenjara, A),
-    keluarpenjara(P),
+    keluarPenjara(P),
     CardInventory = A.
 
-keluarpenjara(P) :-
+kartukeluarpenjara(P) :-
     isPlayerinPenjara(P),
     format('Apakah Anda ingin keluar penjara? ~n'),
     inputJawaban(Jawaban),
     Jawaban =:= true,
-    fungsiKeluarPenjara(P).
+    keluarPenjara(P).
 
-pergikepenjara(P) :-
+kartupergiKePenjara(P) :-
     movePlayerTo(P, jl),
     endTurn(P).
