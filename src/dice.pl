@@ -1,12 +1,20 @@
 :- dynamic(pPos/2).
+:- dynamic(pTile/2).
 
 pPos(p1, 0).
 pPos(p2, 0).
 
-nthTile([H|T], 0, H), !.
-nthTile([H|T], I):-
+nthTile([H|T], 0, H):- !.
+nthTile([H|T], I, Tile):-
     I > 0,
-    elmtIMap(T, I), !.
+    I1 is I-1,
+    nthTile(T, I1, Tile), !.
+
+pTile(P, Tile) :-
+    pPos(P, Index),
+    board(B),
+    nthTile(B, Index, Tile).
+
 
 pPosUpdater(P, NS):-
     retractall(pPos(P, _)),
