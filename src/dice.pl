@@ -28,15 +28,17 @@ rollDice(Res, Double):-
 
 moveToTarget(P, DestinationIndex):- 
     turn(P, T),
-    (T =:= 1 ->
+    isPJailed(P, J),
+    ((T =:= 1, J =:= 0 )->
     pPosUpdater(P, DestinationIndex) ; fail).
 
 moveForward(P, Increment):- 
     turn(P, T),
+    isPJailed(P, J),
     pPos(P, Loc),
     boardLength(L),
     Destination is ((Loc + Increment) mod L),
-    (T =:= 1 ->
+    ((T =:= 1, J =:= 0 )->
     pPosUpdater(P, Destination) ; fail).
 
     

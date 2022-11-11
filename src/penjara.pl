@@ -1,28 +1,28 @@
-:- dynamic(isPlayerinPenjara/2).
-:- dynamic(turnInPenjara/2).
+:- dynamic(isPJailed/2).
+:- dynamic(turnInJail/2).
 
-penjaraStatusUpdate(P, NS):-
-    retractall(isPlayerinPenjara(P, _)),
-    asserta(isPlayerinPenjara(P, NS)).
+jailUpdater(P, NS):-
+    retractall(isPJailed(P, _)),
+    asserta(isPJailed(P, NS)).
 
-turnInPenjaraStatusUpdate(P, NV):-
-    retractall(turnInPenjara(P, _)),
-    asserta(turnInPenjara(P, NV)).
+turnInJailUpdater(P, NV):-
+    retractall(turnInJail(P, _)),
+    asserta(turnInJail(P, NV)).
 
 addTurnInPenjara(P) :-
-    turnInPenjara(P, X),
+    turnInJail(P, X),
     NV is X + 1,
-    turnInPenjaraStatusUpdate(P, NV).
+    turnInJailUpdater(P, NV).
 
-resetTurnInPenjara(P) :-
-    turnInPenjaraStatusUpdate(P, 0).
+resetTurnInJail(P) :-
+    turnInJailUpdater(P, 0).
 
 keluarPenjara(P) :-
-    penjaraStatusUpdate(P, 0).
-    resetTurnInPenjara(P).
+    jailUpdater(P, 0).
+    resetTurnInJail(P).
 
-masukPenjara(P) :- 
-    penjaraStatusUpdate(P, 1).
+jailed(P) :- 
+    jailUpdater(P, 1).
 
 
 
