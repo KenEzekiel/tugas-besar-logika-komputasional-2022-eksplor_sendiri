@@ -4,16 +4,10 @@
 pPos(p1, 0).
 pPos(p2, 0).
 
-nthTile([H|T], 0, H):- !.
-nthTile([H|T], I, Tile):-
-    I > 0,
-    I1 is I-1,
-    nthTile(T, I1, Tile), !.
-
 pTile(P, Tile) :-
     pPos(P, Index),
     board(B),
-    nthTile(B, Index, Tile).
+    getElmt(B, Index, Tile).
 
 
 pPosUpdater(P, NS):-
@@ -31,6 +25,17 @@ moveToTarget(P, DestinationIndex):-
     isPJailed(P, J),
     ((T =:= 1, J =:= 0 )->
     pPosUpdater(P, DestinationIndex) ; fail).
+
+
+moveToTile(P, TileTarget) :-
+    board(B),
+    indexOf(B, TileTarget, I),
+    pPos(P, IP),
+    (IP >= I -> 
+    % Insert code to pass go here
+    true, write('You passed go\n') ; true),
+    moveToTarget(P, I).
+
 
 moveForward(P, Increment):- 
     turn(P, T),
