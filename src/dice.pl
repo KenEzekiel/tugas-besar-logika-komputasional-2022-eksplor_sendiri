@@ -18,10 +18,18 @@ rollDice(Res, Double):-
     Res is Res1 + Res2,
     (Res1 \== Res2 -> Double is 0 ; Double is 1).
 
-move(P, DestinationIndex):- 
+moveToTarget(P, DestinationIndex):- 
     turn(P, T),
     (T =:= 1 ->
     pPosUpdater(P, DestinationIndex) ; fail).
+
+moveForward(P, Increment):- 
+    turn(P, T),
+    pPos(P, Loc),
+    boardLength(L),
+    Destination is ((Loc + Increment) mod L),
+    (T =:= 1 ->
+    pPosUpdater(P, Destination) ; fail).
 
     
 
