@@ -6,3 +6,4 @@
 :- include('./dice.pl').
 :- include('./jail.pl').
 :- include('./turns.pl').
+:- include('./rent.pl').
