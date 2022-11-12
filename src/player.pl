@@ -3,6 +3,7 @@ player(w).
 
 :- dynamic(location/2).
 :- dynamic(inventory/2).
+:- dynamic(balance/2).
 
 cardlist([tax, prize, getout, gotojail]).
 
@@ -11,6 +12,31 @@ location(w, go).
 
 inventory(v, []).
 inventory(w, []).
+
+balance(v, 20000).
+balance(w, 20000).
+
+addBalance(Player, Amount) :-
+  player(Player),
+  balance(Player, X),
+  NewX is X + Amount,
+  retract(balance(Player, _)),
+  asserta(balance(Player,NewX)).
+
+subtractBalance(Player, Amount) :-
+  player(Player),
+  balance(Player, X),
+  NewX is X + Amount,
+  retract(balance(Player, _)),
+  asserta(balance(Player,NewX)).
+
+totalAsset(Player, Amount) :- Amount is 5000. % fungsi placeholder
+
+netWorth(Player, Net) :-
+  player(Player),
+  balance(Player, Balance),
+  totalAsset(Player, Asset),
+  Net is Balance + Asset.
 
 movePlayerTo(Player, Location) :- retract(location(Player, _)), asserta(location(Player, Location)).
 
