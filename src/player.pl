@@ -10,9 +10,6 @@ cardlist([tax, prize, getout, gotojail]).
 location(v, go).
 location(w, go).
 
-inventory(v, []).
-inventory(w, []).
-
 balance(v, 20000).
 balance(w, 20000).
 
