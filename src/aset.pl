@@ -77,12 +77,10 @@ completeSet(P, Tile, Res):-
     (\+ (isElmt(Tile_C, TileList, 1), isElmt(Tile_C, Inventory, 0)) -> Res is 1; Res is 0).
 
 % Cek dasar apakah pemain bisa me-mortgage atau menebus mortgage tile
-canRedeemBasicCheck(P, Tile, 0).
-
-canRedeemBasicCheck(P, Tile, 1) :-
-    turn(P, 1),
+canRedeemBasicCheck(P, Tile, Res) :-
+    (turn(P, 1),
     inventory(P, Inventory),
-    isElmt(Tile,Inventory, 1), !.
+    isElmt(Tile,Inventory, 1)) -> Res is 1 ; Res is 0, !.
 
 % Cek dasar apakah pemain bisa membeli properti di sebuah tile
 canBuyBasicCheck(P, Tile, Res):-
