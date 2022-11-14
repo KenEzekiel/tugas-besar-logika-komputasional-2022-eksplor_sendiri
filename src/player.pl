@@ -23,7 +23,7 @@ addBalance(Player, Amount) :-
 subtractBalance(Player, Amount) :-
   player(Player),
   balance(Player, X),
-  NewX is X + Amount,
+  NewX is X - Amount,
   retract(balance(Player, _)),
   asserta(balance(Player,NewX)).
 
