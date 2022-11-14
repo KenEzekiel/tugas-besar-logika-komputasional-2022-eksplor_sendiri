@@ -1,7 +1,6 @@
 :- dynamic(tileAsset/2).
+:- dynamic(tileInventory/2).
 
-inventory(v, []).
-inventory(w, []).
 % Status aset di tiap tile
 % -2 tile tidak bertuan
 % -1 tile sedang di-mortgage
@@ -45,19 +44,19 @@ tileAssetUpdater(Tile, NS):-
     retractall(tileAsset(Tile, _)),
     asserta(tileAsset(Tile, NS)).
 
-inventoryUpdater(P, NewInventory):-
-    retractall(inventory(Tile, _)),
-    asserta(inventory(Tile, NewInventory)).
+tileInventoryUpdater(P, NewInventory):-
+    retractall(tileInventory(Tile, _)),
+    asserta(tileInventory(Tile, NewInventory)).
 
 inventoryAppender(P, NewTile):-
-    inventory(P, Inventory),
+    tileInventory(P, Inventory),
     insertElmtLast(Inventory, NewTile, NewInventory),
-    inventoryUpdater(P, NewInventory).
+    tileInventoryUpdater(P, NewInventory).
 
 inventoryDeleter(P, NI):-
-    inventory(P, Inventory),
+    tileInventory(P, Inventory),
     deleteElmt(Inventory, NewTile, NewInventory),
-    inventoryUpdater(P, NewInventory).
+    tileInventoryUpdater(P, NewInventory).
 
 % Groupname adalah nama dari grup warna Tile
 colorGroupOfTile(Tile, GroupName) :-
@@ -73,19 +72,19 @@ tileListOfTile(Tile, TileList) :-
 completeSet(P, Tile, Res):-
     colorGroupOfTile(Tile, GroupName),
     colorGroup(GroupName, TileList),
-    inventory(P, Inventory),
+    tileInventory(P, Inventory),
     (\+ (isElmt(Tile_C, TileList, 1), isElmt(Tile_C, Inventory, 0)) -> Res is 1; Res is 0).
 
 % Cek dasar apakah pemain bisa me-mortgage atau menebus mortgage tile
 canRedeemBasicCheck(P, Tile, Res) :-
     (turn(P, 1),
-    inventory(P, Inventory),
+    tileInventory(P, Inventory),
     isElmt(Tile,Inventory, 1)) -> Res is 1 ; Res is 0, !.
 
 % Cek dasar apakah pemain bisa membeli properti di sebuah tile
 canBuyBasicCheck(P, Tile, Res):-
     (turn(P, 1),
-    inventory(P, Inventory),
+    tileInventory(P, Inventory),
     isElmt(Tile,Inventory, 1), completeSet(P, Tile, 1)) -> Res is 1 ; Res is 0, !.
 
 % Equality adalah apakah properti dari sebuah group tile merata
@@ -96,7 +95,7 @@ equalityCheck(Tile, Equality) :-
 
 % Membeli Tile
 buyTile(P, Tile):-
-    inventory(P, Inventory),
+    tileInventory(P, Inventory),
     \+ (isElmt(Tile, Inventory, 1)),
     inventoryAppender(P, Tile).
     tileAssetUpdater(Tile, 0).

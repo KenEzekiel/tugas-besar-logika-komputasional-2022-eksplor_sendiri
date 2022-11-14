@@ -2,7 +2,7 @@ player(v).
 player(w).
 
 :- dynamic(location/2).
-:- dynamic(inventory/2).
+:- dynamic(cardInventory/2).
 :- dynamic(balance/2).
 
 cardlist([tax, prize, getout, gotojail]).
@@ -12,6 +12,10 @@ location(w, go).
 
 balance(v, 20000).
 balance(w, 20000).
+
+cardInventory(v, []).
+cardInventory(w, []).
+
 
 addBalance(Player, Amount) :-
   player(Player),
@@ -47,9 +51,9 @@ movePlayerStep(Player, Step) :-
 insertToInventory(Player, Card) :-
   isCardValid(Card, Ans),
   Ans =:= 0,
-  retract(inventory(Player, Inventory)),
+  retract(cardInventory(Player, Inventory)),
   insertElmtLast(Inventory, Card, A),
-  asserta(inventory(Player, A)).
+  asserta(cardInventory(Player, A)).
 
 isCardValid(Card, Answer) :-
   cardlist(List),
