@@ -25,6 +25,7 @@ getUnjailed(P) :-
     resetTurnInJail(P).
 
 getJailed(P) :- 
+    movePlayerTo(P, jl),
     jailUpdater(P, 1), !.
 
 
