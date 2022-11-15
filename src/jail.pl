@@ -1,8 +1,8 @@
 :- dynamic(isPJailed/2).
 :- dynamic(turnInJail/2).
 
-isPJailed(p1, 0).
-isPJailed(p2, 0).
+isPJailed(v, 0).
+isPJailed(w, 0).
 
 jailUpdater(P, NS):-
     retractall(isPJailed(P, _)),
