@@ -1,51 +1,54 @@
-:- dynamic(pPos/2).
-:- dynamic(pTile/2).
+:- dynamic(doubleAmount/2).
 
-pPos(p1, 0).
-pPos(p2, 0).
+doubleAmountUpdater(P, NS):-
+    retractall(doubleAmount(P, _)),
+    asserta(doubleAmount(P, NS)).
 
-pTile(P, Tile) :-
-    pPos(P, Index),
-    board(B),
-    getElmt(B, Index, Tile).
+incrementDoubleAmount(P) :-
+    doubleAmount(P, DA),
+    NDA is DA + 1,
+    doubleAmountUpdater(P, NDA).
 
+resetDoubleAmount(P) :-
+    doubleAmountUpdater(P, 0).
 
-pPosUpdater(P, NS):-
-    retractall(pPos(P, _)),
-    asserta(pPos(P, NS)).
-
-rollDice(Res, Double):-
+rollDice(Res1, Res2, Double):-
     random(1, 6, Res1),
     random(1, 6, Res2),
-    Res is Res1 + Res2,
+    write("Dadu 1: "),
+    write(Res1), write("."), nl,
+    write("Dadu 2: "),
+    write(Res2), write("."), nl,
     (Res1 \== Res2 -> Double is 0 ; Double is 1).
 
-moveToTarget(P, DestinationIndex):- 
-    turn(P, T),
-    isPJailed(P, J),
-    ((T =:= 1, J =:= 0 )->
-    pPosUpdater(P, DestinationIndex) ; fail).
+doubleAmount(v, 0).
+doubleAmount(w, 0).
+
+throwDice :-
+    throwDiceW(Double).
+
+% Karena setelah lempar dadu pemain masih bisa jual aset, masih harus bayar sewa, dll, logika untuk pergantian turn bukan di sini, tapi di throwDice. 
+% Logika untuk masuk penjara setelah 3 kali double ada di sini
+% Ini wrapper.
+throwDiceW(Double) :- 
+    turn(PMoving, 1),
+    write("Sekarang adalah giliran pemain "),
+    write(PMoving), write("."), nl.
+    (isPJailed(PMoving, 1) -> throwDiceFree(P) ; throwDiceJail(P)).
+
+throwDiceJail(P) :-
+    incrementTurnInJail(P),
+    rollDice(Res1, Res2, Double),
+    turnInJail(P, TJ),
+    (Double =:= 1 -> getUnjailed(P), write("Selamat, anda telah bebas dari penjara") ; (TJ =:= 3 -> write("Telah ada di penjara dalam 3 turn, anda otomatis bebas") ; write("Gagal mendapat double, masih dipenjara"))).
 
 
-moveToTile(P, TileTarget) :-
-    board(B),
-    indexOf(B, TileTarget, I),
-    pPos(P, IP),
-    (IP >= I -> 
-    % Insert code to pass go here
-    true, write('You passed go\n') ; true),
-    moveToTarget(P, I).
-
-
-moveForward(P, Increment):- 
-    turn(P, T),
-    isPJailed(P, J),
-    pPos(P, Loc),
-    boardLength(L),
-    Destination is ((Loc + Increment) mod L),
-    ((T =:= 1, J =:= 0 )->
-    pPosUpdater(P, Destination) ; fail).
-
+throwDiceFree(P) :-
+    rollDice(Res1, Res2, Double),
+    Res is Res1 + Res2,
+    (Double =:= 1 -> write("Double!"), incrementDoubleAmount(P) ; true),
+    (doubleAmount(P, 3) -> (getJailed(P), resetDoubleAmount(P)), write("Anda masuk penjara karena mendapat Double 3 kali berturut-turut") ; (
+    write("Anda maju sebanyak "), write(Res), write("langkah."), nl, movePlayerStep(P, Res))).
     
 
 
