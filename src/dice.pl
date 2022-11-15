@@ -37,6 +37,7 @@ throwDiceW(Double) :-
     (isPJailed(PMoving, 1) -> throwDiceFree(P) ; throwDiceJail(P)).
 
 throwDiceJail(P) :-
+    incrementTurnInJail(P),
     rollDice(Res1, Res2, Double),
     turnInJail(P, TJ),
     (Double =:= 1 -> getUnjailed(P), write("Selamat, anda telah bebas dari penjara") ; (TJ =:= 3 -> write("Telah ada di penjara dalam 3 turn, anda otomatis bebas") ; write("Gagal mendapat double, masih dipenjara"))).

@@ -15,7 +15,7 @@ turnInJailUpdater(P, NV):-
     retractall(turnInJail(P, _)),
     asserta(turnInJail(P, NV)).
 
-addTurnInJail(P) :-
+incrementTurnInJail(P) :-
     turnInJail(P, X),
     NV is X + 1,
     turnInJailUpdater(P, NV).
