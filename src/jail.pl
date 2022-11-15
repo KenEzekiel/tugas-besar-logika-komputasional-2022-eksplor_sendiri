@@ -4,6 +4,9 @@
 isPJailed(v, 0).
 isPJailed(w, 0).
 
+turnInJail(v, 0).
+turnInJail(w, 0).
+
 jailUpdater(P, NS):-
     retractall(isPJailed(P, _)),
     asserta(isPJailed(P, NS)).

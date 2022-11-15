@@ -15,6 +15,10 @@ resetDoubleAmount(P) :-
 rollDice(Res1, Res2, Double):-
     random(1, 6, Res1),
     random(1, 6, Res2),
+    write("Dadu 1: "),
+    write(Res1), write("."), nl,
+    write("Dadu 2: "),
+    write(Res2), write("."), nl,
     (Res1 \== Res2 -> Double is 0 ; Double is 1).
 
 doubleAmount(v, 0).
@@ -29,16 +33,21 @@ throwDice :-
 throwDiceW(Double) :- 
     turn(PMoving, 1),
     write("Sekarang adalah giliran pemain "),
-    write(PMoving), write("."), nl,
+    write(PMoving), write("."), nl.
+    (isPJailed(PMoving, 1) -> throwDiceFree(P) ; throwDiceJail(P)).
+
+throwDiceJail(P) :-
     rollDice(Res1, Res2, Double),
-    write("Dadu 1: "),
-    write(Res1), write("."), nl,
-    write("Dadu 2: "),
-    write(Res2), write("."), nl,
+    turnInJail(P, TJ),
+    (Double =:= 1 -> getUnjailed(P), write("Selamat, anda telah bebas dari penjara") ; (TJ =:= 3 -> write("Telah ada di penjara dalam 3 turn, anda otomatis bebas") ; write("Gagal mendapat double, masih dipenjara"))).
+
+
+throwDiceFree(P) :-
+    rollDice(Res1, Res2, Double),
     Res is Res1 + Res2,
-    (Double -> write("Double!"), incrementDoubleAmount(P) ; true),
+    (Double =:= 1 -> write("Double!"), incrementDoubleAmount(P) ; true),
     (doubleAmount(P, 3) -> (getJailed(P), resetDoubleAmount(P)), write("Anda masuk penjara karena mendapat Double 3 kali berturut-turut") ; (
-    write("Anda maju sebanyak "), write(Res), write("langkah."), nl, movePlayerStep(P, Res))), 
+    write("Anda maju sebanyak "), write(Res), write("langkah."), nl, movePlayerStep(P, Res))).
     
 
 
