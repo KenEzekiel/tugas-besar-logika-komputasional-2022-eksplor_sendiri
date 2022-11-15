@@ -5,8 +5,8 @@
 % -2 tile tidak bertuan
 % -1 tile sedang di-mortgage
 % 0 tile tidak ada properti apapun
-% 1-4 tile punya jumlah rumah sejumlah itu
-% 5 tile punya hotel
+% 1-3 tile punya jumlah rumah sejumlah itu
+% 4 tile punya landmark
 tileAsset(a1,-2).
 tileAsset(a2,-2).
 tileAsset(a3,-2).
@@ -59,18 +59,18 @@ inventoryDeleter(P, NI):-
     tileInventoryUpdater(P, NewInventory).
 
 % Groupname adalah nama dari grup warna Tile
-colorGroupOfTile(Tile, GroupName) :-
+colorGroupOfTile(Tile, GroupName, Res) :-
     colorGroup(GroupName, TileList),
-    isElmt(Tile, TileList), !.
+    isElmt(Tile, TileList, Res), !.
 
 % TileList adalah list tile dari grup warna Tile
-tileListOfTile(Tile, TileList) :-
+tileListOfTile(Tile, TileList, Res) :-
     colorGroup(GroupName, TileList),
-    isElmt(Tile, TileList), !.
+    isElmt(Tile, TileList, Res), !.
 
 % Res adalah apakah P memiliki set komplit dari grup warna Tile
 completeSet(P, Tile, Res):-
-    colorGroupOfTile(Tile, GroupName),
+    colorGroupOfTile(Tile, GroupName, 1),
     colorGroup(GroupName, TileList),
     tileInventory(P, Inventory),
     (\+ (isElmt(Tile_C, TileList, 1), isElmt(Tile_C, Inventory, 0)) -> Res is 1; Res is 0).
@@ -84,6 +84,7 @@ canRedeemBasicCheck(P, Tile, Res) :-
 % Cek dasar apakah pemain bisa membeli properti di sebuah tile
 canBuyBasicCheck(P, Tile, Res):-
     (turn(P, 1),
+    (pTile(P, Tile) ; pTile(P, go)),
     tileInventory(P, Inventory),
     isElmt(Tile,Inventory, 1), completeSet(P, Tile, 1)) -> Res is 1 ; Res is 0, !.
 
@@ -97,6 +98,12 @@ equalityCheck(Tile, Equality) :-
 buyTile(P, Tile):-
     tileInventory(P, Inventory),
     \+ (isElmt(Tile, Inventory, 1)),
+    balance(P, Bal),
+    propertyPrices(Tile, Prices),
+    TA2 is TileAsset + 1,
+    getElmt(TA2, Prices, Price)
+    Bal >= Price,
+    subtractBalance(P, Price),
     inventoryAppender(P, Tile).
     tileAssetUpdater(Tile, 0).
 
@@ -112,17 +119,28 @@ buyAset(P, Tile, m):-
 buyAset(P, Tile, r):-
     canBuyBasicCheck(P, Tile, 1),
     equalityCheck(Tile, 1),
+    balance(P, Bal),
     tileAsset(Tile, TileAsset),
-    TileAsset < 5, TileAsset >= 0,
+    TileAsset < 3, TileAsset >= 0,
+    propertyPrices(Tile, Prices),
+    TA2 is TileAsset + 1,
+    getElmt(TA2, Prices, Price),
+    Bal >= Price,
+    subtractBalance(P, Price),
     NTA is TileAsset + 1,
     tileAssetUpdater(Tile, NTA).
 
 % Membeli hotel pada sebuah tile
-buyAset(P, Tile, h):-
+buyAset(P, Tile, l):-
     canBuyBasicCheck(P, Tile, 1),
     equalityCheck(Tile, 1),
     tileAsset(Tile, TileAsset),
-    TileAsset =:= 4,
+    TileAsset =:= 3,
+    propertyPrices(Tile, Prices),
+    TA2 is TileAsset + 1,
+    getElmt(TA2, Prices, Price),
+    Bal >= Price,
+    subtractBalance(P, Price),
     NTA is TileAsset + 1.
     tileAssetUpdater(Tile, NTA).
 
@@ -132,6 +150,10 @@ sellAset(P, Tile, m):-
     tileAsset(Tile, TileAsset),
     TileAsset =:= 0,
     NTA is TileAsset - 1,
+    propertyPrices(Tile, Prices),
+    getElmt(Prices, 0, Price),
+    SPrice is Price / 2,
+    addBalance(P, SPrice),
     tileAssetUpdater(Tile, NTA).
 
 % Membeli rumah pada sebuah tile
@@ -139,16 +161,24 @@ sellAset(P, Tile, r):-
     canBuyBasicCheck(P, Tile, 1),
     equalityCheck(Tile, 1),
     tileAsset(Tile, TileAsset),
-    TileAsset < 5, TileAsset > 0,
+    TileAsset < 4, TileAsset > 0,
+    propertyPrices(Tile, Prices),
+    getElmt(Prices, TileAsset, Price),
+    SPrice is Price / 2,
+    addBalance(P, SPrice),
     NTA is TileAsset - 1,
     tileAssetUpdater(Tile, NTA).
 
-% Membeli hotel pada sebuah tile
-sellAset(P, Tile, h):-
+% Menjual hotel pada sebuah tile
+sellAset(P, Tile, l):-
     canBuyBasicCheck(P, Tile, 1),
     equalityCheck(Tile, 1),
     tileAsset(Tile, TileAsset),
     TileAsset =:= 4,
+    propertyPrices(Tile, Prices),
+    getElmt(Prices, TileAsset, Price),
+    SPrice is Price / 2,
+    addBalance(P, SPrice),
     NTA is TileAsset - 1.
     tileAssetUpdater(Tile, NTA).
 
