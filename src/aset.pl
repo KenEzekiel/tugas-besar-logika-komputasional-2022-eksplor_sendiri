@@ -189,4 +189,17 @@ sellAset(P, Tile, l):-
     NTA is TileAsset - 1.
     tileAssetUpdater(Tile, NTA).
 
-    
+assetValue(Tile, Value) :-
+    tileAsset(Tile, Level),
+    propertyPrices(Tile, Prices),
+    sumUntil(Prices, Level, Value).
+
+assetCounter([], CurrentVal, CurrentVal).
+assetCounter([H|T], CurrentVal, Result) :-
+    assetValue(H, Value),
+    Newval is CurrentVal + Value,
+    assetCounter(T, Newval, Result).
+
+totalAsset(Player, Amount) :- 
+    tileInventory(P, Inventory),
+    assetCounter(Inventory, 0, Amount).

@@ -31,12 +31,10 @@ subtractBalance(Player, Amount) :-
   retract(balance(Player, _)),
   asserta(balance(Player,NewX)).
 
-totalAsset(Player, Amount) :- Amount is 5000. % fungsi placeholder
-
 netWorth(Player, Net) :-
   player(Player),
   balance(Player, Balance),
-  totalAsset(Player, Asset),
+  totalAsset(Player, Asset), % ada di aset.pl
   Net is Balance + Asset.
 
 movePlayerTo(Player, Location) :- retract(location(Player, _)), asserta(location(Player, Location)).
