@@ -21,10 +21,15 @@ isTileOwnedBy(Tile, Player) :-
     tileOwner(Tile, Owner),
     Owner =:= Player.
 
-rentAmount(Tile, Owner, Rent) :- % todo: implementasikan multiplier untuk event tertentu (BONUS)
+rentAmount(Tile, Owner, Rent) :-
     tileOwner(Tile, Owner),
     tileAsset(Tile, PropertyLevel),
-    propertyRent(Tile, PropertyLevel, Rent).
+    propertyRent(Tile, PropertyLevel, BaseRent),
+    completeSet(Owner, Tile, Res),
+    (
+        (Res == 1 -> Rent is BaseRent*2);
+        (Rent is BaseRent)
+    ).
 
 isAbleToPayRent(Tile, Player) :- % pastikan tile sudah dimiliki oleh player lawan. Periksa dengan relasi isTileOwnedBy
     rentAmount(Tile, _, Rent),
