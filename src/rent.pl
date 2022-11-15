@@ -18,11 +18,12 @@ cashableWorth(Player, Cash) :- % jumlah cash sekarang + cash hasil penjualan sem
   Cash is Balance + 0.8*Asset.
 
 isTileOwnedBy(Tile, Player) :- 
-    curPropertyState(Tile, Owner, _),
+    tileOwner(Tile, Owner),
     Owner =:= Player.
 
 rentAmount(Tile, Owner, Rent) :- % todo: implementasikan multiplier untuk event tertentu (BONUS)
-    curPropertyState(Tile, Owner, PropertyLevel),
+    tileOwner(Tile, Owner),
+    tileAsset(Tile, PropertyLevel),
     propertyRent(Tile, PropertyLevel, Rent).
 
 isAbleToPayRent(Tile, Player) :- % pastikan tile sudah dimiliki oleh player lawan. Periksa dengan relasi isTileOwnedBy
@@ -38,8 +39,10 @@ payRent(Tile, Payer) :- % pastikan player bisa bayar rent. Periksa dengan relasi
     ) ; (
         rentAmount(Tile, _, Rent),
         cashableWorth(Payer, Worth),
+        balance(Payer, Balance),
         (Worth >= Rent) -> (
             write('Wah, uangmu kurang! Apakah kamu ingin tetap melanjutkan permainan?'), nl,
+            format('Uangmu ~d dan biaya sewa ~d', [Balance, Rent]), nl,
             declarePendingBankruptcy(Payer)
         ) ; (
             declarePermanentBankruptcy(Payer),
@@ -47,15 +50,16 @@ payRent(Tile, Payer) :- % pastikan player bisa bayar rent. Periksa dengan relasi
         )
     ).
 
-% writeAssetList(Tile, No) :- 
-%     curPropertyState(Tile, _, PropertyLevel),
-%     format('~d. ~w bangunan ~d : ', [No, Tile, PropertyLevel]), nl.
+writeAssetList(Tile, No) :- 
+    tileAsset(Tile, PropertyLevel),
+    format('~d. ~w bangunan ~d : ', [No, Tile, PropertyLevel]), nl.
 
-% displayAssets(Player, [H|T]) :-
+displayAssets([], _) :- !.
 
-
-% sellAsset(Player, Index) :-
-
+displayAssets([H|T], No) :- 
+    writeAssetList(H, No),
+    Next is No + 1,
+    displayAssets(T, Next).
 
 tidak :-
     unresolvedBankruptcy(Player),
@@ -64,4 +68,23 @@ tidak :-
     write('Salah satu pemain telah menyatakan bangkrut, sehingga permainan selesai'), nl.
 
 lanjut :-
-    unresolvedBankruptcy(Player).
+    unresolvedBankruptcy(Player),
+    repeat,
+    write('Daftar propertimu:'), nl,
+    tileInventory(Player, Inventory),
+    displayAssets(Inventory, 1),
+    read(No),
+    sellTileByIndex(No, Player),
+    balance(Player, Balance),
+    location(Player, Tile),
+    rentAmount(Tile, _, Rent),
+    format('Uangmu sekarang ~d dan biaya sewa ~d', [Balance, Rent]), nl,
+    (
+        isAbleToPayRent(Player) -> (
+            payRent(Tile, Player),
+            write('Hore, sewa sudah bisa dibayar!'), nl,
+            resolveBankruptcy(Player),
+            !
+        ) ;
+        (write('Uang masih kurang. Silakan pilih properti lain untuk dijual'), nl, fail)
+    ).

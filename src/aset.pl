@@ -203,3 +203,14 @@ assetCounter([H|T], CurrentVal, Result) :-
 totalAsset(Player, Amount) :- 
     tileInventory(P, Inventory),
     assetCounter(Inventory, 0, Amount).
+
+sellTileByIndex(Index, Player) :- % Jual keseluruhan asset beserta bangunannya
+    tileInventory(Player, Inventory),
+    getElmt(Inventory, Index, Tile),
+    tileAsset(Tile, Level),
+    assetValue(Tile, Value),
+    SellValue is 0.8*Value,
+    deleteAt(Inventory, Index, NewInventory),
+    tileInventoryUpdater(Player, NewInventory),
+    tileAssetUpdater(Tile, -2), % update jadi tidak bertuan
+    addBalance(Player, SellValue).
