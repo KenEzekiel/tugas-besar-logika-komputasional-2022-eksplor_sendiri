@@ -5,8 +5,8 @@
 % -2 tile tidak bertuan
 % -1 tile sedang di-mortgage
 % 0 tile tidak ada properti apapun
-% 1-4 tile punya jumlah rumah sejumlah itu
-% 5 tile punya hotel
+% 1-3 tile punya jumlah rumah sejumlah itu
+% 4 tile punya landmark
 tileAsset(a1,-2).
 tileAsset(a2,-2).
 tileAsset(a3,-2).
