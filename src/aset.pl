@@ -1,6 +1,9 @@
 :- dynamic(tileAsset/2).
 :- dynamic(tileInventory/2).
 
+
+tileInventory(v, []).
+tileInventory(w, []).
 % Status aset di tiap tile
 % -2 tile tidak bertuan
 % -1 tile sedang di-mortgage
@@ -74,6 +77,10 @@ completeSet(P, Tile, Res):-
     colorGroup(GroupName, TileList),
     tileInventory(P, Inventory),
     (\+ (isElmt(Tile_C, TileList, 1), isElmt(Tile_C, Inventory, 0)) -> Res is 1; Res is 0).
+
+tileOwner(Tile, P) :-
+    tileInventory(P, Inventory),
+    isElmt(Inventory, Tile, 1).
 
 % Cek dasar apakah pemain bisa me-mortgage atau menebus mortgage tile
 canRedeemBasicCheck(P, Tile, Res) :-
