@@ -10,7 +10,7 @@ tileInventory(w, []).
 % 0 tile tidak ada properti apapun
 % 1-3 tile punya jumlah rumah sejumlah itu
 % 4 tile punya landmark
-tileAsset(a1,-1, v).
+tileAsset(a1,-2, none).
 tileAsset(a2,-2, none).
 tileAsset(a3,-2, none).
 tileAsset(b1,-2, none).
@@ -79,12 +79,21 @@ completeSet(P, Tile, Res):-
     (\+ (isElmt(Tile_C, TileList, 1), isElmt(Tile_C, Inventory, 0)) -> Res is 1; Res is 0).
 
 % Menghasilkan status aset yang sesuai
-assetStatusWriter(Tile) :-
-    tileAsset(Tile, PropStat, P), PropStat == -2 -> write('Tanah tak bertuan') ; (
-    PropStat == 0 -> write('Tanah') ; 
-    (PropStat == 4 -> write('Landmark') ; (
-      PropStat == -1 -> write('Hipotek') ; (
-    write('Bangunan '), write(PropStat))))).
+assetStatusWriter(PropStat) :-
+    PropStat >= 1, PropStat =< 3,
+    format('Bangunan ~w', [PropStat]), !.
+
+assetStatusWriter(-2) :-
+    write('Tanah tak bertuan'), !.
+
+assetStatusWriter(-1) :-
+    write('Hipotek'), !.
+
+assetStatusWriter(0) :-
+    write('Tanah'), !.
+
+assetStatusWriter(4) :-
+    write('Landmark'), !.
 
 % Cek dasar apakah pemain bisa me-mortgage atau menebus mortgage tile
 canRedeemBasicCheck(P, Tile, Res) :-

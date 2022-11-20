@@ -33,7 +33,7 @@ showPropertyStatus(Location) :-
   acquisitionPrice(Location, Property, AcCost),
   (AcCost \= -1 -> format('Biaya Akuisisi\t\t: ~d', [AcCost]) ; doNothing), nl,
   write('Tingkatan Properti\t: '),
-  assetStatusWriter(Location)
+  assetStatusWriter(PropStat)
   ).
 
 checkLocationDetail(Location) :- 
