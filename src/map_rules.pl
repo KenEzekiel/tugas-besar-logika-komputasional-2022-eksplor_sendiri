@@ -1,16 +1,3 @@
-:- dynamic(curPropertyState/3).
-
-/* ini buat testing doang, nanti harusnya pake dynamic predicate */
-curPropertyState(a1, v, 4).
-curPropertyState(e1, v, 4).
-curPropertyState(e2, v, 4).
-curPropertyState(e3, v, 4).
-curPropertyState(f1, v, 4).
-curPropertyState(f2, v, 4).
-curPropertyState(d3, v, 0).
-curPropertyState(g1, v, 1).
-curPropertyState(h2, w, 4).
-
 /* Get property and rent price based on location and property */
 propertyPrice(Location, Property, Price) :- propertyPrices(Location, Prices), getElmt(Prices, Property, Price). 
 propertyRent(Location, Property, Price) :- propertyRents(Location, Prices), getElmt(Prices, Property, Price). 
@@ -58,8 +45,8 @@ checkPropertyDetail(Location) :-
 
 writeLocationStatus(Location) :- 
   write('  '), 
-  (curPropertyState(Location, Player, Property) -> 
-    write(Player), write(Property) ; 
+  (tileAsset(Location, PropStat, Player) -> 
+    write(Player), assetStatusWriter(PropStat) ; 
     write('  ')),
   write(' ').
 
