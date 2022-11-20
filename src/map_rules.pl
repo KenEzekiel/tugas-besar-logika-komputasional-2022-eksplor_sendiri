@@ -5,22 +5,27 @@ propertyRent(Location, Property, Price) :- propertyRents(Location, Prices), getE
 
 /* Get acquisition price based on location and property */
 acquisitionPrice(Location, Property, Price) :- 
-  Property = 4 -> Price is -1 ; 
-  propertyPrices(Location, Prices), sumUntil(Prices, Property, Sum), Price is Sum * 2.
+  Property = 4 -> 
+    Price is -1 ; 
+    propertyPrices(Location, Prices), sumUntil(Prices, Property, Sum), Price is Sum * 2.
 
 doNothing.
 
 showPropertyStatus(Location) :- 
   tileAsset(Location, PropStat, Owner),
   write('Kepemilikan\t\t: '),
-  (PropStat == -2 -> write('Tidak ada') ; 
-  format('Player ~w', [Owner]), nl,
-  propertyRent(Location, Property, RentCost),
-  format('Biaya Sewa Saat Ini\t: ~d', [RentCost]), nl, 
-  acquisitionPrice(Location, Property, AcCost),
-  (AcCost \= -1 -> format('Biaya Akuisisi\t\t: ~d', [AcCost]) ; doNothing), nl,
-  write('Tingkatan Properti\t: '),
-  assetStatusWriter(PropStat)
+  (PropStat == -2 -> 
+    write('Tidak ada') ; 
+    format('Player ~w', [Owner]), nl,
+    propertyRent(Location, Property, RentCost),
+    format('Biaya Sewa Saat Ini\t: ~d', [RentCost]), nl, 
+    acquisitionPrice(Location, Property, AcCost),
+    (AcCost \= -1 -> 
+      format('Biaya Akuisisi\t\t: ~d', [AcCost]) ; 
+      doNothing
+    ), nl,
+    write('Tingkatan Properti\t: '),
+    assetStatusWriter(PropStat)
   ).
 
 checkLocationDetail(Location) :- 
