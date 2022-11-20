@@ -5,12 +5,12 @@
 tileInventory(v, []).
 tileInventory(w, []).
 % Status aset di tiap tile
-% -2 tile tidak bertuan
-% -1 tile sedang di-mortgage
-% 0 tile tidak ada properti apapun
-% 1-3 tile punya jumlah rumah sejumlah itu
-% 4 tile punya landmark
-tileAsset(a1,-2, none).
+% -2 : tile tidak bertuan
+% -1 : tile sedang di-mortgage
+% 0 : tile tidak ada properti apapun tapi ada yang punya
+% 1-3 : tile punya bangunan sejumlah itu
+% 4 : tile punya landmark
+tileAsset(a1,0, v).
 tileAsset(a2,-2, none).
 tileAsset(a3,-2, none).
 tileAsset(b1,-2, none).

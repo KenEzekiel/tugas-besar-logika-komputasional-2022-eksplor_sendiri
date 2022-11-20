@@ -45,8 +45,14 @@ checkPropertyDetail(Location) :-
 
 writeLocationStatus(Location) :- 
   write('  '), 
-  (tileAsset(Location, PropStat, Player) -> 
-    write(Player), assetStatusWriter(PropStat) ; 
+  tileAsset(Location, PropStat, Player),
+  ((PropStat \== -2) -> 
+  (write(Player), 
+    (PropStat = -1 -> 
+      write('H') ; 
+      write(PropStat)
+    )
+  ) ; 
     write('  ')),
   write(' ').
 
