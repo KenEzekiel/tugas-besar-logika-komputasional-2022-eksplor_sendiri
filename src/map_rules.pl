@@ -24,19 +24,17 @@ acquisitionPrice(Location, Property, Price) :-
 doNothing.
 
 showPropertyStatus(Location) :- 
-  curPropertyState(Location, Owner, Property) ->  
-  (
-    format('Kepemilikan\t\t: Player ~w', [Owner]), nl, 
-    propertyRent(Location, Property, RentCost),
-    format('Biaya Sewa Saat Ini\t: ~d', [RentCost]), nl, 
-    acquisitionPrice(Location, Property, AcCost),
-    (AcCost \= -1 -> format('Biaya Akuisisi\t\t: ~d', [AcCost]) ; doNothing), nl,
-    write('Tingkatan Properti\t: '),
-    Property = 0 -> write('Tanah') ; 
-    (Property = 4 -> write('Landmark') ; 
-    write('Bangunan '), write(Property))
-  ) ;
-    write('Kepemilikan\t\t: Belum ada pemilik').
+  tileAsset(Location, PropStat, Owner),
+  write('Kepemilikan\t\t: '),
+  (PropStat == -2 -> write('Tidak ada') ; 
+  format('Player ~w', [Owner]), nl,
+  propertyRent(Location, Property, RentCost),
+  format('Biaya Sewa Saat Ini\t: ~d', [RentCost]), nl, 
+  acquisitionPrice(Location, Property, AcCost),
+  (AcCost \= -1 -> format('Biaya Akuisisi\t\t: ~d', [AcCost]) ; doNothing), nl,
+  write('Tingkatan Properti\t: '),
+  assetStatusWriter(Location)
+  ).
 
 checkLocationDetail(Location) :- 
   showLocNameNDesc(Location),
