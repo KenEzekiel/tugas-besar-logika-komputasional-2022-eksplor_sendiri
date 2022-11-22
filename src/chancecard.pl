@@ -1,8 +1,22 @@
+choice(1, tax).
+choice(2, prize).
+choice(3, zonk).
+choice(4, getout).
+choice(5, gotojail).
+choice(6, backthreestep).
+
+drawchancecard(P) :-
+    randomize,
+    get_seed(M),
+    N is M mod 10
+    choice(N, Card),
+    chancecard(Card, P).
+
 
 
 chancecard(tax, Player) :- kartupajak(Player).
 chancecard(prize, Player) :- kartuhadiah(Player).
-chancecard(prize, Player) :- kartuzonk(Player).
+chancecard(zonk, Player) :- kartuzonk(Player).
 chancecard(getout, Player) :- getkeluarpenjara(Player, CardInventory).
 chancecard(gotojail, Player) :- pergikepenjara(Player).
 chancecard(backthreestep, Player) :- mundurTigaLangkah(Player).
@@ -41,7 +55,7 @@ usekeluarpenjara(P, CardInventory) :-
     CardInventory = A.
 
 pergikepenjara(P) :-
-    write('\nDOR! Anda masuk ke penjara!\n'),
+    write('\nANGKAT TANGAN! Anda masuk ke penjara!\n'),
     getJailed(P),
     endTurn(P).
 
