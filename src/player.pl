@@ -35,7 +35,7 @@ netWorth(Player, Net) :-
   player(Player),
   balance(Player, Balance),
   totalAsset(Player, Asset), % ada di aset.pl
-  Net is Balance + Asset.
+  Net is Balance + Asset, !.
 
 movePlayerTo(Player, Location) :- retract(location(Player, _)), asserta(location(Player, Location)).
 
