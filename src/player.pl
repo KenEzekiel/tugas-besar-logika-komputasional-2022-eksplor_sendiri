@@ -56,3 +56,31 @@ insertToInventory(Player, Card) :-
 isCardValid(Card, Answer) :-
   cardlist(List),
   isElmt(List, Card, Answer).
+
+moveToNearestTax(P) :-
+  board(Board),
+  indexOf(Board, tx1, Itx1),
+  indexOf(Board, tx2, Itx2),
+  location(P, Loc),
+  indexOf(Board, Loc, IdxLoc),
+  IdxLoc < Itx1,
+  movePlayerTo(P, tx1), !.
+
+moveToNearestTax(P) :-
+  board(Board),
+  indexOf(Board, tx1, Itx1),
+  indexOf(Board, tx2, Itx2),
+  location(P, Loc),
+  indexOf(Board, Loc, IdxLoc),
+  IdxLoc > Itx1,
+  IdxLoc < Itx2,
+  movePlayerTo(P, tx2), !.
+
+moveToNearestTax(P) :-
+  board(Board),
+  indexOf(Board, tx1, Itx1),
+  indexOf(Board, tx2, Itx2),
+  location(P, Loc),
+  indexOf(Board, Loc, IdxLoc),
+  IdxLoc > Itx2,
+  movePlayerTo(P, tx1), !.
