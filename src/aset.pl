@@ -124,7 +124,7 @@ buyTile(P, Tile):-
     getElmt(TA2, Prices, Price),
     Bal >= Price,
     subtractBalance(P, Price),
-    inventoryAppender(P, Tile).
+    inventoryAppender(P, Tile),
     tileAssetUpdater(Tile, 0, P).
 
 % Menebus tile yang sedang di-mortgage
