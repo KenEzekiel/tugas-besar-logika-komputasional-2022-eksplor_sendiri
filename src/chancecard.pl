@@ -4,6 +4,8 @@ choice(3, zonk).
 choice(4, getout).
 choice(5, gotojail).
 choice(6, backthreestep).
+choice(7, threestep).
+choice(8, birthday).
 
 drawchancecard(P) :-
     randomize,
@@ -20,6 +22,8 @@ chancecard(zonk, Player) :- kartuzonk(Player).
 chancecard(getout, Player) :- getkeluarpenjara(Player, CardInventory).
 chancecard(gotojail, Player) :- pergikepenjara(Player).
 chancecard(backthreestep, Player) :- mundurTigaLangkah(Player).
+chancecard(threestep, Player) :- majuTigaLangkah(Player).
+chancecard(birthday, Player) :- ulangTahun(Player).
 /*chancecard(angel, Player) :- */
 
 
@@ -61,3 +65,16 @@ pergikepenjara(P) :-
 
 mundurTigaLangkah(P) :-
     movePlayerStep(P, -3).
+
+majuTigaLangkah(P) :-
+    movePlayerStep(P, 3).
+
+ulangTahun(P) :-
+    write('\nSELAMAT ULANG TAHUN! Semua player membayar anda sebesar 500\n'),
+    bayarKeP(P, 500).
+
+bayarKeP(P, Amount) :-
+    player(X),
+    X \= P,
+    addBalance(P, 500),
+    subtractBalance(X, Amount).
