@@ -7,6 +7,7 @@ choice(6, backthreestep).
 choice(7, threestep).
 choice(8, birthday).
 
+/* Ini fungsi yang di call saat di petak chancecard */
 drawchancecard(P) :-
     randomize,
     get_seed(M),
