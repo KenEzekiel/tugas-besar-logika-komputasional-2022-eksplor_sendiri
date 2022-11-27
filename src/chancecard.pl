@@ -6,6 +6,7 @@ choice(5, gotojail).
 choice(6, backthreestep).
 choice(7, threestep).
 choice(8, birthday).
+choice(9, zonkyanfei).
 
 /* Ini fungsi yang di call saat di petak chancecard */
 drawchancecard(P) :-
@@ -25,6 +26,7 @@ chancecard(gotojail, Player) :- pergikepenjara(Player).
 chancecard(backthreestep, Player) :- mundurTigaLangkah(Player).
 chancecard(threestep, Player) :- majuTigaLangkah(Player).
 chancecard(birthday, Player) :- ulangTahun(Player).
+chancecard(zonkyanfei, Player) :- kartuyanfei(Player).
 /*chancecard(angel, Player) :- */
 
 
@@ -50,11 +52,11 @@ kartuzonk(P) :-
 
 getkeluarpenjara(P) :-
     insertToInventory(P, getout),   
-    write('\nKamu diperbolehkan memanggil Xiao untuk keluar penjara,gunakan commang xiaoHelp untuk menggunakan kartu ini\n').
+    write('\nKamu diperbolehkan memanggil Xiao untuk keluar penjara,gunakan commang xiaoHelp untuk menggunakan kartu ini\n'), !.
 
 /* Ini bisa di call oleh user */
 xiaoHelp :-
-    turns(P, 1),
+    turn(P, 1),
     cardInventory(P, Inventory),
     usekeluarpenjara(P, Inventory).
 
@@ -80,7 +82,7 @@ majuTigaLangkah(P) :-
     movePlayerStep(P, 3).
 
 ulangTahun(P) :-
-    write('\nOTANJOUBI OMEDETOU! Semua player membayar anda sebesar 500, yang tidak bayar akan dipukul oleh Itto\n'),
+    write('\nOTANJOUBI OMEDETOU! Semua player membayar Anda sebesar 500, yang tidak bayar akan dipukul oleh Itto\n'),
     bayarKeP(P, 500).
 
 bayarKeP(P, Amount) :-
@@ -88,3 +90,31 @@ bayarKeP(P, Amount) :-
     X \= P,
     addBalance(P, 500),
     subtractBalance(X, Amount).
+
+kartuyanfei(P) :-
+    randomize,
+    get_seed(M),
+    A is M mod 1000,
+    B is A * (-1),
+    format('~nYanFei menyadari Anda melakukan penggelapan pajak! Anda didenda sebesar : ~w~n', [A]),
+    addBalance(P, B).
+
+meteorZhongli :-
+    randomize,
+    get_seed(M),
+    boardAssetLength(Length),
+    A is M mod Length,
+    boardAsset(Board),
+    getElmt(Board, A, Tile),
+    tileAsset(Tile, State, Player),
+    format('~nTile ~w terkena meteor zhongli! semua bangunan di tile tersebut kandas :(~n', [Tile]),
+    updateKandas(Tile, State, Player).
+
+updateKandas(Tile, -2, Player) :-
+    tileAssetUpdater(Tile, -2, Player), !.
+
+updateKandas(Tile, -1, Player) :-
+    tileAssetUpdater(Tile, -1, Player), !.
+
+updateKandas(Tile, State, Player) :-
+    tileAssetUpdater(Tile, 0, Player), !.
