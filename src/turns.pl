@@ -1,6 +1,6 @@
 :- dynamic(turn/2).
 :- dynamic(remainDice/2).
-:- dynamic(firstTurn/2).
+:- dynamic(rollSum/2).
 
 turn(v, 1).
 turn(w, 0).
@@ -16,12 +16,17 @@ remainDiceUpdater(P, NRD):-
     retractall(remainDice(P, _)),
     asserta(remainDice(P, NRD)).
 
-firstTurn(v, 1).
-firstTurn(w, 1).
+firstTurn(v, 1) :- rollSum(v, Sum), boardLength(BL), Sum >= BL.
+firstTurn(v, 0) :- rollSum(v, Sum), boardLength(BL), Sum < BL.
+firstTurn(w, 1) :- rollSum(w, Sum), boardLength(BL), Sum >= BL.
+firstTurn(w, 0) :- rollSum(w, Sum), boardLength(BL), Sum < BL.
 
-firstTurnUpdater(P, NRD):-
+rollSum(v, 0).
+rollSum(w, 0).
+
+rollSumUpdater(P, NRS):-
     retractall(firstTurn(P, _)),
-    asserta(firstTurn(P, NRD)).
+    asserta(firstTurn(P, NRS)).
 
 endTurn :-
     turn(P, 1),
@@ -44,3 +49,8 @@ incrementDice(P):-
 
 notFirstTurn(P),
     firstTurnUpdater(P, 0).
+
+incrementRollSum(P, AddedAmount) :-
+    rollSum(P, RS),
+    NRS is RS + AddedAmount,
+    rollSumUpdater(P, NRS).
