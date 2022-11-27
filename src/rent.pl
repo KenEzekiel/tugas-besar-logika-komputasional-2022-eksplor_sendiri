@@ -17,13 +17,8 @@ cashableWorth(Player, Cash) :- % jumlah cash sekarang + cash hasil penjualan sem
   totalAsset(Player, Asset),
   Cash is Balance + 0.8*Asset.
 
-isTileOwnedBy(Tile, Player) :- 
-    tileOwner(Tile, Owner),
-    Owner =:= Player.
-
 rentAmount(Tile, Owner, Rent) :-
-    tileOwner(Tile, Owner),
-    tileAsset(Tile, PropertyLevel),
+    tileAsset(Tile, PropertyLevel, Owner),
     propertyRent(Tile, PropertyLevel, BaseRent),
     completeSet(Owner, Tile, Res),
     (
@@ -36,7 +31,10 @@ isAbleToPayRent(Tile, Player) :- % pastikan tile sudah dimiliki oleh player lawa
     balance(Player, Balance),
     Balance >= Rent.
 
-payRent(Tile, Payer) :- % pastikan player bisa bayar rent. Periksa dengan relasi isAbleToPayRent
+payRent(Tile, Payer) :-
+    (tileAsset(Tile, _, Owner),
+    Owner \== Payer,
+    Owner \== none) -> (
     isAbleToPayRent(Tile, Payer) -> (
         rentAmount(Tile, Owner, Rent),
         addBalance(Owner, Rent),
@@ -53,10 +51,10 @@ payRent(Tile, Payer) :- % pastikan player bisa bayar rent. Periksa dengan relasi
             declarePermanentBankruptcy(Payer),
             write('Sayang sekali, moramu sudah tidak cukup. Selamat tinggal :)'), nl
         )
-    ).
+    )); doNothing.
 
 writeAssetList(Tile, No) :- 
-    tileAsset(Tile, PropertyLevel),
+    tileAsset(Tile, PropertyLevel, _),
     format('~d. ~w bangunan ~d : ', [No, Tile, PropertyLevel]), nl.
 
 displayAssets([], _) :- !.
