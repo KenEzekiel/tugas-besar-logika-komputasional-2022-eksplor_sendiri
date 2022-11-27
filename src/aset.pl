@@ -175,7 +175,8 @@ buyAset(P, Tile, r):-
         Bal >= Price -> (
             subtractBalance(P, Price),
             tileAssetUpdater(Tile, TA2, P),
-            write('Landmark berhasil dibeli')
+            format('Bangunan ~d berhasil dibeli', [TA2]),
+            nl
         ) ; (
             write('Mora anda tidak cukup dasar miskin!'))
     ; (
@@ -186,16 +187,17 @@ buyAset(P, Tile, r):-
 buyAset(P, Tile, l):-
     canBuyBasicCheck(P, Tile, 1),
     firstTurn(P, 0) -> (
+        tileAsset(Tile, TileAsset, P),
         TileAsset =:= 3 -> (
             balance(P, Bal),
-            tileAsset(Tile, TileAsset, P),
             propertyPrices(Tile, Prices),
             TA2 is TileAsset + 1,
             getElmt(Prices, TA2, Price),
             Bal >= Price -> (
                 subtractBalance(P, Price),
                 tileAssetUpdater(Tile, TA2, P),
-                write('Landmark berhasil dibeli')
+                write('Landmark berhasil dibeli'),
+                nl
             ) ; (
                 write('Mora anda tidak cukup dasar miskin!')
             )
