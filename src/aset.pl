@@ -48,15 +48,15 @@ tileAssetUpdater(Tile, NS, NO):-
     asserta(tileAsset(Tile, NS, NO)).
 
 tileInventoryUpdater(P, NewInventory):-
-    retractall(tileInventory(Tile, _)),
-    asserta(tileInventory(Tile, NewInventory)).
+    retractall(tileInventory(P, _)),
+    asserta(tileInventory(P, NewInventory)).
 
 inventoryAppender(P, NewTile):-
     tileInventory(P, Inventory),
     insertElmtLast(Inventory, NewTile, NewInventory),
     tileInventoryUpdater(P, NewInventory).
 
-inventoryDeleter(P, NI):-
+inventoryDeleter(P, NewTile):-
     tileInventory(P, Inventory),
     deleteElmt(Inventory, NewTile, NewInventory),
     tileInventoryUpdater(P, NewInventory).
@@ -68,7 +68,7 @@ colorGroupOfTile(Tile, GroupName, Res) :-
 
 % TileList adalah list tile dari grup warna Tile
 tileListOfTile(Tile, TileList, Res) :-
-    colorGroup(GroupName, TileList),
+    colorGroup(_, TileList),
     isElmt(Tile, TileList, Res), !.
 
 % Res adalah apakah P memiliki set komplit dari grup warna Tile
@@ -176,7 +176,7 @@ sellAset(P, Tile, m):-
     addBalance(P, SPrice),
     tileAssetUpdater(Tile, NTA).
 
-% Membeli rumah pada sebuah tile
+% Menjual rumah pada sebuah tile
 sellAset(P, Tile, r):-
     canBuyBasicCheck(P, Tile, 1),
     equalityCheck(Tile, 1),
@@ -214,13 +214,13 @@ assetCounter([H|T], CurrentVal, Result) :-
     assetCounter(T, Newval, Result).
 
 totalAsset(Player, Amount) :- 
-    tileInventory(P, Inventory),
+    tileInventory(Player, Inventory),
     assetCounter(Inventory, 0, Amount).
 
 sellTileByIndex(Index, Player) :- % Jual keseluruhan asset beserta bangunannya
     tileInventory(Player, Inventory),
     getElmt(Inventory, Index, Tile),
-    tileAsset(Tile, Level, P),
+    tileAsset(Tile, Level, Player),
     assetValue(Tile, Value),
     SellValue is 0.8*Value,
     deleteAt(Inventory, Index, NewInventory),
