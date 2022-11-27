@@ -224,7 +224,7 @@ checkPropertyDetail(Location) :-
   format('Harga Bangunan 2\t: ~d', [PBangunan2]), nl,
   format('Harga Bangunan 3\t: ~d', [PBangunan3]), nl,
   format('Harga Landmark\t\t: ~d', [PLandmark]), nl, nl,
-  propertyRent(Location, [RTanah, RBangunan1, RBangunan2, RBangunan3, RLandmark]),  
+  propertyRents(Location, [RTanah, RBangunan1, RBangunan2, RBangunan3, RLandmark]),  
   format('Biaya Sewa Tanah\t: ~d', [RTanah]), nl,
   format('Biaya Sewa Bangunan 1\t: ~d', [RBangunan1]), nl,
   format('Biaya Sewa Bangunan 2\t: ~d', [RBangunan2]), nl,
