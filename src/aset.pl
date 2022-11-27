@@ -118,23 +118,27 @@ canBuyBasicCheck(P, Tile, Res):-
         ).
 
 % Take over tile orang
-acquireTile(P, Tile):-
+acquireTile :-
+    turn(P, 1),
+    location(P, Tile),
     tileAsset(Tile, Level, Owner),
-    (Owner =\= none, Level =\= 4) -> (
+    (\+(Owner = none), \+(Level =:= 4)) -> (
         balance(P, Bal),
-        tileAsset(Tile, TileAsset, _),
         propertyPrices(Tile, Prices),
         getElmt(Prices, Level, Price),
         Bal >= 2 * Price -> 
             (AP is 2 * Price,
             subtractBalance(P, AP),
+            addBalance(Owner, AP),
             inventoryAppender(P, Tile),
-            tileAssetUpdater(Tile, 0, P)
+            tileAssetUpdater(Tile, Level, P),
+            write('Berhasil akuisisi properti'), nl
         ) ; (
             write('Mora anda tidak cukup dasar miskin!')
         )
     ) ; (
-        doNothing).
+        write('Bangunan tidak memenuhi kriteria akuisisi')
+    ).
 
 % Membeli Tile
 buyTile(P, Tile):-
