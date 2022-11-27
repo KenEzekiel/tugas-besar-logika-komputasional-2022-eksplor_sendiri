@@ -179,7 +179,7 @@ buyAset(P, Tile, r):-
         ) ; (
             write('Mora anda tidak cukup dasar miskin!'))
     ; (
-        write('Bangunannya sudah merupakan landmark')
+        write('Bangunannya sudah maksimal ada 3')
     ).
 
 % Membeli hotel pada sebuah tile
