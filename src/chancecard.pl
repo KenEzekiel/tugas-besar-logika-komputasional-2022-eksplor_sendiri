@@ -11,7 +11,7 @@ choice(8, birthday).
 drawchancecard(P) :-
     randomize,
     get_seed(M),
-    N is M mod 10
+    N is M mod 10,
     choice(N, Card),
     chancecard(Card, P).
 

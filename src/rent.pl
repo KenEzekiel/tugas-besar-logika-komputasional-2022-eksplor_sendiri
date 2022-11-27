@@ -90,6 +90,6 @@ lanjut :-
             write('Hore, sewa sudah bisa dibayar!'), nl,
             resolveBankruptcy(Player),
             !
-        ) ;
-        (write('Uang masih kurang. Silakan pilih properti lain untuk dijual'), nl, fail)
+        ) ; (
+            write('Uang masih kurang. Silakan pilih properti lain untuk dijual'), nl, fail)
     ).

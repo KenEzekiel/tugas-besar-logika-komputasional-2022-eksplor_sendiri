@@ -8,7 +8,8 @@
 :- include('./turns.pl').
 :- include('./rent.pl').
 :- include('./aset.pl').
-:- include('./tax.pl').
+:- include('./taxes.pl').
+:- include('./command.pl').
 
 start :-
     repeat,

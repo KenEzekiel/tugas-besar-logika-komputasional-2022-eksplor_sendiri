@@ -1,8 +1,3 @@
-:- dynamic(taxPayer/1).
-
-% Apakah player dalam kondisi wajib pajak
-playerState(taxPayer). 
-
 % Berapa pajak yang player harus bayar
 taxAmount(Player, Amount) :-
     netWorth(Player, Net),
@@ -16,11 +11,9 @@ isAbleToPayTax(Player) :-
 
 % Command untuk player bayar pajak
 payTax(Player) :-
-    playerState(taxPayer),
     taxAmount(Player, Amount),
     isAbleToPayTax(Player) -> (
-        subtractBalance(Player, Amount),
-        playerState(normal)
+        subtractBalance(Player, Amount)
     ) ; (
         write('Balance kamu tidak cukup, jual salah satu dari propertimu untuk membayar'), nl,
         unresolvedBankruptcy(Player),
@@ -40,7 +33,7 @@ payTax(Player) :-
                 write('Hore, sewa sudah bisa dibayar!'), nl,
                 resolveBankruptcy(Player),
                 !
-            ) ;
-            (write('Uang masih kurang. Silakan pilih properti lain untuk dijual'), nl, fail)
+            ) ; (
+                write('Uang masih kurang. Silakan pilih properti lain untuk dijual'), nl, fail)
         )
     ).
