@@ -35,12 +35,14 @@ throwDiceCheck(P, CanThrow):-
     remainDice(P, RD),
     (RD > 0 -> CanThrow is 1 ; write('Anda tidak punya kesempatan roll dice lagi. Segera end turn.'), CanThrow is 0).
 
-throwDice :-
+throwDice :- !,
     throwDiceCheck(P, 1), 
     throwDiceW(Double),
-    Double =:= 1 -> (
-        doNothing
-    ) ; (decrementDice(P)
+    (
+        Double =:= 1 -> (
+            doNothing
+        ) ; (decrementDice(P)
+        )
     ),
     location(P, Pos),
     (
