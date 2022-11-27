@@ -16,10 +16,10 @@ remainDiceUpdater(P, NRD):-
     retractall(remainDice(P, _)),
     asserta(remainDice(P, NRD)).
 
-firstTurn(v, 1) :- rollSum(v, Sum), boardLength(BL), Sum >= BL.
-firstTurn(v, 0) :- rollSum(v, Sum), boardLength(BL), Sum < BL.
-firstTurn(w, 1) :- rollSum(w, Sum), boardLength(BL), Sum >= BL.
-firstTurn(w, 0) :- rollSum(w, Sum), boardLength(BL), Sum < BL.
+firstTurn(v, 0) :- rollSum(v, Sum), boardLength(BL), Sum >= BL.
+firstTurn(v, 1) :- rollSum(v, Sum), boardLength(BL), Sum < BL.
+firstTurn(w, 0) :- rollSum(w, Sum), boardLength(BL), Sum >= BL.
+firstTurn(w, 1) :- rollSum(w, Sum), boardLength(BL), Sum < BL.
 
 rollSum(v, 0).
 rollSum(w, 0).
