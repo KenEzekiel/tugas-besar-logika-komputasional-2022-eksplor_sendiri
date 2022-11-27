@@ -43,6 +43,7 @@ throwDice :-
     ) ; (decrementDice(P)
     ),
     location(P, Pos),
+    (
     (Pos == tx1 ; Pos == tx2) -> (
         payTax(P)
     ) ; (
@@ -55,6 +56,7 @@ throwDice :-
                     doNothing
                 )
         )
+    )
     ),
     !.
 
