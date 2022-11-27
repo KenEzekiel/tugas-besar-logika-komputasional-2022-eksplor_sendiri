@@ -16,6 +16,9 @@ remainDiceUpdater(P, NRD):-
     asserta(remainDice(P, NRD)).
 
 endTurn :-
+    turn(P, 1),
+    retractall(playerState(P, _)),
+    remainDice(P, 0),
     turn(v, T1),
     turn(w, T2),
     (T1 =:= 1 -> turnUpdater(v, 0), remainDiceUpdater(w, 1) ; turnUpdater(v, 1)),
@@ -30,6 +33,3 @@ incrementDice(P):-
     remainDice(P, RD),
     NRD is RD + 1,
     remainDiceUpdater(P, NRD).
-
-
-

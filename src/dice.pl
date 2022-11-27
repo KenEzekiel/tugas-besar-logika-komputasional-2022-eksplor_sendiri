@@ -43,7 +43,7 @@ throwDiceW(Double) :-
     turn(PMoving, 1),
     write('Sekarang adalah giliran pemain '),
     write(PMoving), write('.'), nl,
-    (isPJailed(PMoving, 1) -> throwDiceJail(P, Double) ; throwDiceFree(P, Double)), format('~d', [Double]), !.
+    (isPJailed(PMoving, 1) -> throwDiceJail(P, Double) ; throwDiceFree(P, Double)), !.
 
 throwDiceJail(P, Double) :-
     incrementTurnInJail(P),
