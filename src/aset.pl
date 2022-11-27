@@ -106,13 +106,13 @@ canBuyBasicCheck(P, Tile, Res):-
     turn(P, 1) -> (
         (\+ location(P, Tile), \+ location(P, go)) -> (
             write('Anda tidak berada di tile yang tepat'), !
-            ) ; (
+            ) ; ((
             tileInventory(P, Inventory),
             isElmt(Inventory, Tile, 1)) -> (
                 Res is 1, !
             ) ; (
                 Res is 0, write('Anda tidak memiliki tile yang bersangkutan'), !
-            )
+            ))
         ) ; (
             write('Bukan giliran anda!'), !
         ).
@@ -138,7 +138,19 @@ acquireTile(P, Tile):-
 
 % Membeli Tile
 buyTile(P, Tile):-
-    canBuyBasicCheck(P, Tile, 1),
+    turn(P, 1) -> (
+        (\+ location(P, Tile), \+ location(P, go)) -> (
+            write('Anda tidak berada di tile yang tepat'), !
+            ) ; (
+            tileInventory(P, Inventory),
+            isElmt(Inventory, Tile, 1)) -> (
+                Res is 1, !
+            ) ; (
+                Res is 0, write('Anda tidak memiliki tile yang bersangkutan'), !
+            )
+        ) ; (
+            write('Bukan giliran anda!'), !
+        ).
     balance(P, Bal),
     tileAsset(Tile, TileAsset, _),
     propertyPrices(Tile, Prices),
