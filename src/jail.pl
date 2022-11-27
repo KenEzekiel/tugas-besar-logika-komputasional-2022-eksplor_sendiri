@@ -25,10 +25,12 @@ resetTurnInJail(P) :-
 
 getUnjailed(P) :-
     jailUpdater(P, 0).
-    resetTurnInJail(P).
+    resetTurnInJail(P),
+    retractall(playerState(P, _)).
 
 getJailed(P) :- 
     movePlayerTo(P, jl),
+    stateChanger(P, jailed),
     jailUpdater(P, 1), !.
 
 

@@ -43,7 +43,9 @@ throwDiceW(Double) :-
     turn(PMoving, 1),
     write('Sekarang adalah giliran pemain '),
     write(PMoving), write('.'), nl,
-    (isPJailed(PMoving, 1) -> throwDiceJail(P, Double) ; throwDiceFree(P, Double)), !.
+    (isPJailed(PMoving, 1) -> throwDiceJail(P, Double) ; throwDiceFree(P, Double)),
+    (\+ playerState(P, diceThrown) -> stateChanger(P, diceThrown) ; doNothing),
+    !.
 
 throwDiceJail(P, Double) :-
     incrementTurnInJail(P),
