@@ -20,14 +20,16 @@ cardInventory(w, []).
 addBalance(Player, Amount) :-
   player(Player),
   balance(Player, X),
-  NewX is X + Amount,
+  Rounded is round(Amount),
+  NewX is X + Rounded,
   retract(balance(Player, _)),
   asserta(balance(Player,NewX)).
 
 subtractBalance(Player, Amount) :-
   player(Player),
   balance(Player, X),
-  NewX is X - Amount,
+  Rounded is round(Amount),
+  NewX is X - Rounded,
   retract(balance(Player, _)),
   asserta(balance(Player,NewX)).
 
