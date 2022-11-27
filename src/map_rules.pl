@@ -34,7 +34,7 @@ checkLocationDetail(Location) :-
 
 checkPropertyDetail(Location) :- 
   showLocNameNDesc(Location),
-  propertyPrice(Location, [PTanah, PBangunan1, PBangunan2, PBangunan3, PLandmark]),
+  propertyPrices(Location, [PTanah, PBangunan1, PBangunan2, PBangunan3, PLandmark]),
   format('Harga Tanah\t\t: ~d', [PTanah]), nl,
   format('Harga Bangunan 1\t: ~d', [PBangunan1]), nl,
   format('Harga Bangunan 2\t: ~d', [PBangunan2]), nl,
