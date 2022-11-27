@@ -1,8 +1,8 @@
 board([go, a1, a2, a3, cc1, b1, b2, b3, jl, c1, c2, c3, tx1, d1, d2, d3, fp, e1, e2, e3, cc2, f1, f2, f3, wt, g1, g2, g3, tx2, cc3, h1, h2]).
-isProperty(Location) :- isElmt([a1, a2, a3, b1, b2, b3, c1, c2, c3, d1, d2, d3, e1, e2, e3, f1, f2, f3, g1, g2, g3, h1, h2], Location, T), T is 1.
 boardLength(32).
 boardAsset([a1, a2, a3, b1, b2, b3, c1, c2, c3, d1, d2, d3, e1, e2, e3, f1, f2, f3, g1, g2, g3, h1, h2]).
 boardAssetLength(23).
+isProperty(Location) :- boardAsset(BoardAsset), isElmt(BoardAsset, Location, 1).
 
 % go
 showLocNameNDesc(go) :- write('\nNama Lokasi\t\t: Starfell Lake\n'),
