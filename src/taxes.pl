@@ -26,7 +26,7 @@ payTax(Player) :-
         sellTileByIndex(Nomor, Player),
         balance(Player, Balance),
         location(Player, Tile),
-        format('Uangmu sekarang ~d dan besar pajak ~s', [Balance, Amount]), nl,
+        format('Moramu sekarang ~d dan besar pajak ~s', [Balance, Amount]), nl,
         (
             isAbleToPayTax(Player) -> (
                 payTax(Tile, Player),
@@ -34,6 +34,6 @@ payTax(Player) :-
                 resolveBankruptcy(Player),
                 !
             ) ; (
-                write('Uang masih kurang. Silakan pilih properti lain untuk dijual'), nl, fail)
+                write('Moramu masih kurang. Silakan pilih properti lain untuk dijual'), nl, fail)
         )
     ).
