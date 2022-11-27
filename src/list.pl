@@ -7,7 +7,7 @@ insertElmtLast([H | T], X, List) :-
     insertElmtLast(T, X, A),
     List = [H | A].
 
-deleteAt([H | T], 0, T).
+deleteAt([_ | T], 0, T).
 deleteAt([H | T], Index, List) :-
     I is Index - 1,
     deleteAt(T, I, A),
@@ -17,9 +17,9 @@ deleteElmt(ListAwal, Elmt, ListAkhir) :-
     indexOf(ListAwal, Elmt, Idx),
     deleteAt(ListAwal, Idx, ListAkhir).
 
-isElmt([X | T], X, 1).
-isElmt([X], Elmt, 0).
-isElmt([H | T], Elmt, Answer) :-
+isElmt([X | _], X, 1).
+isElmt([_], _, 0).
+isElmt([_ | T], Elmt, Answer) :-
     isElmt(T, Elmt, A),
     Answer is 0 + A.
 

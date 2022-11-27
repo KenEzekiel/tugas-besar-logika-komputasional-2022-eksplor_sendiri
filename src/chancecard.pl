@@ -20,7 +20,7 @@ drawchancecard(P) :-
 chancecard(tax, Player) :- kartupajak(Player).
 chancecard(prize, Player) :- kartuhadiah(Player).
 chancecard(zonk, Player) :- kartuzonk(Player).
-chancecard(getout, Player) :- getkeluarpenjara(Player, CardInventory).
+chancecard(getout, Player) :- getkeluarpenjara(Player, _CardInventory).
 chancecard(gotojail, Player) :- pergikepenjara(Player).
 chancecard(backthreestep, Player) :- mundurTigaLangkah(Player).
 chancecard(threestep, Player) :- majuTigaLangkah(Player).
@@ -47,7 +47,7 @@ kartuzonk(P) :-
     format('~nAnda tipes! Anda harus membayar biaya rumah sakit sebesar : ~w~n', [A]),
     addBalance(P, B).
 
-getkeluarpenjara(P, CardInventory) :-
+getkeluarpenjara(_, CardInventory) :-
     insertElmtLast(CardInventory, getout, A),
     CardInventory = A.
 

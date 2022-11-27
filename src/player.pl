@@ -60,7 +60,7 @@ isCardValid(Card, Answer) :-
 moveToNearestTax(P) :-
   board(Board),
   indexOf(Board, tx1, Itx1),
-  indexOf(Board, tx2, Itx2),
+  indexOf(Board, tx2, _),
   location(P, Loc),
   indexOf(Board, Loc, IdxLoc),
   IdxLoc < Itx1,
@@ -78,7 +78,7 @@ moveToNearestTax(P) :-
 
 moveToNearestTax(P) :-
   board(Board),
-  indexOf(Board, tx1, Itx1),
+  indexOf(Board, tx1, _),
   indexOf(Board, tx2, Itx2),
   location(P, Loc),
   indexOf(Board, Loc, IdxLoc),
