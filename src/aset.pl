@@ -170,7 +170,7 @@ buyAset(P, Tile, r):-
     TileAsset < 3, TileAsset >= 0 -> 
         propertyPrices(Tile, Prices),
         balance(P, Bal),
-        TA2 = TileAsset + 1,
+        TA2 is TileAsset + 1,
         getElmt(Prices, TA2, Price),
         Bal >= Price -> (
             subtractBalance(P, Price),
@@ -190,7 +190,7 @@ buyAset(P, Tile, l):-
             balance(P, Bal),
             tileAsset(Tile, TileAsset, P),
             propertyPrices(Tile, Prices),
-            TA2 = TileAsset + 1,
+            TA2 is TileAsset + 1,
             getElmt(Prices, TA2, Price),
             Bal >= Price -> (
                 subtractBalance(P, Price),
