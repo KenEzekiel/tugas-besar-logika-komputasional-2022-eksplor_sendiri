@@ -11,12 +11,13 @@ choice(9, zonkyanfei).
 choice(10, meteor).
 choice(11, pass).
 choice(12, paimon).
+choice(13, brokenteleport).
 
 /* Ini fungsi yang di call saat di petak chancecard */
 drawchancecard(P) :-
     randomize,
     get_seed(M),
-    N is M mod 13,
+    N is M mod 14,
     choice(N, Card),
     chancecard(Card, P).
 
@@ -35,6 +36,7 @@ chancecard(meteor, _) :- meteorZhongli.
 chancecard(pass, Player) :- passgo(Player).
 chancecard(paimon, Player) :- kartupaimon(Player).
 chancecard(childe, Player) :- kartuchilde(Player).
+chancecard(brokenteleport, Player) :- brokenteleport(Player).
 /*chancecard(angel, Player) :- */
 
 
@@ -145,3 +147,25 @@ kartuchilde(P) :-
     A is M mod 800,
     format('~nAnda diajak jalan-jalan oleh Childe! Anda diberi Mora sebesar : ~w~n', [A]),
     addBalance(P, A).
+
+brokenTeleportWaypoint(P) :-
+    randomize,
+    get_seed(M),
+    boardLength(Length),
+    board(Board),
+    A is M mod Length,
+    getElmt(Board, A, Tile),
+    format('~nTeleport waypoint yang Anda gunakan rusak! Anda diteleport ke tile ~w~n', [Tile]),
+    movePlayerTo(P, Tile).
+
+teleport(P) :-
+    /* Teleport kalau teleport nya lewatin GO ga dapet uang ya! */
+    write('\nMasukkan indeks teleport (input diakhiri titik) : '),
+    read(Index),
+    boardLength(Length),
+    board(Board),
+    Idx is Index mod Length,
+    getElmt(Board, Idx, Tile),
+    format('~nWhoosh! Anda diteleport ke tile ~w~n', [Tile]),
+    write('\nNote : teleport tidak mendapatkan Mora! Jika indeks lebih dari panjang board, akan di mod dengan panjang board! \n'),
+    movePlayerTo(P, Tile).
