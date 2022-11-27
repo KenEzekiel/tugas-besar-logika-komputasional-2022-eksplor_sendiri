@@ -35,7 +35,9 @@ throwDice :-
     (Double =:= 1 -> doNothing; decrementDice(P)),
     location(P, Pos),
     ((Pos =:= tx1 ; Pos =:= tx2) -> payTax(P) ; ((Pos \== jl, Pos \== go, Pos \== wt, Pos \== fp) -> payRent(P, Pos) ; doNothing)),
-    ((Pos =:= cc1 ; Pos =:= cc2 ; Pos =:= cc3) -> drawchancecard(P)), !.
+    ((Pos =:= cc1 ; Pos =:= cc2 ; Pos =:= cc3) -> drawchancecard(P)), 
+    Pos =:= go -> notFirstTurn(P) ; doNothing,
+    !.
 
 % Karena setelah lempar dadu pemain masih bisa jual aset, masih harus bayar sewa, dll, logika untuk pergantian turn bukan di sini, tapi di throwDice. 
 % Logika untuk masuk penjara setelah 3 kali double ada di sini
@@ -50,14 +52,17 @@ throwDiceW(Double) :-
 
 throwDiceJail(P, Double) :-
     incrementTurnInJail(P),
-    rollDice(_, _, Double),
+    rollDice(Res1, Res2, Double),
     turnInJail(P, TJ),
+    Res is Res1 + Res2,
+    incrementRollSum(P, Res),
     (Double =:= 1 -> getUnjailed(P), write('Selamat, anda telah bebas dari penjara') ; (TJ =:= 3 -> write('Telah ada di penjara dalam 3 turn, anda otomatis bebas') ; write('Gagal mendapat double, masih dipenjara'))).
 
 
 throwDiceFree(P, Double) :-
     rollDice(Res1, Res2, Double),
     Res is Res1 + Res2,
+    incrementRollSum(P, Res),
     (Double =:= 1 -> write('Double! '), incrementDoubleAmount(P) ; true),
     (doubleAmount(P, 3) -> (getJailed(P), resetDoubleAmount(P)), write('Anda masuk penjara karena mendapat Double 3 kali berturut-turut') ; (
     write('Anda maju sebanyak '), write(Res), write(' langkah.'), nl, movePlayerStep(P, Res))), !.

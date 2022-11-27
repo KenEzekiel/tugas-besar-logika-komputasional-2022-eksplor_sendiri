@@ -169,6 +169,7 @@ buyAset(P, Tile, r):-
 % Membeli hotel pada sebuah tile
 buyAset(P, Tile, l):-
     canBuyBasicCheck(P, Tile, 1),
+    firstTurn(P, 0),
     balance(P, Bal),
     tileAsset(Tile, TileAsset, P),
     TileAsset =:= 3,
