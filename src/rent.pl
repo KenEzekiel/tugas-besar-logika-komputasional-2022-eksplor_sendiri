@@ -55,7 +55,10 @@ payRent(Tile, Payer) :-
 
 writeAssetList(Tile, No) :- 
     tileAsset(Tile, PropertyLevel, _),
-    format('~d. ~w bangunan ~d : ', [No, Tile, PropertyLevel]), nl.
+    assetValue(Tile, Value),
+    SellValue is 0.8*Value,
+    SellVal is round(SellValue),
+    format('~d. ~w bangunan ~d : ~d', [No, Tile, PropertyLevel, SellVal]), nl.
 
 displayAssets([], _) :- !.
 
