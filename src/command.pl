@@ -58,7 +58,7 @@ buy(Param):-
     getParam(Param, X),
     isProperty(Tile),
     tileAsset(Tile, State, Owner),
-    balance(Player, Balance),
+    balance(Player, Balance), !,
     Owner \== Player -> (
         Owner \== none -> (
             write('Gunakan command acquisition')
@@ -83,8 +83,8 @@ buy(Param):-
             )
         )
     ) ; (
-        format('~d',[X]),
-        format('~d',[State]),
+        % format('~d',[X]),
+        % format('~d',[State]),
         X =< State -> (
             write('Anda sudah memiliki tile ataupun bangunan dengan jumlah tersebut')
         ) ; (
