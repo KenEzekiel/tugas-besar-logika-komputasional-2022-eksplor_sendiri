@@ -142,28 +142,23 @@ buyTile(P, Tile):-
         (\+ location(P, Tile), \+ location(P, go)) -> (
             write('Anda tidak berada di tile yang tepat'), !
             ) ; (
-            tileInventory(P, Inventory),
-            isElmt(Inventory, Tile, 1)) -> (
-                Res is 1, !
-            ) ; (
-                Res is 0, write('Anda tidak memiliki tile yang bersangkutan'), !
+                balance(P, Bal),
+                tileAsset(Tile, TileAsset, _),
+                propertyPrices(Tile, Prices),
+                TA2 is TileAsset + 1,
+                getElmt(Prices, TA2, Price),
+                Bal >= Price -> (
+                    subtractBalance(P, Price),
+                    inventoryAppender(P, Tile),
+                    tileAssetUpdater(Tile, 0, P),
+                     write('Berhasil membeli tile')
+                ) ; (
+                    write('Mora anda tidak cukup dasar miskin!')
+                ).
             )
         ) ; (
             write('Bukan giliran anda!'), !
         ).
-    balance(P, Bal),
-    tileAsset(Tile, TileAsset, _),
-    propertyPrices(Tile, Prices),
-    TA2 is TileAsset + 1,
-    getElmt(Prices, TA2, Price),
-    Bal >= Price -> (
-        subtractBalance(P, Price),
-        inventoryAppender(P, Tile),
-        tileAssetUpdater(Tile, 0, P),
-         write('Berhasil membeli tile')
-    ) ; (
-        write('Mora anda tidak cukup dasar miskin!')
-    ).
 
 % Membeli rumah pada sebuah tile
 buyAset(P, Tile, r):-
