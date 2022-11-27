@@ -1,7 +1,8 @@
 % Berapa pajak yang player harus bayar
 taxAmount(Player, Amount) :-
     netWorth(Player, Net),
-    Amount is (Net * 0.1).
+    SubAmount is (Net * 0.1),
+    Amount is round(SubAmount).
 
 % Apakah player bisa bayar pajak langsung
 isAbleToPayTax(Player) :-
@@ -12,6 +13,7 @@ isAbleToPayTax(Player) :-
 % Command untuk player bayar pajak
 payTax(Player) :-
     taxAmount(Player, Amount),
+    (
     isAbleToPayTax(Player) -> (
         subtractBalance(Player, Amount)
     ) ; (
@@ -22,16 +24,19 @@ payTax(Player) :-
         displayAssets(Inventory, 1),
         write('Pilih nomor properti yang ingin dijual '),
         read(Nomor),
-        sellTileByIndex(Nomor, Player),
+        Index is Nomor - 1, 
+        sellTileByIndex(Index, Player),
         balance(Player, Balance),
         location(Player, Tile),
-        format('Moramu sekarang ~d dan besar pajak ~s', [Balance, Amount]), nl,
+        format('Moramu sekarang ~d dan besar pajak ~d', [Balance, Amount]), nl,
         (
             isAbleToPayTax(Player) -> (
-                payTax(Tile, Player),
+                payTax(Player),
                 write('Hore, sewa sudah bisa dibayar!'), nl,
                 !
             ) ; (
-                write('Moramu masih kurang. Silakan pilih properti lain untuk dijual'), nl, fail)
+                write('Moramu masih kurang. Silakan pilih properti lain untuk dijual'), nl, fail
+            )
         )
+    )
     ).
