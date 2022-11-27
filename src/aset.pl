@@ -154,7 +154,7 @@ buyTile(P, Tile):-
                      write('Berhasil membeli tile')
                 ) ; (
                     write('Mora anda tidak cukup dasar miskin!')
-                ).
+                )
             )
         ) ; (
             write('Bukan giliran anda!'), !
