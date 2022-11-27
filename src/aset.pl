@@ -108,6 +108,36 @@ canBuyBasicCheck(P, Tile, Res):-
     tileInventory(P, Inventory),
     isElmt(Tile,Inventory, 1), completeSet(P, Tile, 1)) -> Res is 1 ; Res is 0, !.
 
+% Take over tile orang
+acquireTile(P, Tile):-
+    tileAsset(Tile, Level, Owner),
+    ((Owner =\= none, Level =\= 4) -> 
+    (
+        balance(P, Bal),
+        tileAsset(Tile, TileAsset, _),
+        propertyPrices(Tile, Prices),
+        getElmt(TileAsset, Prices, Price),
+        Bal >= 2 * Price,
+        AP is 2 * Price,
+        subtractBalance(P, AP),
+        inventoryAppender(P, Tile),
+        tileAssetUpdater(Tile, 0, P)
+    ) ; doNothing).
+
+% Membeli Tile
+buyTile(P, Tile):-
+    tileInventory(P, Inventory),
+    \+ (isElmt(Tile, Inventory, 1)),
+    balance(P, Bal),
+    tileAsset(Tile, TileAsset, _),
+    propertyPrices(Tile, Prices),
+    TA2 is TileAsset + 1,
+    getElmt(TA2, Prices, Price),
+    Bal >= Price,
+    subtractBalance(P, Price),
+    inventoryAppender(P, Tile),
+    tileAssetUpdater(Tile, 0, P).
+
 % Membeli Tile
 buyTile(P, Tile):-
     tileInventory(P, Inventory),
