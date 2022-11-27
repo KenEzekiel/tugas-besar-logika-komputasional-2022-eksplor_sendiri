@@ -9,6 +9,7 @@
 :- include('./aset.pl').
 :- include('./taxes.pl').
 :- include('./command.pl').
+:- include('./minigame.pl').
 
 start :-
     repeat,
