@@ -30,13 +30,14 @@ chancecard(birthday, Player) :- ulangTahun(Player).
 
 kartupajak(P) :-
     moveToNearestTax(P),
+    write('\nYanFei menyadari kamu lupa membayar pajak bulan kemarin, kamu harus pergi ke rumah YanFei lalu membayar pajak.\n'),
     payTax(P).
 
 kartuhadiah(P) :-
     randomize,
     get_seed(M),
     A is M mod 1000,
-    format('~nSelamat! Anda mendapatkan hadiah sebesar : ~w~n', [A]),
+    format('~nAnda diangkat menjadi anak asuh Ningguang! Uang Anda bertambah sebesar : ~w~n', [A]),
     addBalance(P, A).
 
 kartuzonk(P) :-
@@ -44,7 +45,7 @@ kartuzonk(P) :-
     get_seed(M),
     A is M mod 1000,
     B is A * (-1),
-    format('~nAnda tipes! Anda harus membayar biaya rumah sakit sebesar : ~w~n', [A]),
+    format('~nFatui datang ke safehousemu! Kamu kehilangan uang sebesar : ~w~n', [A]),
     addBalance(P, B).
 
 getkeluarpenjara(_, CardInventory) :-
@@ -60,18 +61,20 @@ usekeluarpenjara(P, CardInventory) :-
     CardInventory = A.
 
 pergikepenjara(P) :-
-    write('\nANGKAT TANGAN! Anda masuk ke penjara!\n'),
+    write('\nANGKAT TANGAN!! Anda masuk ke penjara!\n'),
     getJailed(P),
     endTurn(P).
 
 mundurTigaLangkah(P) :-
+    write('\nKamu kejatuhan tombak Xiao! Mundur 3 langkah, 1 2 3, DOR!\n'),
     movePlayerStep(P, -3).
 
 majuTigaLangkah(P) :-
+    write('\nKamu didorong ushi, maju 3 langkah\n'),
     movePlayerStep(P, 3).
 
 ulangTahun(P) :-
-    write('\nSELAMAT ULANG TAHUN! Semua player membayar anda sebesar 500\n'),
+    write('\nOTANJOUBI OMEDETOU! Semua player membayar anda sebesar 500, yang tidak bayar akan dipukul oleh Itto\n'),
     bayarKeP(P, 500).
 
 bayarKeP(P, Amount) :-
