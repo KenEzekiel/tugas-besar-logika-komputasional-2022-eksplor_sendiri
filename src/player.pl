@@ -5,7 +5,7 @@ player(w).
 :- dynamic(cardInventory/2).
 :- dynamic(balance/2).
 
-cardlist([tax, prize, getout, gotojail]).
+cardlist([tax, prize, zonk, getout, gotojail, backthreestep, threestep, birthday, zonkyanfei, meteor, pass, paimon, childe]).
 
 location(v, go).
 location(w, go).
@@ -96,7 +96,7 @@ checkPlayerDetail(Player) :-
   netWorth(Player, Worth),
   format('Informasi Player ~w', [Player]), nl, nl,
   format('Lokasi \t\t: ~w', [Location]), nl,
-  format('Total uang\t\t: ~d', [Balance]), nl,
+  format('Total mora\t\t: ~d', [Balance]), nl,
   format('Total nilai properti\t: ~d', [Asset]), nl,
   format('Total asset\t\t: ~d', [Worth]), nl, nl,
   write('Daftar Kepemilikan Properti: '), nl,

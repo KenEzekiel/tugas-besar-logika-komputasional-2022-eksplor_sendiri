@@ -1,6 +1,8 @@
 board([go, a1, a2, a3, cc1, b1, b2, b3, jl, c1, c2, c3, tx1, d1, d2, d3, fp, e1, e2, e3, cc2, f1, f2, f3, wt, g1, g2, g3, tx2, cc3, h1, h2]).
 isProperty(Location) :- isElmt([a1, a2, a3, b1, b2, b3, c1, c2, c3, d1, d2, d3, e1, e2, e3, f1, f2, f3, g1, g2, g3, h1, h2], Location, T), T is 1.
 boardLength(32).
+boardAsset([a1, a2, a3, b1, b2, b3, c1, c2, c3, d1, d2, d3, e1, e2, e3, f1, f2, f3, g1, g2, g3, h1, h2]).
+boardAssetLength(23).
 
 % go
 showLocNameNDesc(go) :- write('\nNama Lokasi\t\t: Starfell Lake\n'),
@@ -130,53 +132,53 @@ showLocNameNDesc(h1) :- write('\nNama Lokasi\t\t: Caravan Ribat\n'),
 showLocNameNDesc(h2) :- write('\nNama Lokasi\t\t: Aaru Village\n'),
   write('Deskripsi Lokasi\t: Wilayah pengikut Raja Scarlet dan tempat pembuangan pelajar Sumeru\n\n').
 
-propertyPrices(a1, Prices) :- Prices = [500, 1500, 3000, 4000, 6000].
-propertyPrices(a2, Prices) :- Prices = [500, 1500, 3000, 4000, 6000].
-propertyPrices(a3, Prices) :- Prices = [500, 1500, 3000, 4000, 6000].
-propertyPrices(b1, Prices) :- Prices = [500, 2000, 4000, 5000, 8000].
-propertyPrices(b2, Prices) :- Prices = [500, 2000, 4000, 5000, 8000].
-propertyPrices(b3, Prices) :- Prices = [500, 2000, 4000, 5000, 8000].
-propertyPrices(c1, Prices) :- Prices = [1000, 2500, 5000, 6000, 10000].
-propertyPrices(c2, Prices) :- Prices = [1000, 2500, 5000, 6000, 10000].
-propertyPrices(c3, Prices) :- Prices = [1000, 2500, 5000, 6000, 10000].
-propertyPrices(d1, Prices) :- Prices = [1500, 3000, 6000, 8000, 12000].
-propertyPrices(d2, Prices) :- Prices = [1500, 3000, 6000, 8000, 12000].
-propertyPrices(d3, Prices) :- Prices = [1500, 3000, 6000, 8000, 12000].
-propertyPrices(e1, Prices) :- Prices = [1500, 3500, 7000, 10000, 14000].
-propertyPrices(e2, Prices) :- Prices = [1500, 3500, 7000, 10000, 14000].
-propertyPrices(e3, Prices) :- Prices = [1500, 3500, 7000, 10000, 14000].
-propertyPrices(f1, Prices) :- Prices = [2000, 4000, 8000, 12000, 16000].
-propertyPrices(f2, Prices) :- Prices = [2000, 4000, 8000, 12000, 16000].
-propertyPrices(f3, Prices) :- Prices = [2000, 4000, 8000, 12000, 16000].
-propertyPrices(g1, Prices) :- Prices = [2500, 5000, 10000, 14000, 18000].
-propertyPrices(g2, Prices) :- Prices = [2500, 5000, 10000, 14000, 18000].
-propertyPrices(g3, Prices) :- Prices = [2500, 5000, 10000, 14000, 18000].
-propertyPrices(h1, Prices) :- Prices = [2500, 5000, 12000, 16000, 20000].
-propertyPrices(h2, Prices) :- Prices = [2500, 5000, 12000, 16000, 20000].
+propertyPrices(a1, Prices) :- Prices = [400, 1000, 1500, 2000, 3000].
+propertyPrices(a2, Prices) :- Prices = [400, 1000, 1500, 2000, 3000].
+propertyPrices(a3, Prices) :- Prices = [400, 1000, 1500, 2000, 3000].
+propertyPrices(b1, Prices) :- Prices = [600, 1200, 2000, 2500, 4000].
+propertyPrices(b2, Prices) :- Prices = [600, 1200, 2000, 2500, 4000].
+propertyPrices(b3, Prices) :- Prices = [600, 1200, 2000, 2500, 4000].
+propertyPrices(c1, Prices) :- Prices = [800, 1500, 2500, 3000, 5000].
+propertyPrices(c2, Prices) :- Prices = [800, 1500, 2500, 3000, 5000].
+propertyPrices(c3, Prices) :- Prices = [800, 1500, 2500, 3000, 5000].
+propertyPrices(d1, Prices) :- Prices = [1000, 2000, 3000, 4000, 6000].
+propertyPrices(d2, Prices) :- Prices = [1000, 2000, 3000, 4000, 6000].
+propertyPrices(d3, Prices) :- Prices = [1000, 2000, 3000, 4000, 6000].
+propertyPrices(e1, Prices) :- Prices = [1500, 2500, 3500, 5000, 7000].
+propertyPrices(e2, Prices) :- Prices = [1500, 2500, 3500, 5000, 7000].
+propertyPrices(e3, Prices) :- Prices = [1500, 2500, 3500, 5000, 7000].
+propertyPrices(f1, Prices) :- Prices = [2000, 3000, 4000, 6000, 8000].
+propertyPrices(f2, Prices) :- Prices = [2000, 3000, 4000, 6000, 8000].
+propertyPrices(f3, Prices) :- Prices = [2000, 3000, 4000, 6000, 8000].
+propertyPrices(g1, Prices) :- Prices = [2500, 3500, 5000, 7000, 9000].
+propertyPrices(g2, Prices) :- Prices = [2500, 3500, 5000, 7000, 9000].
+propertyPrices(g3, Prices) :- Prices = [2500, 3500, 5000, 7000, 9000].
+propertyPrices(h1, Prices) :- Prices = [2500, 4000, 6000, 8000, 10000].
+propertyPrices(h2, Prices) :- Prices = [2500, 4000, 6000, 8000, 10000].
 
-propertyRents(a1, Prices) :- Prices = [50, 150, 350, 600, 800].
-propertyRents(a2, Prices) :- Prices = [50, 150, 350, 600, 800].
-propertyRents(a3, Prices) :- Prices = [50, 150, 350, 600, 800].
-propertyRents(b1, Prices) :- Prices = [50, 200, 400, 700, 1000].
-propertyRents(b2, Prices) :- Prices = [50, 200, 400, 700, 1000].
-propertyRents(b3, Prices) :- Prices = [50, 200, 400, 700, 1000].
-propertyRents(c1, Prices) :- Prices = [70, 250, 450, 800, 1100].
-propertyRents(c2, Prices) :- Prices = [70, 250, 450, 800, 1100].
-propertyRents(c3, Prices) :- Prices = [70, 250, 450, 800, 1100].
-propertyRents(d1, Prices) :- Prices = [80, 270, 500, 850, 1200].
-propertyRents(d2, Prices) :- Prices = [80, 270, 500, 850, 1200].
-propertyRents(d3, Prices) :- Prices = [80, 270, 500, 850, 1200].
-propertyRents(e1, Prices) :- Prices = [100, 280, 550, 900, 1400].
-propertyRents(e2, Prices) :- Prices = [100, 280, 550, 900, 1400].
-propertyRents(e3, Prices) :- Prices = [100, 280, 550, 900, 1400].
-propertyRents(f1, Prices) :- Prices = [110, 300, 600, 950, 1600].
-propertyRents(f2, Prices) :- Prices = [110, 300, 600, 950, 1600].
-propertyRents(f3, Prices) :- Prices = [110, 300, 600, 950, 1600].
-propertyRents(g1, Prices) :- Prices = [150, 400, 800, 1400, 2000].
-propertyRents(g2, Prices) :- Prices = [150, 400, 800, 1400, 2000].
-propertyRents(g3, Prices) :- Prices = [150, 400, 800, 1400, 2000].
-propertyRents(h1, Prices) :- Prices = [200, 500, 1000, 1500, 2500].
-propertyRents(h2, Prices) :- Prices = [200, 500, 1000, 1500, 2500].
+propertyRents(a1, Prices) :- Prices = [70, 150, 350, 600, 1000].
+propertyRents(a2, Prices) :- Prices = [70, 150, 350, 600, 1000].
+propertyRents(a3, Prices) :- Prices = [70, 150, 350, 600, 1000].
+propertyRents(b1, Prices) :- Prices = [80, 200, 400, 700, 1200].
+propertyRents(b2, Prices) :- Prices = [80, 200, 400, 700, 1200].
+propertyRents(b3, Prices) :- Prices = [80, 200, 400, 700, 1200].
+propertyRents(c1, Prices) :- Prices = [90, 200, 450, 750, 1400].
+propertyRents(c2, Prices) :- Prices = [90, 200, 450, 750, 1400].
+propertyRents(c3, Prices) :- Prices = [90, 200, 450, 750, 1400].
+propertyRents(d1, Prices) :- Prices = [100, 350, 500, 850, 1600].
+propertyRents(d2, Prices) :- Prices = [100, 350, 500, 850, 1600].
+propertyRents(d3, Prices) :- Prices = [100, 350, 500, 850, 1600].
+propertyRents(e1, Prices) :- Prices = [200, 400, 600, 1000, 1800].
+propertyRents(e2, Prices) :- Prices = [200, 400, 600, 1000, 1800].
+propertyRents(e3, Prices) :- Prices = [200, 400, 600, 1000, 1800].
+propertyRents(f1, Prices) :- Prices = [250, 500, 700, 1200, 2000].
+propertyRents(f2, Prices) :- Prices = [250, 500, 700, 1200, 2000].
+propertyRents(f3, Prices) :- Prices = [250, 500, 700, 1200, 2000].
+propertyRents(g1, Prices) :- Prices = [300, 600, 800, 1400, 2500].
+propertyRents(g2, Prices) :- Prices = [300, 600, 800, 1400, 2500].
+propertyRents(g3, Prices) :- Prices = [300, 600, 800, 1400, 2500].
+propertyRents(h1, Prices) :- Prices = [400, 750, 1000, 1500, 3000].
+propertyRents(h2, Prices) :- Prices = [400, 750, 1000, 1500, 3000].
 
 /* Get property and rent price based on location and property */
 propertyPrice(Location, Property, Price) :- propertyPrices(Location, Prices), getElmt(Prices, Property, Price). 
