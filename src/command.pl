@@ -20,13 +20,13 @@
 % playerState(v, jailed).
 
 stateChanger(Player, NewState):-
-    retractall(turn(Player, _)),
-    asserta(turn(Player, NewState)).
+    retractall(playerState(Player, _)),
+    asserta(playerState(Player, NewState)).
 
 cash:-
     turn(Player, 1),
     balance(Player, Balance),
-    format('Uang: ~d', [Balance]), !.
+    format('Uang: ~f', [Balance]), !.
 
 getParam(Param, X):-
     Param == tanah, 
@@ -91,7 +91,7 @@ buy(Param):-
         ) ; (
             X =:= 4 -> (
                 State =:= 3 -> (
-                    buyTile(Player, Tile, l)
+                    buyAset(Player, Tile, l)
                 ) ; (
                     write('Anda harus mempunyai 3 bangunan terlebih dahulu')
                 )

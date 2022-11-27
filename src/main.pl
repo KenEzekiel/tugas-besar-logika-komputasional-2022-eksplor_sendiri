@@ -10,9 +10,3 @@
 :- include('./taxes.pl').
 :- include('./command.pl').
 :- include('./minigame.pl').
-
-start :-
-    repeat,
-    read(fafa).
-    
-    declarePermanentBankruptcy(Player).
