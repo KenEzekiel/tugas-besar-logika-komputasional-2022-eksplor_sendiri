@@ -50,14 +50,20 @@ kartuzonk(P) :-
 
 getkeluarpenjara(_, CardInventory) :-
     insertElmtLast(CardInventory, getout, A),
-    CardInventory = A.
+    CardInventory = A,
+    write('\nKamu diperbolehkan memanggil Xiao untuk keluar penjara,gunakan commang xiaoHelp untuk menggunakan kartu ini\n').
 
 /* Ini bisa di call oleh user */
+xiaoHelp(P) :-
+    cardInventory(P, Inventory),
+    usekeluarpenjara(P, Inventory).
+
 usekeluarpenjara(P, CardInventory) :-
-    isPJailed(P, X),
-    X =:= 1,
+    isPJailed(P, X), 
+    X =:= 1, !,
     deleteElmt(CardInventory, getout, A),
     getUnjailed(P),
+    write('\nKamu memanggil Xiao! Kamu dapat keluar dari penjara.\n'),
     CardInventory = A.
 
 pergikepenjara(P) :-
