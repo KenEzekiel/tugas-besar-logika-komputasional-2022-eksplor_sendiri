@@ -88,3 +88,19 @@ moveToNearestTax(P) :-
   indexOf(Board, Loc, IdxLoc),
   IdxLoc > Itx2,
   movePlayerTo(P, tx1), !.
+
+checkPlayerDetail(Player) :-
+  location(Player, Location),
+  balance(Player, Balance),
+  totalAsset(Player, Asset),
+  netWorth(Player, Worth),
+  format('Informasi Player ~w', [Player]), nl, nl,
+  format('Lokasi \t\t: ~w', [Location]), nl,
+  format('Total uang\t\t: ~d', [Balance]), nl,
+  format('Total nilai properti\t: ~d', [Asset]), nl,
+  format('Total asset\t\t: ~d', [Worth]), nl, nl,
+  write('Daftar Kepemilikan Properti: '), nl,
+  tileInventory(Player, Inventory),
+  displayAssets(Inventory, 1), nl,
+  write('Daftar Kepemilikan Card: '), nl,
+  showInventory(Player).

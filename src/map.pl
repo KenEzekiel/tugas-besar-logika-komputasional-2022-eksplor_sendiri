@@ -1,5 +1,5 @@
 board([go, a1, a2, a3, cc1, b1, b2, b3, jl, c1, c2, c3, tx1, d1, d2, d3, fp, e1, e2, e3, cc2, f1, f2, f3, wt, g1, g2, g3, tx2, cc3, h1, h2]).
-
+isProperty(Location) :- isElmt([a1, a2, a3, b1, b2, b3, c1, c2, c3, d1, d2, d3, e1, e2, e3, f1, f2, f3, g1, g2, g3, h1, h2], Location, T), T is 1.
 boardLength(32).
 
 % go
@@ -192,6 +192,7 @@ acquisitionPrice(Location, Property, Price) :-
 doNothing.
 
 showPropertyStatus(Location) :- 
+  isProperty(Location) ->
   tileAsset(Location, PropStat, Owner),
   write('Kepemilikan\t\t: '),
   (PropStat == -2 -> 
@@ -206,14 +207,15 @@ showPropertyStatus(Location) :-
     ), nl,
     write('Tingkatan Properti\t: '),
     assetStatusWriter(PropStat)
-  ).
+  ) ; format('\n~w bukan merupakan properti yang valid! Silahkan masukkan properti yang tepat.\n', [Location]), fail.
 
 checkLocationDetail(Location) :- 
-  showLocNameNDesc(Location),
-  showPropertyStatus(Location). /* Ini nanti diganti jadi dynamic */
+  showLocNameNDesc(Location) -> 
+  showPropertyStatus(Location) ; format('\n~w bukan merupakan lokasi yang valid! Silahkan masukkan lokasi yang tepat.\n', [Location]), fail.
 
 checkPropertyDetail(Location) :- 
-  showLocNameNDesc(Location),
+  isProperty(Location) -> 
+  showLocNameNDesc(Location), 
   propertyPrices(Location, [PTanah, PBangunan1, PBangunan2, PBangunan3, PLandmark]),
   format('Harga Tanah\t\t: ~d', [PTanah]), nl,
   format('Harga Bangunan 1\t: ~d', [PBangunan1]), nl,
@@ -225,7 +227,8 @@ checkPropertyDetail(Location) :-
   format('Biaya Sewa Bangunan 1\t: ~d', [RBangunan1]), nl,
   format('Biaya Sewa Bangunan 2\t: ~d', [RBangunan2]), nl,
   format('Biaya Sewa Bangunan 3\t: ~d', [RBangunan3]), nl,
-  format('Biaya Sewa Landmark\t: ~d', [RLandmark]).
+  format('Biaya Sewa Landmark\t: ~d', [RLandmark])
+  ; format('\n~w bukan merupakan properti yang valid! Silahkan masukkan properti yang tepat.\n', [Location]), fail.
 
 
 writeLocationStatus(Location) :- 
