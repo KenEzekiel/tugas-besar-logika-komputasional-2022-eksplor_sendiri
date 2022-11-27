@@ -35,7 +35,7 @@ endTurn :-
     turn(v, T1),
     turn(w, T2),
     (T1 =:= 1 -> turnUpdater(v, 0), remainDiceUpdater(w, 1) ; turnUpdater(v, 1)),
-    (T2 =:= 1 -> turnUpdater(w, 0), remainDiceUpdater(v, 1) ; turnUpdater(w, 1)).
+    (T2 =:= 1 -> turnUpdater(w, 0), remainDiceUpdater(v, 1) ; turnUpdater(w, 1)), !.
 
 decrementDice(P) :-
     remainDice(P, RD),
@@ -46,9 +46,6 @@ incrementDice(P):-
     remainDice(P, RD),
     NRD is RD + 1,
     remainDiceUpdater(P, NRD).
-
-notFirstTurn(P),
-    firstTurnUpdater(P, 0).
 
 incrementRollSum(P, AddedAmount) :-
     rollSum(P, RS),

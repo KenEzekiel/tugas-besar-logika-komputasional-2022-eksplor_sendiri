@@ -103,10 +103,14 @@ canRedeemBasicCheck(P, Tile, Res) :-
 
 % Cek dasar apakah pemain bisa membeli properti di sebuah tile
 canBuyBasicCheck(P, Tile, Res):-
-    (turn(P, 1),
-    (pTile(P, Tile) ; pTile(P, go)),
-    tileInventory(P, Inventory),
-    isElmt(Tile,Inventory, 1), completeSet(P, Tile, 1)) -> Res is 1 ; Res is 0, !.
+    ((turn(P, 1) -> 
+        ((pTile(P, Tile) ; pTile(P, go)) -> 
+            tileInventory(P, Inventory),
+            isElmt(Tile,Inventory, 1)) -> 
+                Res is 1
+            ; (Res is 0, write('Anda tidak memiliki tile yang bersangkutan'))
+        ; write('Anda tidak berada di tile yang tepat'))
+    ; (write('Bukan giliran anda!'))), !.
 
 % Take over tile orang
 acquireTile(P, Tile):-
@@ -116,70 +120,68 @@ acquireTile(P, Tile):-
         balance(P, Bal),
         tileAsset(Tile, TileAsset, _),
         propertyPrices(Tile, Prices),
-        getElmt(TileAsset, Prices, Price),
-        Bal >= 2 * Price,
-        AP is 2 * Price,
-        subtractBalance(P, AP),
-        inventoryAppender(P, Tile),
-        tileAssetUpdater(Tile, 0, P)
+        getElmt(Prices, Level, Price),
+        (Bal >= 2 * Price -> 
+            AP is 2 * Price,
+            subtractBalance(P, AP),
+            inventoryAppender(P, Tile),
+            tileAssetUpdater(Tile, 0, P)
+        ; write('Mora anda tidak cukup dasar miskin!')),
     ) ; doNothing).
 
 % Membeli Tile
 buyTile(P, Tile):-
-    tileInventory(P, Inventory),
-    \+ (isElmt(Tile, Inventory, 1)),
+    canBuyBasicCheck(P, Tile, 1),
     balance(P, Bal),
     tileAsset(Tile, TileAsset, _),
     propertyPrices(Tile, Prices),
     TA2 is TileAsset + 1,
-    getElmt(TA2, Prices, Price),
-    Bal >= Price,
-    subtractBalance(P, Price),
-    inventoryAppender(P, Tile),
-    tileAssetUpdater(Tile, 0, P).
-
-% Membeli Tile
-buyTile(P, Tile):-
-    tileInventory(P, Inventory),
-    \+ (isElmt(Tile, Inventory, 1)),
-    balance(P, Bal),
-    tileAsset(Tile, TileAsset, _),
-    propertyPrices(Tile, Prices),
-    TA2 is TileAsset + 1,
-    getElmt(TA2, Prices, Price),
-    Bal >= Price,
-    subtractBalance(P, Price),
-    inventoryAppender(P, Tile),
-    tileAssetUpdater(Tile, 0, P).
+    getElmt(Prices, TA2, Price),
+    (Bal >= Price -> (
+        subtractBalance(P, Price),
+        inventoryAppender(P, Tile),
+        tileAssetUpdater(Tile, 0, P),
+         write('Berhasil membeli tile')
+    ) 
+    ; write('Mora anda tidak cukup dasar miskin!')).
 
 % Membeli rumah pada sebuah tile
 buyAset(P, Tile, r):-
     canBuyBasicCheck(P, Tile, 1),
-    balance(P, Bal),
     tileAsset(Tile, TileAsset, P),
-    TileAsset < 3, TileAsset >= 0,
-    propertyPrices(Tile, Prices),
-    TA2 is TileAsset + 1,
-    getElmt(TA2, Prices, Price),
-    Bal >= Price,
-    subtractBalance(P, Price),
-    NTA is TileAsset + 1,
-    tileAssetUpdater(Tile, NTA, P).
+    ((TileAsset < 3, TileAsset >= 0) -> 
+        propertyPrices(Tile, Prices),
+        balance(P, Bal),
+        TA2 is TileAsset + 1,
+        getElmt(Prices, TA2, Price),
+        (Bal >= Price -> (
+            subtractBalance(P, Price),
+            NTA is TileAsset + 1,
+            tileAssetUpdater(Tile, NTA, P),
+            write('Landmark berhasil dibeli')
+        ) 
+        ; write('Mora anda tidak cukup dasar miskin!'))
+    ; write('Bangunannya sudah merupakan landmark')).
 
 % Membeli hotel pada sebuah tile
 buyAset(P, Tile, l):-
     canBuyBasicCheck(P, Tile, 1),
-    firstTurn(P, 0),
-    balance(P, Bal),
-    tileAsset(Tile, TileAsset, P),
-    TileAsset =:= 3,
-    propertyPrices(Tile, Prices),
-    TA2 is TileAsset + 1,
-    getElmt(TA2, Prices, Price),
-    Bal >= Price,
-    subtractBalance(P, Price),
-    NTA is TileAsset + 1,
-    tileAssetUpdater(Tile, NTA).
+    (firstTurn(P, 0) -> 
+        (TileAsset =:= 3 -> 
+            balance(P, Bal),
+            tileAsset(Tile, TileAsset, P),
+            propertyPrices(Tile, Prices),
+            TA2 is TileAsset + 1,
+            getElmt(Prices, TA2, Price),
+            (Bal >= Price -> (
+                subtractBalance(P, Price),
+                NTA is TileAsset + 1,
+                tileAssetUpdater(Tile, NTA, P),
+                write('Landmark berhasil dibeli')
+            ) 
+            ; write('Mora anda tidak cukup dasar miskin!'))
+        ; write('Anda harus memiliki 3 bangunan terlebih dahulu.'))
+    ; write('Anda tidak bisa membeli landmark di turn pertama')).
 
 % Menjual utuh tile
 sellAset(P, Tile, t):- 
