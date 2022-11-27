@@ -2,6 +2,42 @@ board([go, a1, a2, a3, cc1, b1, b2, b3, jl, c1, c2, c3, tx1, d1, d2, d3, fp, e1,
 
 boardLength(32).
 
+% go
+showLocNameNDesc(go) :- write('\nNama Lokasi\t\t: Starfell Lake\n'),
+  write('Deskripsi Lokasi\t: Tempat awal mula perjalanan\n\n').
+
+% jl
+showLocNameNDesc(jl) :- write('\nNama Lokasi\t\t: Confinement Room\n'),
+  write('Deskripsi Lokasi\t: Tempat renungan\n\n').
+
+% cc1
+showLocNameNDesc(cc1) :- write('\nNama Lokasi\t\t: Anemo Archon Statue\n'),
+  write('Deskripsi Lokasi\t: Raihlah kesempatan untuk mendapatkan hadiah\n\n').
+
+% tx1
+showLocNameNDesc(tx1) :- write('\nNama Lokasi\t\t: Northland Bank\n'),
+  write('Deskripsi Lokasi\t: Fatui menghadang! Anda diharuskan untuk membayar pajak\n\n').
+
+% fp
+showLocNameNDesc(fp) :- write('\nNama Lokasi\t\t: Void Sphere Portal\n'),
+  write('Deskripsi Lokasi\t: Anda tidak akan bisa berdiam diri di sini dan langsung diteleportasikan ke tempat lain\n\n').
+
+% cc2
+showLocNameNDesc(cc2) :- write('\nNama Lokasi\t\t: Golden House\n'),
+  write('Deskripsi Lokasi\t: Carilah harta tersembunyi. Apa yang akan anda temukan di sana?\n\n').
+
+% wt
+showLocNameNDesc(wt) :- write('\nNama Lokasi\t\t: Teleport Waypoint\n'),
+  write('Deskripsi Lokasi\t: Artifak yang bisa memindahkan anda ke tempat mana saja\n\n').
+
+% tx2
+showLocNameNDesc(tx2) :- write('\nNama Lokasi\t\t: Sabzeruz Festival\n'),
+  write('Deskripsi Lokasi\t: Anda terjebak dengan tarian Nilou! Sebagian uang anda habis untuk mensponsori festival\n\n').
+
+% cc3
+showLocNameNDesc(cc3) :- write('\nNama Lokasi\t\t: Akademiya\n'),
+  write('Deskripsi Lokasi\t: Anda berkunjung ke Akademiya. Harta apa yang akan anda temukan di sana?\n\n').
+
 /* a1 */
 showLocNameNDesc(a1) :- write('\nNama Lokasi\t\t: Mondstadt\n'),
   write('Deskripsi Lokasi\t: Pusat wilayah Mondstadt\n\n').
