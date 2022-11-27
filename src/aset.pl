@@ -103,14 +103,19 @@ canRedeemBasicCheck(P, Tile, Res) :-
 
 % Cek dasar apakah pemain bisa membeli properti di sebuah tile
 canBuyBasicCheck(P, Tile, Res):-
-    ((turn(P, 1) -> 
-        ((location(P, Tile) ; location(P, go)) -> 
+    turn(P, 1) -> (
+        (\+ location(P, Tile), \+ location(P, go)) -> (
+            write('Anda tidak berada di tile yang tepat'), !
+            ) ; (
             tileInventory(P, Inventory),
-            isElmt(Tile,Inventory, 1)) -> 
-                Res is 1
-            ; (Res is 0, write('Anda tidak memiliki tile yang bersangkutan'))
-        ; write('Anda tidak berada di tile yang tepat'))
-    ; (write('Bukan giliran anda!'))), !.
+            isElmt(Inventory, Tile, 1)) -> (
+                Res is 1, !
+            ) ; (
+                Res is 0, write('Anda tidak memiliki tile yang bersangkutan'), !
+            )
+        ) ; (
+            write('Bukan giliran anda!'), !
+        ).
 
 % Take over tile orang
 acquireTile(P, Tile):-
