@@ -53,6 +53,10 @@ insertToInventory(Player, Card) :-
   insertElmtLast(Inventory, Card, A),
   asserta(cardInventory(Player, A)).
 
+showInventory(Player) :-
+  cardInventory(Player, Inventory),
+  format('~nInventory: ~w~n', [Inventory]).
+
 isCardValid(Card, Answer) :-
   cardlist(List),
   isElmt(List, Card, Answer).
