@@ -48,13 +48,13 @@ kartuzonk(P) :-
     format('~nFatui datang ke safehousemu! Kamu kehilangan uang sebesar : ~w~n', [A]),
     addBalance(P, B).
 
-getkeluarpenjara(_, CardInventory) :-
-    insertElmtLast(CardInventory, getout, A),
-    CardInventory = A,
+getkeluarpenjara(P) :-
+    insertToInventory(P, getout),   
     write('\nKamu diperbolehkan memanggil Xiao untuk keluar penjara,gunakan commang xiaoHelp untuk menggunakan kartu ini\n').
 
 /* Ini bisa di call oleh user */
-xiaoHelp(P) :-
+xiaoHelp :-
+    turns(P, 1),
     cardInventory(P, Inventory),
     usekeluarpenjara(P, Inventory).
 
