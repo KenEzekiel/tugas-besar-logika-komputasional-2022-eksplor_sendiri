@@ -104,7 +104,7 @@ canRedeemBasicCheck(P, Tile, Res) :-
 % Cek dasar apakah pemain bisa membeli properti di sebuah tile
 canBuyBasicCheck(P, Tile, Res):-
     ((turn(P, 1) -> 
-        ((pTile(P, Tile) ; pTile(P, go)) -> 
+        ((location(P, Tile) ; location(P, go)) -> 
             tileInventory(P, Inventory),
             isElmt(Tile,Inventory, 1)) -> 
                 Res is 1

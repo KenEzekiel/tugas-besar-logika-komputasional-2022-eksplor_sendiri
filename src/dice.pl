@@ -40,8 +40,8 @@ throwDice :-
     throwDiceW(Double),
     (Double =:= 1 -> doNothing; decrementDice(P)),
     location(P, Pos),
-    ((Pos =:= tx1 ; Pos =:= tx2) -> payTax(P) ; ((Pos =\= jl, Pos =\= go, Pos =\= wt, Pos =\= fp) -> payRent(P, Pos) ; doNothing)),
-    ((Pos =:= cc1 ; Pos =:= cc2 ; Pos =:= cc3) -> drawchancecard(P) ; doNothing), 
+    ((Pos == tx1 ; Pos == tx2) -> payTax(P) ; ((Pos =\= jl, Pos =\= go, Pos =\= wt, Pos =\= fp) -> payRent(P, Pos) ; doNothing)),
+    ((Pos == cc1 ; Pos == cc2 ; Pos == cc3) -> drawchancecard(P) ; doNothing), 
     !.
 
 % Karena setelah lempar dadu pemain masih bisa jual aset, masih harus bayar sewa, dll, logika untuk pergantian turn bukan di sini, tapi di throwDice. 
