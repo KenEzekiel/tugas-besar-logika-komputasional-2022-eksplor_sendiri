@@ -108,17 +108,12 @@ canBuyBasicCheck(P, Tile, Res):-
     tileInventory(P, Inventory),
     isElmt(Tile,Inventory, 1), completeSet(P, Tile, 1)) -> Res is 1 ; Res is 0, !.
 
-% Equality adalah apakah properti dari sebuah group tile merata
-equalityCheck(Tile, Equality) :-
-    tileAsset(Tile, TileAsset, P),
-    tileListOfTile(Tile, TileList),
-    \+ (isElmt(X, TileList, 1), tileAsset(X, XAsset, P), X < TileAsset).
-
 % Membeli Tile
 buyTile(P, Tile):-
     tileInventory(P, Inventory),
     \+ (isElmt(Tile, Inventory, 1)),
     balance(P, Bal),
+    tileAsset(Tile, TileAsset, _),
     propertyPrices(Tile, Prices),
     TA2 is TileAsset + 1,
     getElmt(TA2, Prices, Price),
@@ -127,18 +122,9 @@ buyTile(P, Tile):-
     inventoryAppender(P, Tile),
     tileAssetUpdater(Tile, 0, P).
 
-% Menebus tile yang sedang di-mortgage
-buyAset(P, Tile, m):-
-    canRedeemBasicCheck(P, Tile, 1),
-    tileAsset(Tile, TileAsset, P),
-    TileAsset =:= -1,
-    NTA is TileAsset + 1,
-    tileAssetUpdater(Tile, NTA, P).
-
 % Membeli rumah pada sebuah tile
 buyAset(P, Tile, r):-
     canBuyBasicCheck(P, Tile, 1),
-    equalityCheck(Tile, 1),
     balance(P, Bal),
     tileAsset(Tile, TileAsset, P),
     TileAsset < 3, TileAsset >= 0,
@@ -153,7 +139,7 @@ buyAset(P, Tile, r):-
 % Membeli hotel pada sebuah tile
 buyAset(P, Tile, l):-
     canBuyBasicCheck(P, Tile, 1),
-    equalityCheck(Tile, 1),
+    balance(P, Bal),
     tileAsset(Tile, TileAsset, P),
     TileAsset =:= 3,
     propertyPrices(Tile, Prices),
@@ -161,25 +147,23 @@ buyAset(P, Tile, l):-
     getElmt(TA2, Prices, Price),
     Bal >= Price,
     subtractBalance(P, Price),
-    NTA is TileAsset + 1.
+    NTA is TileAsset + 1,
     tileAssetUpdater(Tile, NTA).
 
-% Meng-mortgage tile
-sellAset(P, Tile, m):- 
+% Menjual utuh tile
+sellAset(P, Tile, t):- 
     canRedeemBasicCheck(P, Tile, 1),
     tileAsset(Tile, TileAsset, P),
     TileAsset =:= 0,
-    NTA is TileAsset - 1,
+    NTA is -2,
     propertyPrices(Tile, Prices),
     getElmt(Prices, 0, Price),
-    SPrice is Price / 2,
-    addBalance(P, SPrice),
+    addBalance(P, Price),
     tileAssetUpdater(Tile, NTA).
 
 % Menjual rumah pada sebuah tile
 sellAset(P, Tile, r):-
     canBuyBasicCheck(P, Tile, 1),
-    equalityCheck(Tile, 1),
     tileAsset(Tile, TileAsset, P),
     TileAsset < 4, TileAsset > 0,
     propertyPrices(Tile, Prices),
@@ -192,18 +176,17 @@ sellAset(P, Tile, r):-
 % Menjual hotel pada sebuah tile
 sellAset(P, Tile, l):-
     canBuyBasicCheck(P, Tile, 1),
-    equalityCheck(Tile, 1),
     tileAsset(Tile, TileAsset, P),
     TileAsset =:= 4,
     propertyPrices(Tile, Prices),
     getElmt(Prices, TileAsset, Price),
     SPrice is Price / 2,
     addBalance(P, SPrice),
-    NTA is TileAsset - 1.
+    NTA is TileAsset - 1,
     tileAssetUpdater(Tile, NTA).
 
 assetValue(Tile, Value) :-
-    tileAsset(Tile, Level, P),
+    tileAsset(Tile, Level, _),
     propertyPrices(Tile, Prices),
     sumUntil(Prices, Level, Value).
 
@@ -220,7 +203,7 @@ totalAsset(Player, Amount) :-
 sellTileByIndex(Index, Player) :- % Jual keseluruhan asset beserta bangunannya
     tileInventory(Player, Inventory),
     getElmt(Inventory, Index, Tile),
-    tileAsset(Tile, Level, Player),
+    tileAsset(Tile, _, Player),
     assetValue(Tile, Value),
     SellValue is 0.8*Value,
     deleteAt(Inventory, Index, NewInventory),
