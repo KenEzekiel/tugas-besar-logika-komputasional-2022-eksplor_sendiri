@@ -25,8 +25,8 @@ rollSum(v, 0).
 rollSum(w, 0).
 
 rollSumUpdater(P, NRS):-
-    retractall(firstTurn(P, _)),
-    asserta(firstTurn(P, NRS)).
+    retractall(rollSum(P, _)),
+    asserta(rollSum(P, NRS)).
 
 endTurn :-
     turn(P, 1),

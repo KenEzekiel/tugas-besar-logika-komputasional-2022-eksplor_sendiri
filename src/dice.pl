@@ -12,9 +12,14 @@ incrementDoubleAmount(P) :-
 resetDoubleAmount(P) :-
     doubleAmountUpdater(P, 0).
 
-rollDice(Res1, Res2, Double):-
-    random(1, 6, Res1),
-    random(1, 6, Res2),
+randomDice(Res) :-
+    randomize,
+    get_seed(M),
+    Res is (M mod 6) + 1.
+
+rollDices(Res1, Res2, Double):-
+    randomDice(Res1),
+    randomDice(Res2),
     write('Dadu 1: '),
     write(Res1), write('.'), nl,
     write('Dadu 2: '),
@@ -36,7 +41,6 @@ throwDice :-
     location(P, Pos),
     ((Pos =:= tx1 ; Pos =:= tx2) -> payTax(P) ; ((Pos \== jl, Pos \== go, Pos \== wt, Pos \== fp) -> payRent(P, Pos) ; doNothing)),
     ((Pos =:= cc1 ; Pos =:= cc2 ; Pos =:= cc3) -> drawchancecard(P)), 
-    Pos =:= go -> notFirstTurn(P) ; doNothing,
     !.
 
 % Karena setelah lempar dadu pemain masih bisa jual aset, masih harus bayar sewa, dll, logika untuk pergantian turn bukan di sini, tapi di throwDice. 
@@ -52,7 +56,7 @@ throwDiceW(Double) :-
 
 throwDiceJail(P, Double) :-
     incrementTurnInJail(P),
-    rollDice(Res1, Res2, Double),
+    rollDices(Res1, Res2, Double),
     turnInJail(P, TJ),
     Res is Res1 + Res2,
     incrementRollSum(P, Res),
@@ -60,7 +64,7 @@ throwDiceJail(P, Double) :-
 
 
 throwDiceFree(P, Double) :-
-    rollDice(Res1, Res2, Double),
+    rollDices(Res1, Res2, Double),
     Res is Res1 + Res2,
     incrementRollSum(P, Res),
     (Double =:= 1 -> write('Double! '), incrementDoubleAmount(P) ; true),
