@@ -1,3 +1,4 @@
+choice(0, childe).
 choice(1, tax).
 choice(2, prize).
 choice(3, zonk).
@@ -7,12 +8,15 @@ choice(6, backthreestep).
 choice(7, threestep).
 choice(8, birthday).
 choice(9, zonkyanfei).
+choice(10, meteor).
+choice(11, pass).
+choice(12, paimon).
 
 /* Ini fungsi yang di call saat di petak chancecard */
 drawchancecard(P) :-
     randomize,
     get_seed(M),
-    N is M mod 10,
+    N is M mod 13,
     choice(N, Card),
     chancecard(Card, P).
 
@@ -27,6 +31,10 @@ chancecard(backthreestep, Player) :- mundurTigaLangkah(Player).
 chancecard(threestep, Player) :- majuTigaLangkah(Player).
 chancecard(birthday, Player) :- ulangTahun(Player).
 chancecard(zonkyanfei, Player) :- kartuyanfei(Player).
+chancecard(meteor, _) :- meteorZhongli.
+chancecard(pass, Player) :- passgo(Player).
+chancecard(paimon, Player) :- kartupaimon(Player).
+chancecard(childe, Player) :- kartuchilde(Player).
 /*chancecard(angel, Player) :- */
 
 
@@ -38,16 +46,16 @@ kartupajak(P) :-
 kartuhadiah(P) :-
     randomize,
     get_seed(M),
-    A is M mod 1000,
-    format('~nAnda diangkat menjadi anak asuh Ningguang! Uang Anda bertambah sebesar : ~w~n', [A]),
+    A is M mod 2000,
+    format('~nAnda diangkat menjadi anak asuh Ningguang! Mora Anda bertambah sebesar : ~w~n', [A]),
     addBalance(P, A).
 
 kartuzonk(P) :-
     randomize,
     get_seed(M),
-    A is M mod 1000,
+    A is M mod 2000,
     B is A * (-1),
-    format('~nFatui datang ke safehousemu! Kamu kehilangan uang sebesar : ~w~n', [A]),
+    format('~nFatui datang ke safehousemu! Kamu kehilangan Mora sebesar : ~w~n', [A]),
     addBalance(P, B).
 
 getkeluarpenjara(P) :-
@@ -118,3 +126,22 @@ updateKandas(Tile, -1, Player) :-
 
 updateKandas(Tile, State, Player) :-
     tileAssetUpdater(Tile, 0, Player), !.
+
+passgo(Player) :-
+    addBalance(Player, 5000),
+    movePlayerTo(Player, go).
+
+kartupaimon(P) :-
+    randomize,
+    get_seed(M),
+    A is M mod 500,
+    B is A * (-1),
+    format('~nPaimon kabur! Dia bermain dan menghabiskan Mora Anda sebesar : ~w~n', [A]),
+    addBalance(P, B).
+
+kartuchilde(P) :-
+    randomize,
+    get_seed(M),
+    A is M mod 800,
+    format('~nAnda diajak jalan-jalan oleh Childe! Anda diberi Mora sebesar : ~w~n', [A]),
+    addBalance(P, A).
