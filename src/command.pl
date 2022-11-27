@@ -26,7 +26,7 @@ stateChanger(Player, NewState):-
 cash:-
     turn(Player, 1),
     balance(Player, Balance),
-    format('Uang: ~f', [Balance]), !.
+    format('Uang: ~d', [Balance]), !.
 
 getParam(Param, X):-
     Param == tanah, 
@@ -56,6 +56,7 @@ buy(Param):-
     playerState(Player, diceThrown),
     location(Player, Tile),
     getParam(Param, X),
+    isProperty(Tile),
     tileAsset(Tile, State, Owner),
     balance(Player, Balance),
     Owner \== Player -> (
@@ -63,11 +64,7 @@ buy(Param):-
             write('Gunakan command acquisition')
         ) ; (
             X =:= 0 -> (
-                buyTile(Player, Tile) -> (
-                    format('Anda berhasil membeli tanah ~d', [Tile])
-                ) ; (
-                    write('Uang anda tidak cukup')
-                )
+                buyTile(Player, Tile)
             ) ; (
                 X =:= 4 -> (
                     write('Anda harus mempunyai 3 bangunan terlebih dahulu')
@@ -86,6 +83,8 @@ buy(Param):-
             )
         )
     ) ; (
+        format('~d',[X]),
+        format('~d',[State]),
         X =< State -> (
             write('Anda sudah memiliki tile ataupun bangunan dengan jumlah tersebut')
         ) ; (
