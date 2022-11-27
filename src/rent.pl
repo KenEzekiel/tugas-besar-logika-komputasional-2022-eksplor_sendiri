@@ -78,7 +78,7 @@ lanjut :-
     repeat,
     write('Daftar propertimu:'), nl,
     tileInventory(Player, Inventory),
-    displayAssets(Inventory, 1),
+    displayAssets(Inventory, 0),
     read(No),
     sellTileByIndex(No, Player),
     balance(Player, Balance),

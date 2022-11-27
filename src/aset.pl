@@ -266,5 +266,5 @@ sellTileByIndex(Index, Player) :- % Jual keseluruhan asset beserta bangunannya
     SellValue is 0.8*Value,
     deleteAt(Inventory, Index, NewInventory),
     tileInventoryUpdater(Player, NewInventory),
-    tileAssetUpdater(Tile, -2), % update jadi tidak bertuan
+    tileAssetUpdater(Tile, -2, none), % update jadi tidak bertuan
     addBalance(Player, SellValue).
