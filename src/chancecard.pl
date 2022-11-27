@@ -12,12 +12,14 @@ choice(10, meteor).
 choice(11, pass).
 choice(12, paimon).
 choice(13, brokenteleport).
+choice(14, teleportcard).
+choice(15, sedekahcard).
 
 /* Ini fungsi yang di call saat di petak chancecard */
 drawchancecard(P) :-
     randomize,
     get_seed(M),
-    N is M mod 14,
+    N is M mod 16,
     choice(N, Card),
     chancecard(Card, P).
 
@@ -37,6 +39,8 @@ chancecard(pass, Player) :- passgo(Player).
 chancecard(paimon, Player) :- kartupaimon(Player).
 chancecard(childe, Player) :- kartuchilde(Player).
 chancecard(brokenteleport, Player) :- brokenteleport(Player).
+chancecard(teleportcard, Player) :- teleport(Player).
+chancecard(sedekahcard, Player) :- sedekah(Player). 
 /*chancecard(angel, Player) :- */
 
 
@@ -169,3 +173,20 @@ teleport(P) :-
     format('~nWhoosh! Anda diteleport ke tile ~w~n', [Tile]),
     write('\nNote : teleport tidak mendapatkan Mora! Jika indeks lebih dari panjang board, akan di mod dengan panjang board! \n'),
     movePlayerTo(P, Tile).
+
+sedekah(P) :-
+    balanceMin(PMin),
+    PMin == P,
+    write('\nAnda diminta bersedekah oleh Barbara, tapi Anda yang termiskin, jadi Barbara kasihan dan memberimu sedekah 500 Mora\n'),
+    addBalance(P, 500), !.
+
+sedekah(P) :-
+    balanceMin(PMin),
+    format('~nAnda diminta bersedekah oleh Barbara, Anda bersedekah ke player ~w sebesar 500~n', [PMin]),
+    addBalance(PMin, 500),
+    addBalance(P, -500), !.
+
+
+balanceMin(PlayerMin) :-
+  balance(PlayerMin, Bal),
+  \+ (balance(Other, BalO), Other \= PlayerMin, Bal > BalO), !.
