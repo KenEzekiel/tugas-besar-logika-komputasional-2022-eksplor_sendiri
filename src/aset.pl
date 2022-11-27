@@ -144,17 +144,20 @@ buyTile(P, Tile):-
             ) ; (
                 balance(P, Bal),
                 tileAsset(Tile, TileAsset, _),
-                propertyPrices(Tile, Prices),
-                TA2 is TileAsset + 1,
-                getElmt(Prices, TA2, Price),
-                Bal >= Price -> (
-                    subtractBalance(P, Price),
-                    inventoryAppender(P, Tile),
-                    tileAssetUpdater(Tile, 0, P),
-                     write('Berhasil membeli tile')
+                TileAsset =:= -2 -> (
+                    propertyPrices(Tile, Prices),
+                    getElmt(Prices, 0, Price),
+                    Bal >= Price -> (
+                        subtractBalance(P, Price),
+                        inventoryAppender(P, Tile),
+                        tileAssetUpdater(Tile, 0, P),
+                        write('Berhasil membeli tile')
+                    ) ; (
+                        write('Mora anda tidak cukup dasar miskin!')
+                    )
                 ) ; (
-                    write('Mora anda tidak cukup dasar miskin!')
-                ).
+                    write('Bukan tanah tak bertuan!')
+                )
             )
         ) ; (
             write('Bukan giliran anda!'), !
@@ -167,12 +170,11 @@ buyAset(P, Tile, r):-
     TileAsset < 3, TileAsset >= 0 -> 
         propertyPrices(Tile, Prices),
         balance(P, Bal),
-        TA2 is TileAsset + 1,
+        TA2 = TileAsset + 1,
         getElmt(Prices, TA2, Price),
         Bal >= Price -> (
             subtractBalance(P, Price),
-            NTA is TileAsset + 1,
-            tileAssetUpdater(Tile, NTA, P),
+            tileAssetUpdater(Tile, TA2, P),
             write('Landmark berhasil dibeli')
         ) ; (
             write('Mora anda tidak cukup dasar miskin!'))
@@ -188,12 +190,11 @@ buyAset(P, Tile, l):-
             balance(P, Bal),
             tileAsset(Tile, TileAsset, P),
             propertyPrices(Tile, Prices),
-            TA2 is TileAsset + 1,
+            TA2 = TileAsset + 1,
             getElmt(Prices, TA2, Price),
             Bal >= Price -> (
                 subtractBalance(P, Price),
-                NTA is TileAsset + 1,
-                tileAssetUpdater(Tile, NTA, P),
+                tileAssetUpdater(Tile, TA2, P),
                 write('Landmark berhasil dibeli')
             ) ; (
                 write('Mora anda tidak cukup dasar miskin!')
