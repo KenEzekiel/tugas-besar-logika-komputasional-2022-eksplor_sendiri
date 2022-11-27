@@ -54,52 +54,54 @@ getParam(_, _):-
 buy(Param):-
     turn(Player, 1),
     playerState(Player, diceThrown),
-    location(Player, Tile),
+    location(Player, Tile), 
     getParam(Param, X),
     isProperty(Tile),
     tileAsset(Tile, State, Owner),
-    balance(Player, Balance), !,
+    balance(Player, Balance),
+    (
     Owner \== Player -> (
         Owner \== none -> (
             write('Gunakan command acquisition')
         ) ; (
             X =:= 0 -> (
-                buyTile(Player, Tile)
+                buyTile(Player, Tile), !
             ) ; (
                 X =:= 4 -> (
-                    write('Anda harus mempunyai 3 bangunan terlebih dahulu')
+                    write('Anda harus mempunyai 3 bangunan terlebih dahulu'), !
                 ) ; (
                     propertyPrices(Tile, Prices), 
                     sumUntil(Prices, X, Sum),
                     Sum > Balance -> (
-                        write('Uang anda tidak mencukupi')
+                        write('Uang anda tidak mencukupi'), !
                     ) ; (
                         buyTile(Player, Tile),
                         repeat,
                         buyAset(Player, Tile, r),
-                        tileAsset(Tile, X, Player)
+                        tileAsset(Tile, X, Player), !
                     ) 
                 )
             )
         )
     ) ; (
-        % format('~d',[X]),
-        % format('~d',[State]),
-        X =< State -> (
-            write('Anda sudah memiliki tile ataupun bangunan dengan jumlah tersebut')
+        getParam(Param, X),
+        tileAsset(Tile, State, Owner),
+        (
+        (X =< State) -> (
+            write('Anda sudah memiliki tile ataupun bangunan dengan jumlah tersebut'), !
         ) ; (
             X =:= 4 -> (
                 State =:= 3 -> (
-                    buyAset(Player, Tile, l)
+                    buyAset(Player, Tile, l), !
                 ) ; (
-                    write('Anda harus mempunyai 3 bangunan terlebih dahulu')
+                    write('Anda harus mempunyai 3 bangunan terlebih dahulu'), !
                 )
             ) ; (
                 propertyPrices(Tile, Prices), 
                 sumUntil(Prices, X, Sum),
                 sumUntil(Prices, State, SumOwned),
                 ((Sum - SumOwned) > Balance) -> (
-                    write('Mora anda tidak mencukupi')
+                    write('Mora anda tidak mencukupi'), !
                 ) ; (
                     repeat,
                     buyAset(Player, Tile, r),
@@ -107,4 +109,6 @@ buy(Param):-
                 ) 
             )
         )
+        )
+    )
     ).

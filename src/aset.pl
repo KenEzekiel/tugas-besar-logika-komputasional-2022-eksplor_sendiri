@@ -151,7 +151,7 @@ buyTile(P, Tile):-
                         subtractBalance(P, Price),
                         inventoryAppender(P, Tile),
                         tileAssetUpdater(Tile, 0, P),
-                        write('Berhasil membeli tile')
+                        write('Berhasil membeli tile'), nl
                     ) ; (
                         write('Mora anda tidak cukup dasar miskin!')
                     )

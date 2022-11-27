@@ -16,7 +16,6 @@ payTax(Player) :-
         subtractBalance(Player, Amount)
     ) ; (
         write('Balance kamu tidak cukup, jual salah satu dari propertimu untuk membayar'), nl,
-        unresolvedBankruptcy(Player),
         repeat,
         write('Daftar propertimu:'), nl,
         tileInventory(Player, Inventory),
@@ -31,7 +30,6 @@ payTax(Player) :-
             isAbleToPayTax(Player) -> (
                 payTax(Tile, Player),
                 write('Hore, sewa sudah bisa dibayar!'), nl,
-                resolveBankruptcy(Player),
                 !
             ) ; (
                 write('Moramu masih kurang. Silakan pilih properti lain untuk dijual'), nl, fail)
