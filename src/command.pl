@@ -11,13 +11,13 @@
 % :- include('./taxes.pl').
 % :- include('./command.pl').
 
-dynamic(playerState/2).
+:- dynamic(playerState/2).
 
 
-playerState(v, diceThrown).
-playerState(w, diceThrown).
-playerState(w, jailed).
-playerState(v, jailed).
+% playerState(v, diceThrown).
+% playerState(w, diceThrown).
+% playerState(w, jailed).
+% playerState(v, jailed).
 
 stateChanger(Player, NewState):-
     retractall(turn(Player, _)),
@@ -86,18 +86,22 @@ buy(Param):-
             )
         )
     ) ; (
-        X =:= 0 -> (
-            write('Anda sudah memiliki tanah')
+        X =< State -> (
+            write('Anda sudah memiliki tile ataupun bangunan dengan jumlah tersebut')
         ) ; (
             X =:= 4 -> (
-                write('Anda harus mempunyai 3 bangunan terlebih dahulu')
+                State =:= 3 -> (
+                    buyTile(Player, Tile, l)
+                ) ; (
+                    write('Anda harus mempunyai 3 bangunan terlebih dahulu')
+                )
             ) ; (
                 propertyPrices(Tile, Prices), 
                 sumUntil(Prices, X, Sum),
-                Sum > Balance -> (
-                    write('Uang anda tidak mencukupi')
+                sumUntil(Prices, State, SumOwned),
+                ((Sum - SumOwned) > Balance) -> (
+                    write('Mora anda tidak mencukupi')
                 ) ; (
-                    buyTile(Player, Tile),
                     repeat,
                     buyAset(Player, Tile, r),
                     tileAsset(Tile, X, Player)
