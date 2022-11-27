@@ -24,8 +24,15 @@ rollDice(Res1, Res2, Double):-
 doubleAmount(v, 0).
 doubleAmount(w, 0).
 
+throwDiceCheck(P, CanThrow):-
+    turn(P, 1),
+    remainDice(P, RD),
+    (RD > 0 -> CanThrow is 1 ; write('Anda tidak punya kesempatan roll dice lagi. Segera end turn.'), CanThrow is 0).
+
 throwDice :-
-    throwDiceW(Double), !.
+    throwDiceCheck(P, 1), 
+    throwDiceW(Double),
+    (Double =:= 1 -> doNothing; decrementDice(P)), !.
 
 % Karena setelah lempar dadu pemain masih bisa jual aset, masih harus bayar sewa, dll, logika untuk pergantian turn bukan di sini, tapi di throwDice. 
 % Logika untuk masuk penjara setelah 3 kali double ada di sini
@@ -34,16 +41,16 @@ throwDiceW(Double) :-
     turn(PMoving, 1),
     write('Sekarang adalah giliran pemain '),
     write(PMoving), write('.'), nl,
-    (isPJailed(PMoving, 1) -> throwDiceJail(P) ; throwDiceFree(P)), !.
+    (isPJailed(PMoving, 1) -> throwDiceJail(P, Double) ; throwDiceFree(P, Double)), format('~d', [Double]), !.
 
-throwDiceJail(P) :-
+throwDiceJail(P, Double) :-
     incrementTurnInJail(P),
     rollDice(Res1, Res2, Double),
     turnInJail(P, TJ),
     (Double =:= 1 -> getUnjailed(P), write('Selamat, anda telah bebas dari penjara') ; (TJ =:= 3 -> write('Telah ada di penjara dalam 3 turn, anda otomatis bebas') ; write('Gagal mendapat double, masih dipenjara'))).
 
 
-throwDiceFree(P) :-
+throwDiceFree(P, Double) :-
     rollDice(Res1, Res2, Double),
     Res is Res1 + Res2,
     (Double =:= 1 -> write('Double! '), incrementDoubleAmount(P) ; true),
