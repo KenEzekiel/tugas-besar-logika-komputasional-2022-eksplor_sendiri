@@ -30,8 +30,8 @@ rollSumUpdater(P, NRS):-
 
 endTurn :-
     turn(P, 1),
-    retractall(playerState(P, _)),
     remainDice(P, 0),
+    retractall(playerState(P, _)),
     turn(v, T1),
     turn(w, T2),
     (T1 =:= 1 -> turnUpdater(v, 0), remainDiceUpdater(w, 1) ; turnUpdater(v, 1)),
