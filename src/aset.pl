@@ -64,19 +64,19 @@ inventoryDeleter(P, NewTile):-
 % Groupname adalah nama dari grup warna Tile
 colorGroupOfTile(Tile, GroupName, Res) :-
     colorGroup(GroupName, TileList),
-    isElmt(Tile, TileList, Res), !.
+    isElmt(TileList, Tile, Res), !.
 
 % TileList adalah list tile dari grup warna Tile
 tileListOfTile(Tile, TileList, Res) :-
     colorGroup(_, TileList),
-    isElmt(Tile, TileList, Res), !.
+    isElmt(TileList, Tile, Res), !.
 
 % Res adalah apakah P memiliki set komplit dari grup warna Tile
 completeSet(P, Tile, Res):-
     colorGroupOfTile(Tile, GroupName, 1),
     colorGroup(GroupName, TileList),
     tileInventory(P, Inventory),
-    (\+ (isElmt(Tile_C, TileList, 1), isElmt(Tile_C, Inventory, 0)) -> Res is 1; Res is 0).
+    (\+ (isElmt(TileList, Tile_C, 1), isElmt(Inventory, Tile_C, 0)) -> Res is 1; Res is 0).
 
 % Menghasilkan status aset yang sesuai
 assetStatusWriter(PropStat) :-
