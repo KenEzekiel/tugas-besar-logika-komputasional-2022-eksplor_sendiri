@@ -46,12 +46,12 @@ payRent(Tile, Payer) :- % pastikan player bisa bayar rent. Periksa dengan relasi
         cashableWorth(Payer, Worth),
         balance(Payer, Balance),
         (Worth >= Rent) -> (
-            write('Wah, uangmu kurang! Apakah kamu ingin tetap melanjutkan permainan?'), nl,
+            write('Wah, moramu kurang! Apakah kamu ingin tetap melanjutkan permainan?'), nl,
             format('Uangmu ~d dan biaya sewa ~d', [Balance, Rent]), nl,
             declarePendingBankruptcy(Payer)
         ) ; (
             declarePermanentBankruptcy(Payer),
-            write('Sayang sekali, uangmu sudah tidak cukup. Selamat tinggal :)'), nl
+            write('Sayang sekali, moramu sudah tidak cukup. Selamat tinggal :)'), nl
         )
     ).
 
@@ -83,7 +83,7 @@ lanjut :-
     balance(Player, Balance),
     location(Player, Tile),
     rentAmount(Tile, _, Rent),
-    format('Uangmu sekarang ~d dan biaya sewa ~d', [Balance, Rent]), nl,
+    format('Moramu sekarang ~d dan biaya sewa ~d', [Balance, Rent]), nl,
     (
         isAbleToPayRent(Player) -> (
             payRent(Tile, Player),
@@ -91,5 +91,5 @@ lanjut :-
             resolveBankruptcy(Player),
             !
         ) ; (
-            write('Uang masih kurang. Silakan pilih properti lain untuk dijual'), nl, fail)
+            write('Mora masih kurang. Silakan pilih properti lain untuk dijual'), nl, fail)
     ).
