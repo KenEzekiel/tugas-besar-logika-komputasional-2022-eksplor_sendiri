@@ -34,7 +34,7 @@ throwDice :-
     throwDiceW(Double),
     (Double =:= 1 -> doNothing; decrementDice(P)),
     location(P, Pos),
-    ((Pos =:= tx1 ; Pos =:= tx2) -> payTax(P) ; ((Pos \== jl, Pos \== go, Pos \== wt, Pos \== fp) -> payRent(P, Pos) ; doNothing))!.
+    ((Pos =:= tx1 ; Pos =:= tx2) -> payTax(P) ; ((Pos \== jl, Pos \== go, Pos \== wt, Pos \== fp) -> payRent(P, Pos) ; doNothing)), !.
 
 % Karena setelah lempar dadu pemain masih bisa jual aset, masih harus bayar sewa, dll, logika untuk pergantian turn bukan di sini, tapi di throwDice. 
 % Logika untuk masuk penjara setelah 3 kali double ada di sini
