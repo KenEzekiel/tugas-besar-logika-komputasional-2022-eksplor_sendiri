@@ -3,35 +3,35 @@
 
 
 tileInventory(v, []).
-tileInventory(w, [h1, h2]).
+tileInventory(w, []).
 % Status aset di tiap tile
 % -2 : tile tidak bertuan
 % -1 : tile sedang di-mortgage
 % 0 : tile tidak ada properti apapun tapi ada yang punya
 % 1-3 : tile punya bangunan sejumlah itu
 % 4 : tile punya landmark
-tileAsset(a1,0, v).
+tileAsset(a1,-2, none).
 tileAsset(a2,-2, none).
 tileAsset(a3,-2, none).
-tileAsset(b1, 3, v).
+tileAsset(b1,-2, none).
 tileAsset(b2,-2, none).
 tileAsset(b3,-2, none).
 tileAsset(c1,-2, none).
 tileAsset(c2,-2, none).
 tileAsset(c3,-2, none).
-tileAsset(d1,-1, v).
-tileAsset(d2,0, w).
+tileAsset(d1,-2, none).
+tileAsset(d2,-2, none).
 tileAsset(d3,-2, none).
 tileAsset(e1,-2, none).
 tileAsset(e2,-2, none).
 tileAsset(e3,-2, none).
-tileAsset(f1, 1, w).
+tileAsset(f1,-2, none).
 tileAsset(f2,-2, none).
 tileAsset(f3,-2, none).
 tileAsset(g1,-2, none).
 tileAsset(g2,-2, none).
 tileAsset(g3,-2, none).
-tileAsset(h1, 4, w).
+tileAsset(h1,-2, none).
 tileAsset(h2,-2, none).
 
 colorGroup(brown, [a1, a2, a3]).
