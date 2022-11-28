@@ -76,7 +76,7 @@ choice(49, sedekahcard).
 drawchancecard(P) :-
     randomize,
     get_seed(M),
-    N is M mod 17,
+    N is M mod 50,
     choice(N, Card),
     chancecard(Card, P).
 
