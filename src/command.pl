@@ -57,6 +57,15 @@ setGameOver(Loser) :-
   format('Player ~w wins. Player ~w loses.', [Winner, Loser]), nl,
   write('This realm is no home for a princess...'),nl.
 
+help:-
+    write('start          - Memulai program dan melakukan inisialisasi awal\n'),
+    write('buy(Parameter) - Melakukan aksi sesuai parameter\n'),
+    write('                 tanah     = membeli tanah pada tile yang belum memiliki tuan\n'),
+    write('                 bangunanK = membeli bangunan pada tile hingga banyak bangunan sama dengan K\n'),
+    write('                             contoh parameter valid ("bangunan1", "bangunan2", "bangunan3")\n'),
+    write('                 landmark  = membeli landmark pada tile yang sudah memiliki 3 bangunan\n'),
+    write('worldTour      - Pindah ke tile manapun yang diinginkan, hanya bisa dilakukan pada tile WorldTour ketika belum \n').
+
 helpReadOnly :-
   isPlaying(1),
   write('map\t\t\t\t - Menampilkan papan permainan.'), nl,
