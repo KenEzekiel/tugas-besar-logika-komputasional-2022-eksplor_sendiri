@@ -36,6 +36,7 @@ throwDiceCheck(P, CanThrow):-
     (RD > 0 -> CanThrow is 1 ; write('Anda tidak punya kesempatan roll dice lagi. Segera end turn.'), CanThrow is 0).
 
 throwDice :- !,
+    isPlaying(1),
     throwDiceCheck(P, 1),
     board(Board),
     location(P, PosI),

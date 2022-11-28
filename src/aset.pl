@@ -51,6 +51,17 @@ tileInventoryUpdater(P, NewInventory):-
     retractall(tileInventory(P, _)),
     asserta(tileInventory(P, NewInventory)).
 
+initTileAsset([]) :- !.
+initTileAsset([H|T]) :-
+    tileAssetUpdater(H, -2, none),
+    initTileAsset(T).
+
+initAsset :-
+    boardAsset(BoardAsset),
+    initTileAsset(BoardAsset),
+    tileInventoryUpdater(v, []),
+    tileInventoryUpdater(w, []).
+
 inventoryAppender(P, NewTile):-
     tileInventory(P, Inventory),
     insertElmtLast(Inventory, NewTile, NewInventory),

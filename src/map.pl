@@ -212,10 +212,12 @@ showPropertyStatus(Location) :-
   ) ; format('\n~w bukan merupakan properti yang valid! Silahkan masukkan properti yang tepat.\n', [Location]), fail.
 
 checkLocationDetail(Location) :- 
+  isPlaying(1),
   showLocNameNDesc(Location) -> 
   showPropertyStatus(Location) ; format('\n~w bukan merupakan lokasi yang valid! Silahkan masukkan lokasi yang tepat.\n', [Location]), fail.
 
-checkPropertyDetail(Location) :- 
+checkPropertyDetail(Location) :-
+  isPlaying(1), 
   isProperty(Location) -> 
   showLocNameNDesc(Location), 
   propertyPrices(Location, [PTanah, PBangunan1, PBangunan2, PBangunan3, PLandmark]),
@@ -261,6 +263,7 @@ writePlayerLocationUpBottom(Location, Player) :-
   write(' '), writePlayerTerm(Location, Player), write(' ').
 
 map :- 
+  isPlaying(1),
   write('           '), writePlayerLocationUpBottom(fp, v), writePlayerLocationUpBottom(e1, v), writePlayerLocationUpBottom(e2, v), 
   writePlayerLocationUpBottom(e3, v), writePlayerLocationUpBottom(cc2, v), writePlayerLocationUpBottom(f1, v), 
   writePlayerLocationUpBottom(f2, v), writePlayerLocationUpBottom(f3, v), writePlayerLocationUpBottom(wt, v), nl,
