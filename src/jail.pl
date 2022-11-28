@@ -29,6 +29,7 @@ getUnjailed(P) :-
     retractall(playerState(P, _)).
 
 getJailed(P) :- 
+    remainDiceUpdater(P, 0),
     movePlayerTo(P, jl),
     stateChanger(P, jailed),
     jailUpdater(P, 1), !.

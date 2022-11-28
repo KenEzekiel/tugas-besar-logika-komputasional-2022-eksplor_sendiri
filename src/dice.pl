@@ -64,10 +64,12 @@ throwDice :- !,
         )
     )
     ),
-    ((IIn =< IA, isPJailed(P, 0)) -> (
-        doNothing
-    ) ; (
-        addBalance(P, 4000)
+    ((IIn >= IA, isPJailed(P, 0)) -> (
+        addBalance(P, 4000),
+        nl,
+        write('Anda telah melewati go sehingga 4000 Mora telah diberikan')
+        ) ; (
+            doNothing
     )),
     !.
 
@@ -88,16 +90,45 @@ throwDiceJail(P, Double) :-
     turnInJail(P, TJ),
     Res is Res1 + Res2,
     incrementRollSum(P, Res),
-    (Double =:= 1 -> getUnjailed(P), write('Selamat, anda telah bebas dari penjara') ; (TJ =:= 3 -> write('Telah ada di penjara dalam 3 turn, anda otomatis bebas') ; write('Gagal mendapat double, masih dipenjara'))).
+    remainDiceUpdater(P, 0),
+    (Double =:= 1 -> (
+        getUnjailed(P), 
+        write('Selamat, anda telah bebas dari penjara'),
+        movePlayerStep(P, Res)
+        ) ; (
+            TJ =:= 3 -> (
+                write('Telah ada di penjara dalam 3 turn, anda otomatis bebas'),
+                movePlayerStep(P, Res)
+            ) ; (
+                write('Gagal mendapat double, masih dipenjara')
+            )
+        )
+    ).
 
 
 throwDiceFree(P, Double) :-
     rollDices(Res1, Res2, Double),
     Res is Res1 + Res2,
     incrementRollSum(P, Res),
-    (Double =:= 1 -> write('Double! '), incrementDoubleAmount(P) ; true),
-    (doubleAmount(P, 3) -> (getJailed(P), resetDoubleAmount(P)), write('Anda masuk penjara karena mendapat Double 3 kali berturut-turut') ; (
-    write('Anda maju sebanyak '), write(Res), write(' langkah.'), nl, movePlayerStep(P, Res))), !.
+    (Double =:= 1 -> (
+        write('Double! '), 
+        incrementDoubleAmount(P)
+        ) ; (
+            doNothing
+        )
+    ),
+    (doubleAmount(P, 3) -> (
+        getJailed(P), 
+        resetDoubleAmount(P), 
+        write('Anda masuk penjara karena mendapat Double 3 kali berturut-turut')
+    ) ; (
+        write('Anda maju sebanyak '),
+        write(Res),
+        write(' langkah.'),
+        nl, 
+        movePlayerStep(P, Res)
+    )
+    ), !.
     
 
 

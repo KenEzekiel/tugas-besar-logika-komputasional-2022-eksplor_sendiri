@@ -31,6 +31,7 @@ rollSumUpdater(P, NRS):-
 endTurn :-
     turn(P, 1), !,
     remainDice(P, 0),
+    resetDoubleAmount(P),
     retractall(playerState(P, _)),
     turn(v, T1),
     turn(w, T2),
@@ -41,8 +42,13 @@ endTurn :-
 
 decrementDice(P) :-
     remainDice(P, RD),
-    NRD is RD - 1,
-    remainDiceUpdater(P, NRD).
+    (RD =:= 0 -> (
+        doNothing
+    ) ; (
+        NRD is RD - 1,
+        remainDiceUpdater(P, NRD)
+    )
+    ), !.
 
 incrementDice(P):-
     remainDice(P, RD),
