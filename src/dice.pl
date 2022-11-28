@@ -64,12 +64,11 @@ throwDice :- !,
         )
     )
     ),
-    (IIn =< IA -> (
+    ((IIn =< IA, isPJailed(P, 0)) -> (
         doNothing
     ) ; (
         addBalance(P, 4000)
-    )
-    ),
+    )),
     !.
 
 % Karena setelah lempar dadu pemain masih bisa jual aset, masih harus bayar sewa, dll, logika untuk pergantian turn bukan di sini, tapi di throwDice. 
