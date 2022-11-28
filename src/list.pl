@@ -18,10 +18,9 @@ deleteElmt(ListAwal, Elmt, ListAkhir) :-
     deleteAt(ListAwal, Idx, ListAkhir).
 
 isElmt([X | _], X, 1).
-isElmt([_], _, 0).
 isElmt([_ | T], Elmt, Answer) :-
     isElmt(T, Elmt, A),
-    Answer is 0 + A.
+    Answer is A.
 
 setElmt([], _, _, _) :- fail.
 setElmt(_, I, _, _) :- I < 0, fail.
