@@ -36,7 +36,10 @@ throwDiceCheck(P, CanThrow):-
     (RD > 0 -> CanThrow is 1 ; write('Anda tidak punya kesempatan roll dice lagi. Segera end turn.'), CanThrow is 0).
 
 throwDice :- !,
-    throwDiceCheck(P, 1), 
+    throwDiceCheck(P, 1),
+    board(Board),
+    location(P, PosI),
+    indexOf(Board, PosI, IIn),
     throwDiceW(Double),
     (
         Double =:= 1 -> (
@@ -45,6 +48,7 @@ throwDice :- !,
         )
     ),
     location(P, Pos),
+    indexOf(Board, Pos, IA),
     (
     (Pos == tx1 ; Pos == tx2) -> (
         payTax(P)
@@ -58,6 +62,12 @@ throwDice :- !,
                     doNothing
                 )
         )
+    )
+    ),
+    (IIn =< IA -> (
+        doNothing
+    ) ; (
+        addBalance(P, 4000)
     )
     ),
     !.
