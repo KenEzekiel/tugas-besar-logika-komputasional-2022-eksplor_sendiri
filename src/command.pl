@@ -95,7 +95,7 @@ getParam(_, _):-
 buy(_) :- isPlaying(0), !, fail.
 
 buy(Param):-
-    \+ getParam(Param, _), !, write('Pastikan parameter dari buy merupakan salah satu dari/n"tanah", "bangunan1", "bangunan2", "bangunan3", atau "landmark".'), fail.
+    \+ getParam(Param, _), !, write('Pastikan parameter dari buy merupakan salah satu dari "tanah", "bangunan1", "bangunan2", "bangunan3", atau "landmark".'), fail.
 
 buy(_):-
     turn(Player, 1),
