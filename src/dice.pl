@@ -58,7 +58,7 @@ throwDice :- !,
     ((IIn >= IA, isPJailed(P, 0)) -> (
         addBalance(P, 4000),
         nl,
-        write('Anda telah melewati go sehingga 4000 Mora telah diberikan')
+        write('Anda telah melewati go sehingga 4000 Mora telah diberikan'), nl
         ) ; (
             doNothing
     )),
