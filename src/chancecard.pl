@@ -99,7 +99,7 @@ chancecard(brokenteleport, Player) :- brokenteleport(Player).
 chancecard(teleportcard, Player) :- teleport(Player).
 chancecard(sedekahcard, Player) :- sedekah(Player). 
 chancecard(bribezhonglicard, Player) :- getbribeZhongli(Player).
-chancecard(minigamecard, Player) :- minigame.
+chancecard(minigamecard, _) :- minigame.
 
 
 kartupajak(P) :-
@@ -113,17 +113,18 @@ kartuhadiah(P) :-
     randomize,
     get_seed(M),
     A is M mod 2000,
-    format('~nAnda diangkat menjadi anak asuh Ningguang! Mora Anda bertambah sebesar : ~w~n', [A]),
-    addBalance(P, A).
+    B is A * 5,
+    format('~nAnda diangkat menjadi anak asuh Ningguang! Mora Anda bertambah sebesar : ~w~n', [B]),
+    addBalance(P, B).
 
 kartuzonk(P) :-
     write('\nAnda mendapatkan kartu zonk!\n'),
     randomize,
     get_seed(M),
     A is M mod 2000,
-    B is A * (-1),
-    format('~nFatui datang ke safehousemu! Kamu kehilangan Mora sebesar : ~w~n', [A]),
-    addBalance(P, B).
+    C is A * 2,
+    format('~nFatui datang ke safehousemu! Kamu kehilangan Mora sebesar : ~w~n', [C]),
+    subtractBalance(P, C).
 
 getkeluarpenjara(P) :-
     write('\nAnda mendapatkan kartu keluar penjara!\n'),
@@ -155,12 +156,48 @@ pergikepenjara(P) :-
 mundurTigaLangkah(P) :-
     write('\nAnda mendapatkan kartu mundur tiga langkah!\n'),
     write('\nKamu kejatuhan tombak Xiao! Mundur 3 langkah, 1 2 3, DOR!\n'),
-    movePlayerStep(P, -3).
+    movePlayerStep(P, -3),
+    board(Board),
+    location(P, Pos),
+    indexOf(Board, Pos, IA),
+    (
+    (Pos == tx1 ; Pos == tx2) -> (
+        payTax(P)
+    ) ; (
+        (Pos == cc1 ; Pos == cc2 ; Pos == cc3) -> (
+            drawchancecard(P) 
+        ) ; (
+            (Pos \== jl, Pos \== go, Pos \== wt, Pos \== fp) -> (
+                payRent(Pos, P)
+                ) ; (
+                    doNothing
+                )
+        )
+    )
+    ).
 
 majuTigaLangkah(P) :-
     write('\nAnda mendapatkan kartu maju tiga langkah!\n'),
     write('\nKamu didorong ushi, maju 3 langkah\n'),
-    movePlayerStep(P, 3).
+    movePlayerStep(P, 3),
+    board(Board),
+    location(P, Pos),
+    indexOf(Board, Pos, IA),
+    (
+    (Pos == tx1 ; Pos == tx2) -> (
+        payTax(P)
+    ) ; (
+        (Pos == cc1 ; Pos == cc2 ; Pos == cc3) -> (
+            drawchancecard(P) 
+        ) ; (
+            (Pos \== jl, Pos \== go, Pos \== wt, Pos \== fp) -> (
+                payRent(Pos, P)
+                ) ; (
+                    doNothing
+                )
+        )
+    )
+    ).
 
 ulangTahun(P) :-
     write('\nAnda mendapatkan kartu ulang tahun!\n'),
@@ -245,8 +282,25 @@ teleport(P) :-
     Idx is Index mod Length,
     getElmt(Board, Idx, Tile),
     format('~nWhoosh! Anda diteleport ke tile ~w~n', [Tile]),
-    write('\nNote : teleport tidak mendapatkan Mora! Jika indeks lebih dari panjang board, akan di mod dengan panjang board! \n'),
-    movePlayerTo(P, Tile).
+    write('\nNote : teleport tidak mendapatkan Mora! \nJika indeks lebih dari panjang board, akan di mod dengan panjang board! \n'),
+    movePlayerTo(P, Tile),
+    location(P, Pos),
+    indexOf(Board, Pos, IA),
+    (
+    (Pos == tx1 ; Pos == tx2) -> (
+        payTax(P)
+    ) ; (
+        (Pos == cc1 ; Pos == cc2 ; Pos == cc3) -> (
+            doNothing 
+        ) ; (
+            (Pos \== jl, Pos \== go, Pos \== wt, Pos \== fp) -> (
+                payRent(Pos, P)
+                ) ; (
+                    doNothing
+                )
+        )
+    )
+    ).
 
 sedekah(P) :-
     write('\nAnda mendapatkan kartu sedekah!\n'),
