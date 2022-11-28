@@ -49,6 +49,13 @@ throwDice :- !,
     ),
     location(P, Pos),
     indexOf(Board, Pos, IA),
+    ((IIn >= IA, isPJailed(P, 0)) -> (
+        addBalance(P, 4000),
+        nl,
+        write('Anda telah melewati go sehingga 4000 Mora telah diberikan')
+        ) ; (
+            doNothing
+    )),
     (
     (Pos == tx1 ; Pos == tx2) -> (
         payTax(P)
@@ -64,13 +71,6 @@ throwDice :- !,
         )
     )
     ),
-    ((IIn >= IA, isPJailed(P, 0)) -> (
-        addBalance(P, 4000),
-        nl,
-        write('Anda telah melewati go sehingga 4000 Mora telah diberikan')
-        ) ; (
-            doNothing
-    )),
     !.
 
 % Karena setelah lempar dadu pemain masih bisa jual aset, masih harus bayar sewa, dll, logika untuk pergantian turn bukan di sini, tapi di throwDice. 
