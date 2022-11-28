@@ -42,4 +42,4 @@ isSublist([H|T], ParentTile, Res) :-
         Res is 0
     ).
 
-isSublist([], ParentTile, 1).
+isSublist([], _, 1).

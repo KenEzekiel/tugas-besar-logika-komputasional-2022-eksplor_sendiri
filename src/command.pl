@@ -88,13 +88,13 @@ getParam(_, _):-
 buy(_) :- isPlaying(0), !, fail.
 
 buy(Param):-
-    \+ getParam(Param, X), !, write('Pastikan parameter dari buy merupakan salah satu dari "tanah", "bangunan1", "bangunan2", "bangunan3", atau "landmark".'), fail.
+    \+ getParam(Param, _), !, write('Pastikan parameter dari buy merupakan salah satu dari "tanah", "bangunan1", "bangunan2", "bangunan3", atau "landmark".'), fail.
 
-buy(Param):-
+buy(_):-
     turn(Player, 1),
     \+ playerState(Player, diceThrown), !, write('Lempar dadu terlebih dahulu'), fail.
 
-buy(Param):-
+buy(_):-
     turn(Player, 1),
     location(Player, Tile),
     \+ isProperty(Tile), !, write('Pastikan berada di tile properti untuk membeli'), fail.

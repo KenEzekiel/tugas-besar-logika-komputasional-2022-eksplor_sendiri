@@ -28,7 +28,6 @@ payTax(Player) :-
         Index is Nomor - 1, 
         sellTileByIndex(Index, Player),
         balance(Player, Balance),
-        location(Player, Tile),
         format('Moramu sekarang ~d dan besar pajak ~d', [Balance, Amount]), nl,
         (
             isAbleToPayTax(Player) -> (

@@ -139,13 +139,12 @@ xiaoHelp :-
     Ans =:= 1, !,
     usekeluarpenjara(P, Inventory).
 
-usekeluarpenjara(P, CardInventory) :-
+usekeluarpenjara(P, _) :-
     isPJailed(P, X), 
     X =:= 1, !,
     deleteFromInventory(P, getout),
     getUnjailed(P),
-    write('\nKamu memanggil Xiao! Kamu dapat keluar dari penjara.\n'),
-    CardInventory = A.
+    write('\nKamu memanggil Xiao! Kamu dapat keluar dari penjara.\n').
 
 pergikepenjara(P) :-
     write('\nAnda mendapatkan kartu masuk penjara!\n'),
@@ -157,9 +156,7 @@ mundurTigaLangkah(P) :-
     write('\nAnda mendapatkan kartu mundur tiga langkah!\n'),
     write('\nKamu kejatuhan tombak Xiao! Mundur 3 langkah, 1 2 3, DOR!\n'),
     movePlayerStep(P, -3),
-    board(Board),
     location(P, Pos),
-    indexOf(Board, Pos, IA),
     (
     (Pos == tx1 ; Pos == tx2) -> (
         payTax(P)
@@ -180,9 +177,7 @@ majuTigaLangkah(P) :-
     write('\nAnda mendapatkan kartu maju tiga langkah!\n'),
     write('\nKamu didorong ushi, maju 3 langkah\n'),
     movePlayerStep(P, 3),
-    board(Board),
     location(P, Pos),
-    indexOf(Board, Pos, IA),
     (
     (Pos == tx1 ; Pos == tx2) -> (
         payTax(P)
@@ -237,7 +232,7 @@ updateKandas(Tile, -2, Player) :-
 updateKandas(Tile, -1, Player) :-
     tileAssetUpdater(Tile, -1, Player), !.
 
-updateKandas(Tile, State, Player) :-
+updateKandas(Tile, _, Player) :-
     tileAssetUpdater(Tile, 0, Player), !.
 
 passgo(Player) :-
@@ -285,7 +280,6 @@ teleport(P) :-
     write('\nNote : teleport tidak mendapatkan Mora! \nJika indeks lebih dari panjang board, akan di mod dengan panjang board! \n'),
     movePlayerTo(P, Tile),
     location(P, Pos),
-    indexOf(Board, Pos, IA),
     (
     (Pos == tx1 ; Pos == tx2) -> (
         payTax(P)
@@ -332,7 +326,7 @@ suapZhongli :-
     cardInventory(P, Inventory),
     isElmt(Inventory, bribezhonglicard, Ans),
     Ans =:= 1, !,
-    deleteFromInventory(Player, bribezhonglicard),
+    deleteFromInventory(P, bribezhonglicard),
     balance(P, Bal),
     Bal >= 7000, !,
     write('\nKamu membayar 7000 Mora\n'),
@@ -344,7 +338,8 @@ suapZhongli :-
     Idx is Index mod Length,
     getElmt(Board, Idx, Tile),
     format('~nTile ~w terkena meteor zhongli! semua bangunan di tile tersebut kandas :(~n', [Tile]),
-    updateKandas(Tile, State, Player).
+    tileAsset(Tile, State, P),
+    updateKandas(Tile, State, P).
 
 minigame :-
     write('\nAnda mendapatkan kartu minigame!\n'),

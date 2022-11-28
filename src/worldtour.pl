@@ -2,7 +2,7 @@ worldTour :- isPlaying(0), !, fail.
 
 worldTour:-
     turn(Player, 1),
-    playerState(Player, DiceThrown), !,
+    playerState(Player, diceThrown), !,
     write('Maaf kamu hanya bisa menaiki Stormterror digiliran selanjutnya'), fail.
 
 worldTour:-
@@ -61,7 +61,7 @@ worldTourTravel(Pos):-
     turn(Player, 1),
     board(Board),
     movePlayerTo(Player, Pos),
-    indexOf(Board, Input, IA),
+    indexOf(Board, Pos, IA),
     ((24 > IA) -> (
         addBalance(Player, 4000),
         nl,
