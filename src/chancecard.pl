@@ -85,7 +85,7 @@ drawchancecard(P) :-
 chancecard(tax, Player) :- kartupajak(Player).
 chancecard(prize, Player) :- kartuhadiah(Player).
 chancecard(zonk, Player) :- kartuzonk(Player).
-chancecard(getout, Player) :- getkeluarpenjara(Player, _CardInventory).
+chancecard(getout, Player) :- getkeluarpenjara(Player).
 chancecard(gotojail, Player) :- pergikepenjara(Player).
 chancecard(backthreestep, Player) :- mundurTigaLangkah(Player).
 chancecard(threestep, Player) :- majuTigaLangkah(Player).
