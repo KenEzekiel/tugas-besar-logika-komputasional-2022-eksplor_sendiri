@@ -31,9 +31,14 @@ doubleAmount(w, 0).
 
 throwDiceCheck(P, CanThrow):-
     isMinigame(0),
-    turn(P, 1),
-    remainDice(P, RD),
-    (RD > 0 -> CanThrow is 1 ; write('Anda tidak punya kesempatan roll dice lagi. Segera end turn.'), CanThrow is 0).
+    unresolvedBankruptcy(P) -> (
+        write('Lunasin tuh hutang dulu baru lempar dadu!'),
+        CanThrow is 0
+    ) ; (
+        turn(P, 1),
+        remainDice(P, RD),
+        (RD > 0 -> CanThrow is 1 ; write('Anda tidak punya kesempatan roll dice lagi. Segera end turn.'), CanThrow is 0)
+    ).
 
 throwDice :- !,
     isPlaying(1),

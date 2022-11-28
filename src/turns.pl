@@ -32,12 +32,17 @@ endTurn :-
     turn(P, 1), !,
     remainDice(P, 0),
     resetDoubleAmount(P),
-    retractall(playerState(P, _)),
-    turn(v, T1),
-    turn(w, T2),
-    (
-        (T1 =:= 1 -> (turnUpdater(v, 0), remainDiceUpdater(w, 1)) ; turnUpdater(v, 1)),
-        (T2 =:= 1 -> (turnUpdater(w, 0), remainDiceUpdater(v, 1)) ; turnUpdater(w, 1))
+    unresolvedBankruptcy(P) -> (
+        write('Lunasin tuh hutang dulu baru selesaikan giliran!'),
+        fail
+    ) ; (
+        retractall(playerState(P, _)),
+        turn(v, T1),
+        turn(w, T2),
+        (
+            (T1 =:= 1 -> (turnUpdater(v, 0), remainDiceUpdater(w, 1)) ; turnUpdater(v, 1)),
+            (T2 =:= 1 -> (turnUpdater(w, 0), remainDiceUpdater(v, 1)) ; turnUpdater(w, 1))
+        )
     ), !.
 
 decrementDice(P) :-
