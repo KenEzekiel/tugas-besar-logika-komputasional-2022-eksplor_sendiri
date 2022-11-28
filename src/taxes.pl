@@ -1,7 +1,7 @@
 % Berapa pajak yang player harus bayar
 taxAmount(Player, Amount) :-
     netWorth(Player, Net),
-    SubAmount is (Net * 0.1),
+    SubAmount is (Net * 0.05),
     Amount is round(SubAmount).
 
 % Apakah player bisa bayar pajak langsung
