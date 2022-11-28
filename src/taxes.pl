@@ -13,13 +13,14 @@ isAbleToPayTax(Player) :-
 % Command untuk player bayar pajak
 payTax(Player) :-
     taxAmount(Player, Amount),
+    format('Kamu datang ke rumah Yanfei untuk membayar pajak sebesar 10 persen dari kekayaanmu, yaitu sebesar ~d mora.', [Amount]), nl,
     (
     isAbleToPayTax(Player) -> (
         subtractBalance(Player, Amount)
     ) ; (
-        write('Balance kamu tidak cukup, jual salah satu dari propertimu untuk membayar'), nl,
+        write('Mora kamu tidak cukup, tapi kamu tetap semangat untuk membayar pajak demi kelangsungan kota Liyue.\nYanfei menawarkan untuk membeli propertimu agar kamu bisa membayar pajak.'), nl,
         repeat,
-        write('Daftar propertimu:'), nl,
+        write('Daftar propertimu yang bisa dijual ke yanfei'), nl,
         tileInventory(Player, Inventory),
         displayAssets(Inventory, 1),
         write('Pilih nomor properti yang ingin dijual '),
@@ -31,7 +32,7 @@ payTax(Player) :-
         format('Moramu sekarang ~d dan besar pajak ~d', [Balance, Amount]), nl,
         (
             isAbleToPayTax(Player) -> (
-                payTax(Player),
+                subtractBalance(Player, Amount),
                 write('Hore, sewa sudah bisa dibayar!'), nl,
                 !
             ) ; (
@@ -39,4 +40,6 @@ payTax(Player) :-
             )
         )
     )
-    ).
+    ),
+    write('Yanfei sudah menerima moramu dengan senang hati, sisa uangmu adalah:'), nl,
+    mora.
