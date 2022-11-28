@@ -3,11 +3,11 @@
 
 ## Table Of Contents
 
-* {Eksplor Sendiri Monopoly Project}(#eksplor-sendiri-monopoly-project)
-* {Getting Started}(#getting-started)
-* {Eksplor Sendiri's Member}(#eksplor-sendiri's-member)
-* {Features}(#features)
-* {Program Structure}(#program-structure)
+* [Eksplor Sendiri Monopoly Project](#eksplor-sendiri-monopoly-project)
+* [Getting Started](#getting-started)
+* [Eksplor Sendiri's Member](#eksplor-sendiri's-member)
+* [Features](#features)
+* [Program Structure](#program-structure)
 
 ## Eksplor Sendiri Monopoly Project
 
@@ -19,7 +19,7 @@ This project aims to practice what we have learn about Relational logic, and Com
 
 To run, the program, download the repository on your device, and then make sure that you have GNU Prolog installed.
 
-You can install GNU Prolog {here}(http://www.gprolog.org)
+You can install GNU Prolog [here](http://www.gprolog.org)
 
 After that, change the Directory on the GNU Prolog to the directory of the downloaded repository then /src.
 
@@ -84,5 +84,5 @@ Then, to start the game, use:
 
 ## Links
 
-* {Project Specifications}(https://docs.google.com/document/d/1sKNebzRnTQ6aTMSz2JJxV2sINXIQjQSIIDjbOFTXIX4/edit#heading=h.4cn5r0ji8c3p)
-* {GNU Prolog Website}(http://www.gprolog.org)
+* [Project Specifications](https://docs.google.com/document/d/1sKNebzRnTQ6aTMSz2JJxV2sINXIQjQSIIDjbOFTXIX4/edit#heading=h.4cn5r0ji8c3p)
+* [GNU Prolog Website](http://www.gprolog.org)
