@@ -1,6 +1,6 @@
 worldTour:-
     turn(Player, 1),
-    \+ playerState(Player, DiceThrown), !,
+    playerState(Player, DiceThrown), !,
     write('Maaf kamu hanya bisa menaiki Stormterror digiliran selanjutnya'), fail.
 
 worldTour:-
@@ -9,6 +9,7 @@ worldTour:-
     write('1. Siapa takut'), nl,
     write('2. Mora ku sedikit :<'), nl,
     repeat,
+    write('Masukkan input: '),
     read(Input),
     (
         (Input =:= 1) -> (
@@ -33,20 +34,53 @@ worldTour:-
     ).
 
 worldTourAccepted:-
-    turn(Player, 1),
     write('Pilih tile tempat Stormterror mendarat'), nl,
+    board(Board),
     repeat,
     write('Masukkan tile: '),
     read(Input),
     (
-        isElmt(board, Input, Res) -> (
-            format('Pegangan erat, kamu akan dibawa ke tile ~d', [Input]),
-            worldTourTravel(Input), !
+        (isElmt(Board, Input, 1)) -> (
+            (
+                (Input == wt) -> (
+                    write('Stormterror tidak ingin mendarat di tempat yang sama'), nl, fail
+                ) ; (
+                    format('Pegangan erat, kamu akan dibawa ke tile ~w', [Input]), nl,
+                    worldTourTravel(Input)
+                )
+            )
         ) ; (
             write('Maaf masukan tile kurang tepat'), nl,
             write('Ingat untuk menuliskan nama tile dengan lowercase'), nl, fail
         )
     ).
 
-worldTourTravel(Input):-
-    movePlayerTo(Player, Input),
+worldTourTravel(Pos):-
+    turn(Player, 1),
+    board(Board),
+    movePlayerTo(Player, Pos),
+    indexOf(Board, Input, IA),
+    ((24 > IA) -> (
+        addBalance(Player, 4000),
+        nl,
+        write('Anda telah melewati go sehingga 4000 Mora telah diberikan'), nl
+        ) ; (
+            doNothing
+    )),
+    (
+    (Pos == tx1 ; Pos == tx2) -> (
+        payTax(Player)
+    ) ; (
+        (Pos == cc1 ; Pos == cc2 ; Pos == cc3) -> (
+            drawchancecard(Player) 
+        ) ; (
+            (Pos \== jl, Pos \== go, Pos \== wt, Pos \== fp) -> (
+                payRent(Pos, Player)
+                ) ; (
+                    doNothing
+                )
+        )
+    )
+    ),
+    !.
+
