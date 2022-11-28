@@ -23,10 +23,10 @@ stateChanger(Player, NewState):-
     retractall(playerState(Player, _)),
     asserta(playerState(Player, NewState)).
 
-cash:-
+mora:-
     turn(Player, 1),
     balance(Player, Balance),
-    format('Uang: ~d', [Balance]), !.
+    format('Mora: ~d', [Balance]), !.
 
 getParam(Param, X):-
     Param == tanah, 
@@ -52,13 +52,23 @@ getParam(_, _):-
     fail.
 
 buy(Param):-
+    \+ getParam(Param, X), !, write('Pastikan parameter dari buy merupakan salah satu dari "tanah", "bangunan1", "bangunan2", "bangunan3", atau "landmark".'), fail.
+
+buy(Param):-
     turn(Player, 1),
-    playerState(Player, diceThrown),
-    location(Player, Tile), 
-    getParam(Param, X),
-    isProperty(Tile),
+    \+ playerState(Player, diceThrown), !, write('Lempar dadu terlebih dahulu'), fail.
+
+buy(Param):-
+    turn(Player, 1),
+    location(Player, Tile),
+    \+ isProperty(Tile), !, write('Pastikan berada di tile properti untuk membeli'), fail.
+
+buy(Param):-
+    turn(Player, 1),
+    location(Player, Tile),
     tileAsset(Tile, State, Owner),
     balance(Player, Balance),
+    getParam(Param, X),
     (
     Owner \== Player -> (
         Owner \== none -> (
@@ -99,7 +109,7 @@ buy(Param):-
             ) ; (
                 propertyPrices(Tile, Prices), 
                 sumUntil(Prices, X, Sum),
-                sumUntil(Prices, State, SumOwned),
+                sumUntil(Prices, State, SumOwned), !,
                 ((Sum - SumOwned) > Balance) -> (
                     write('Mora anda tidak mencukupi'), !
                 ) ; (
