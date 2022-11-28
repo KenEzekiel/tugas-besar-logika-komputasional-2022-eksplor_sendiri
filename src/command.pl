@@ -104,7 +104,13 @@ buy(_):-
 buy(_):-
     turn(Player, 1),
     location(Player, Tile),
-    \+ isProperty(Tile), !, write('Pastikan berada di tile properti untuk membeli'), fail.
+    (
+        (Tile == go) -> (
+            buyGoInit(Param)
+        ) ; (
+            \+ isProperty(Tile), !, write('Pastikan berada di tile properti atau GO untuk membangun'), fail
+        )
+    ).
 
 buy(Param):-
     turn(Player, 1),
@@ -115,7 +121,7 @@ buy(Param):-
     (
     Owner \== Player -> (
         Owner \== none -> (
-            write('Gunakan command acquisition')
+            write('Gunakan command acquisition'), !
         ) ; (
             X =:= 0 -> (
                 buyTile(Player, Tile), !
@@ -135,6 +141,64 @@ buy(Param):-
                     ) 
                 )
             )
+        )
+    ) ; (
+        getParam(Param, X),
+        tileAsset(Tile, State, Owner),
+        (
+        (X =< State) -> (
+            write('Anda sudah memiliki tile ataupun bangunan dengan jumlah tersebut'), !
+        ) ; (
+            X =:= 4 -> (
+                State =:= 3 -> (
+                    buyAset(Player, Tile, l), !
+                ) ; (
+                    write('Anda harus mempunyai 3 bangunan terlebih dahulu'), !
+                )
+            ) ; (
+                propertyPrices(Tile, Prices), 
+                sumUntil(Prices, X, Sum),
+                sumUntil(Prices, State, SumOwned), !,
+                ((Sum - SumOwned) > Balance) -> (
+                    write('Mora anda tidak mencukupi'), !
+                ) ; (
+                    repeat,
+                    buyAset(Player, Tile, r),
+                    tileAsset(Tile, X, Player)
+                ) 
+            )
+        )
+        )
+    )
+    ).
+
+buyGoInit(Param):-
+    write('Kamu bertemu Alice sang penyihir di tile GO, dan dia menawarkan kamu untuk build di tile properti yang sudah kamu punya'),
+    repeat,
+    write('Masukan tile properti yang ingin dibangun oleh Alice: '),
+    read(Tile),
+    (
+        isProperty(Tile) -> (
+            buyGo(Param, Tile)
+        ) ; (
+            write('Masukan nama tile properti yang valid'), nl,
+            write('Ingat nama tile memakai lowercase'), nl, fail
+        )
+    ).
+    
+    
+
+buyGo(Param, Tile):-
+    turn(Player, 1),
+    tileAsset(Tile, State, Owner),
+    balance(Player, Balance),
+    getParam(Param, X),
+    (
+    Owner \== Player -> (
+        Owner \== none -> (
+            write('Kamu tidak bisa mengakuisisi dari tile GO'), !
+        ) ; (
+            write('Kamu tidak bisa membeli tile dari tile GO'), !
         )
     ) ; (
         getParam(Param, X),
