@@ -14,12 +14,13 @@ choice(12, paimon).
 choice(13, brokenteleport).
 choice(14, teleportcard).
 choice(15, sedekahcard).
+choice(16, bribezhonglicard).
 
 /* Ini fungsi yang di call saat di petak chancecard */
 drawchancecard(P) :-
     randomize,
     get_seed(M),
-    N is M mod 16,
+    N is M mod 17,
     choice(N, Card),
     chancecard(Card, P).
 
@@ -41,6 +42,7 @@ chancecard(childe, Player) :- kartuchilde(Player).
 chancecard(brokenteleport, Player) :- brokenteleport(Player).
 chancecard(teleportcard, Player) :- teleport(Player).
 chancecard(sedekahcard, Player) :- sedekah(Player). 
+chancecard(bribezhonglicard, Player) :- getbribeZhongli(Player).
 /*chancecard(angel, Player) :- */
 
 
@@ -72,12 +74,14 @@ getkeluarpenjara(P) :-
 xiaoHelp :-
     turn(P, 1),
     cardInventory(P, Inventory),
+    isElmt(Inventory, getout, Ans),
+    Ans =:= 1, !,
     usekeluarpenjara(P, Inventory).
 
 usekeluarpenjara(P, CardInventory) :-
     isPJailed(P, X), 
     X =:= 1, !,
-    deleteElmt(CardInventory, getout, A),
+    deleteFromInventory(P, getout),
     getUnjailed(P),
     write('\nKamu memanggil Xiao! Kamu dapat keluar dari penjara.\n'),
     CardInventory = A.
@@ -190,3 +194,26 @@ sedekah(P) :-
 balanceMin(PlayerMin) :-
   balance(PlayerMin, Bal),
   \+ (balance(Other, BalO), Other \= PlayerMin, Bal > BalO), !.
+
+getbribeZhongli(P) :-
+    write('\nKamu mendapatkan 5 toren osmanthus wine!\nkamu bisa menggunakan ini ditambah dengan 7000 Mora untuk menyuap Zhongli mengirimkan meteor dengan command suapZhongli\n'),
+    insertToInventory(P, bribezhonglicard), !.
+
+suapZhongli :-
+    turn(P, 1),
+    cardInventory(P, Inventory),
+    isElmt(Inventory, bribezhonglicard, Ans),
+    Ans =:= 1, !,
+    deleteFromInventory(Player, bribezhonglicard),
+    balance(P, Bal),
+    Bal >= 7000, !,
+    write('\nKamu membayar 7000 Mora\n'),
+    addBalance(P, -7000),
+    write('\nMasukkan indeks kota yang ingin dijatuhi meteor (diakhiri titik) : '),
+    read(Index),
+    boardLength(Length),
+    board(Board),
+    Idx is Index mod Length,
+    getElmt(Board, Idx, Tile),
+    format('~nTile ~w terkena meteor zhongli! semua bangunan di tile tersebut kandas :(~n', [Tile]),
+    updateKandas(Tile, State, Player).

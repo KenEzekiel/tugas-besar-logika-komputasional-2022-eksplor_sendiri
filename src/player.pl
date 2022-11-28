@@ -5,7 +5,7 @@ player(w).
 :- dynamic(cardInventory/2).
 :- dynamic(balance/2).
 
-cardlist([tax, prize, zonk, getout, gotojail, backthreestep, threestep, birthday, zonkyanfei, meteor, pass, paimon, childe, brokenteleport, teleportcard, sedekahcard]).
+cardlist([tax, prize, zonk, getout, gotojail, backthreestep, threestep, birthday, zonkyanfei, meteor, pass, paimon, childe, brokenteleport, teleportcard, sedekahcard, bribezhonglicard]).
 
 location(v, go).
 location(w, go).
@@ -62,9 +62,19 @@ movePlayerStep(Player, Step) :-
 
 insertToInventory(Player, Card) :-
   isCardValid(Card, Ans),
-  Ans =:= 0,
+  Ans =:= 1,
   retract(cardInventory(Player, Inventory)),
   insertElmtLast(Inventory, Card, A),
+  asserta(cardInventory(Player, A)), !.
+
+deleteFromInventory(Player, Card) :-
+  cardInventory(Player, Inv),
+  isCardValid(Card, AnsOne),
+  AnsOne =:= 1, !,
+  isElmt(Inv, Card, AnsTwo),
+  AnsTwo =:= 1, !,
+  retract(cardInventory(Player, Inventory)),
+  deleteElmt(Inventory, Card, A),
   asserta(cardInventory(Player, A)).
 
 showInventory(Player) :-
