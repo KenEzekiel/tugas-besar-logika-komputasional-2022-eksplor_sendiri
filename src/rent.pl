@@ -46,10 +46,10 @@ payRent(Tile, Payer) :-
             format('Uangmu ~d dan biaya sewa ~d', [Balance, Rent]), nl,
             declarePendingBankruptcy(Payer)
         ) ; (
-            declarePermanentBankruptcy(Payer),
             write('Wah, moramu kurang!'), nl,
             format('Jumlah mora dari dompet dan penjualan aset ~d dan biaya sewa ~d', [Worth, Rent]), nl,
-            write('Sayang sekali, moramu sudah tidak cukup. Selamat tinggal :)'), nl
+            write('Sayang sekali, moramu sudah tidak cukup.'), nl,
+            setGameOver(Player)
         ))
     )); doNothing.
 
