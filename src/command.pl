@@ -27,7 +27,7 @@ start :-
   turnUpdater(w, 0),
   remainDiceUpdater(v, 1),
   remainDiceUpdater(w, 0),
-%   initAsset,
+  initAsset,
   retractall(playerState(_, _)),
   retractall(guessSuccess(_)),
   asserta(guessSuccess(0)),
@@ -54,8 +54,10 @@ setGameOver(Loser) :-
   write(' | | |_ |  / _` | | \'_ ` _ \\   / _ \\   | |  | | \\ \\ / /  / _ \\ | \'__|'), nl,
   write(' | |__| | | (_| | | | | | | | |  __/   | |__| |  \\ V /  |  __/ | |   '), nl,
   write('  \\_____|  \\__,_| |_| |_| |_|  \\___|    \\____/    \\_/    \\___| |_|   '), nl, nl,
-  format('Player ~w wins. Player ~w loses.', [Winner, Loser]), nl,
-  write('This realm is no home for a princess...'),nl.
+  write('This realm is no home for a princess...'),nl, nl,
+  format('Pemain ~w menang. Pemain ~w kalah.', [Winner, Loser]), nl,
+  write('Lakukan perintah start untuk memulai kembali permainan.'), nl.
+
 
 stateChanger(Player, NewState):-
     retractall(playerState(Player, _)),
