@@ -150,7 +150,7 @@ pergikepenjara(P) :-
     write('\nAnda mendapatkan kartu masuk penjara!\n'),
     write('\nANGKAT TANGAN!! Anda masuk ke penjara!\n'),
     getJailed(P),
-    endTurn(P).
+    endTurn.
 
 mundurTigaLangkah(P) :-
     write('\nAnda mendapatkan kartu mundur tiga langkah!\n'),
