@@ -46,6 +46,7 @@ setGameOver(Loser) :-
   isPlaying(1),
   player(Winner),
   Winner \== Loser,
+  !,
   retract(isPlaying(_)),
   asserta(isPlaying(0)),
   write('   _____                                 ____                        '), nl,
