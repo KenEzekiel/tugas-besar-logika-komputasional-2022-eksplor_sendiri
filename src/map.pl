@@ -200,9 +200,9 @@ showPropertyStatus(Location) :-
   (PropStat == -2 -> 
     write('Tidak ada') ; 
     format('Player ~w', [Owner]), nl,
-    propertyRent(Location, Property, RentCost),
+    propertyRent(Location, PropStat, RentCost),
     format('Biaya Sewa Saat Ini\t: ~d', [RentCost]), nl, 
-    acquisitionPrice(Location, Property, AcCost),
+    acquisitionPrice(Location, PropStat, AcCost),
     (AcCost \= -1 -> 
       format('Biaya Akuisisi\t\t: ~d', [AcCost]) ; 
       doNothing
