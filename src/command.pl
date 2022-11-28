@@ -64,6 +64,30 @@ helpReadOnly :-
   write('checkPropertyDetail(Property)\t - Menampilkan detail properti.'), nl,
   write('checkPlayerDetail(Player)\t - Menampilkan informasi player.'), nl.
 
+throwDiceOrEndTurn :-
+  turn(Player, 1),
+  remainDice(Player, X),
+  !,
+  X is 1 -> (
+    write('throwDice\t\t\t - Melakukan throw dice.'), nl
+  ) ; (
+    write('endTurn\t\t\t - Mengakhiri giliran.'), nl
+  ).
+
+helpLoc :-
+  turn(Player, 1),
+  location(Player, Loc),
+  Loc == wt,
+  throwDiceOrEndTurn,
+  !,
+  (remainDice(Player, 0) -> (
+    doNothing
+    ) ; (
+    \+ playerState(Player, diceThrown) -> (
+      write('worldTour\t\t\t - Melakukan world tour.'), nl
+    ) ; doNothing 
+    )
+  ).
 
 % playerState(v, diceThrown).
 % playerState(w, diceThrown).
