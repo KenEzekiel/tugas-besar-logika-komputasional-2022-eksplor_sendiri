@@ -81,3 +81,8 @@ Then, to start the game, use:
 └── README.md  
 
 ```
+
+## Links
+
+* {Project Specifications}(https://docs.google.com/document/d/1sKNebzRnTQ6aTMSz2JJxV2sINXIQjQSIIDjbOFTXIX4/edit#heading=h.4cn5r0ji8c3p)
+* {GNU Prolog Website}(http://www.gprolog.org)
