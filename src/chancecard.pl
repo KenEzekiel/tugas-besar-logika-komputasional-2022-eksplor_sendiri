@@ -144,7 +144,7 @@ usekeluarpenjara(P, _) :-
     X =:= 1, !,
     deleteFromInventory(P, getout),
     getUnjailed(P),
-    write('\nKamu memanggil Xiao! Kamu dapat keluar dari penjara.\n').
+    write('\nKamu memanggil Xiao! Kamu dapat keluar dari penjara.\n'), !.
 
 pergikepenjara(P) :-
     write('\nAnda mendapatkan kartu masuk penjara!\n'),
