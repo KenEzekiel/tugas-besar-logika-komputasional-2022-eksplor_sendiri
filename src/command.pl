@@ -42,8 +42,11 @@ start :-
   write('    \\_/\\_/     \\___| |_|  \\___|  \\___/  |_| |_| |_|  \\___|    \\__|  \\___/      |_|    \\___|   \\_/    \\__, |  \\__,_|  \\__|'), nl,
   write('                                                                                                     |___/               '), nl.
 
-setGameOver(Player) :- 
-  retract(isPlaying(1)),
+setGameOver(Loser) :-
+  isPlaying(1),
+  player(Winner),
+  Winner \== Loser,
+  retract(isPlaying(_)),
   asserta(isPlaying(0)),
   write('   _____                                 ____                        '), nl,
   write('  / ____|                               / __ \\                       '), nl,
@@ -51,6 +54,7 @@ setGameOver(Player) :-
   write(' | | |_ |  / _` | | \'_ ` _ \\   / _ \\   | |  | | \\ \\ / /  / _ \\ | \'__|'), nl,
   write(' | |__| | | (_| | | | | | | | |  __/   | |__| |  \\ V /  |  __/ | |   '), nl,
   write('  \\_____|  \\__,_| |_| |_| |_|  \\___|    \\____/    \\_/    \\___| |_|   '), nl, nl,
+  format('Player ~w wins. Player ~w loses.', [Winner, Loser]), nl,
   write('This realm is no home for a princess...'),nl.
 
 
