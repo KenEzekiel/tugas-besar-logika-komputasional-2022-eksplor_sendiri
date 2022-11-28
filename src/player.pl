@@ -5,7 +5,7 @@ player(w).
 :- dynamic(cardInventory/2).
 :- dynamic(balance/2).
 
-cardlist([tax, prize, zonk, getout, gotojail, backthreestep, threestep, birthday, zonkyanfei, meteor, pass, paimon, childe, brokenteleport, teleportcard, sedekahcard, bribezhonglicard]).
+cardlist([tax, prize, zonk, getout, gotojail, backthreestep, threestep, birthday, zonkyanfei, meteor, pass, paimon, childe, brokenteleport, teleportcard, sedekahcard, bribezhonglicard, minigamecard]).
 
 location(v, go).
 location(w, go).

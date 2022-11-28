@@ -1,27 +1,82 @@
-choice(0, childe).
-choice(1, tax).
-choice(2, prize).
-choice(3, zonk).
-choice(4, getout).
-choice(5, gotojail).
-choice(6, backthreestep).
-choice(7, threestep).
-choice(8, birthday).
-choice(9, zonkyanfei).
-choice(10, meteor).
-choice(11, pass).
-choice(12, paimon).
-choice(13, brokenteleport).
-choice(14, teleportcard).
-choice(15, sedekahcard).
-choice(16, bribezhonglicard).
-choice(17, minigame).
+/* Percentage chance dari chance card */
+/*
++ childe 4% (2/50)
+- tax 8% (4/50)
++ prize 8% (4/50)
+- zonk 4% (3/50)
++ getout 6% (3/50)
+- gotojail 8% (4/50)
+- backthreestep 6% (3/50)
++ threestep 6% (3/50)
++ birthday 8% (4/50)
+- zonkyanfei 6% (3/50)
+- meteor 2% (1/50)
++ pass 6% (3/50)
+- paimon 6% (3/50)
+- brokenteleport 6% (3/50)
++ teleportcard 6% (3/50)
+- sedekahcard 4% (2/50)
++ bribezhonglicard 2% (1/50)
++ minigamecard 4% (2/50)
+total - : 50%
+total + : 50%
+*/
+choice(0, bribezhonglicard).
+choice(1, childe).
+choice(2, tax).
+choice(3, tax).
+choice(4, tax).
+choice(5, tax).
+choice(6, prize).
+choice(7, prize).
+choice(8, prize).
+choice(9, prize).
+choice(10, zonk).
+choice(11, zonk).
+choice(12, zonk).
+choice(13, getout).
+choice(14, getout).
+choice(15, getout).
+choice(16, gotojail).
+choice(17, gotojail).
+choice(18, gotojail).
+choice(19, gotojail).
+choice(20, backthreestep).
+choice(21, backthreestep).
+choice(22, backthreestep).
+choice(23, threestep).
+choice(24, threestep).
+choice(25, threestep).
+choice(26, birthday).
+choice(27, birthday).
+choice(28, birthday).
+choice(29, birthday).
+choice(30, minigamecard).
+choice(31, zonkyanfei).
+choice(32, zonkyanfei).
+choice(33, zonkyanfei).
+choice(34, meteor).
+choice(35, pass).
+choice(36, pass).
+choice(37, pass).
+choice(38, minigamecard).
+choice(39, paimon).
+choice(40, paimon).
+choice(41, paimon).
+choice(42, brokenteleport).
+choice(43, brokenteleport).
+choice(44, brokenteleport).
+choice(45, teleportcard).
+choice(46, teleportcard).
+choice(47, teleportcard).
+choice(48, sedekahcard).
+choice(49, sedekahcard).
 
 /* Ini fungsi yang di call saat di petak chancecard */
 drawchancecard(P) :-
     randomize,
     get_seed(M),
-    N is M mod 18,
+    N is M mod 17,
     choice(N, Card),
     chancecard(Card, P).
 
@@ -44,16 +99,17 @@ chancecard(brokenteleport, Player) :- brokenteleport(Player).
 chancecard(teleportcard, Player) :- teleport(Player).
 chancecard(sedekahcard, Player) :- sedekah(Player). 
 chancecard(bribezhonglicard, Player) :- getbribeZhongli(Player).
-chancecard(minigame, _) :- startMinigame.
-/*chancecard(angel, Player) :- */
+chancecard(minigamecard, Player) :- minigame.
 
 
 kartupajak(P) :-
+    write('\nAnda mendapatkan kartu pajak!\n'),
     moveToNearestTax(P),
     write('\nYanFei menyadari kamu lupa membayar pajak bulan kemarin, kamu harus pergi ke rumah YanFei lalu membayar pajak.\n'),
     payTax(P).
 
 kartuhadiah(P) :-
+    write('\nAnda mendapatkan kartu hadiah!\n'),
     randomize,
     get_seed(M),
     A is M mod 2000,
@@ -61,6 +117,7 @@ kartuhadiah(P) :-
     addBalance(P, A).
 
 kartuzonk(P) :-
+    write('\nAnda mendapatkan kartu zonk!\n'),
     randomize,
     get_seed(M),
     A is M mod 2000,
@@ -69,6 +126,7 @@ kartuzonk(P) :-
     addBalance(P, B).
 
 getkeluarpenjara(P) :-
+    write('\nAnda mendapatkan kartu keluar penjara!\n'),
     insertToInventory(P, getout),   
     write('\nKamu diperbolehkan memanggil Xiao untuk keluar penjara,gunakan commang xiaoHelp untuk menggunakan kartu ini\n'), !.
 
@@ -89,19 +147,23 @@ usekeluarpenjara(P, CardInventory) :-
     CardInventory = A.
 
 pergikepenjara(P) :-
+    write('\nAnda mendapatkan kartu masuk penjara!\n'),
     write('\nANGKAT TANGAN!! Anda masuk ke penjara!\n'),
     getJailed(P),
     endTurn(P).
 
 mundurTigaLangkah(P) :-
+    write('\nAnda mendapatkan kartu mundur tiga langkah!\n'),
     write('\nKamu kejatuhan tombak Xiao! Mundur 3 langkah, 1 2 3, DOR!\n'),
     movePlayerStep(P, -3).
 
 majuTigaLangkah(P) :-
+    write('\nAnda mendapatkan kartu maju tiga langkah!\n'),
     write('\nKamu didorong ushi, maju 3 langkah\n'),
     movePlayerStep(P, 3).
 
 ulangTahun(P) :-
+    write('\nAnda mendapatkan kartu ulang tahun!\n'),
     write('\nOTANJOUBI OMEDETOU! Semua player membayar Anda sebesar 500, yang tidak bayar akan dipukul oleh Itto\n'),
     bayarKeP(P, 500).
 
@@ -112,6 +174,7 @@ bayarKeP(P, Amount) :-
     subtractBalance(X, Amount).
 
 kartuyanfei(P) :-
+    write('\nAnda mendapatkan kartu yanfei!\n'),
     randomize,
     get_seed(M),
     A is M mod 1000,
@@ -120,6 +183,7 @@ kartuyanfei(P) :-
     addBalance(P, B).
 
 meteorZhongli :-
+    write('\nAnda mendapatkan kartu meteor zhongli!\n'),
     randomize,
     get_seed(M),
     boardAssetLength(Length),
@@ -144,6 +208,7 @@ passgo(Player) :-
     movePlayerTo(Player, go).
 
 kartupaimon(P) :-
+    write('\nAnda mendapatkan kartu paimon!\n'),
     randomize,
     get_seed(M),
     A is M mod 500,
@@ -152,6 +217,7 @@ kartupaimon(P) :-
     addBalance(P, B).
 
 kartuchilde(P) :-
+    write('\nAnda mendapatkan kartu childe!\n'),
     randomize,
     get_seed(M),
     A is M mod 800,
@@ -159,6 +225,7 @@ kartuchilde(P) :-
     addBalance(P, A).
 
 brokenTeleportWaypoint(P) :-
+    write('\nAnda mendapatkan kartu broken teleport!\n'),
     randomize,
     get_seed(M),
     boardLength(Length),
@@ -170,6 +237,7 @@ brokenTeleportWaypoint(P) :-
 
 teleport(P) :-
     /* Teleport kalau teleport nya lewatin GO ga dapet uang ya! */
+    write('\nAnda mendapatkan kartu teleport!\n'),
     write('\nMasukkan indeks teleport (input diakhiri titik) : '),
     read(Index),
     boardLength(Length),
@@ -181,12 +249,14 @@ teleport(P) :-
     movePlayerTo(P, Tile).
 
 sedekah(P) :-
+    write('\nAnda mendapatkan kartu sedekah!\n'),
     balanceMin(PMin),
     PMin == P,
     write('\nAnda diminta bersedekah oleh Barbara, tapi Anda yang termiskin, jadi Barbara kasihan dan memberimu sedekah 500 Mora\n'),
     addBalance(P, 500), !.
 
 sedekah(P) :-
+    write('\nAnda mendapatkan kartu sedekah!\n'),
     balanceMin(PMin),
     format('~nAnda diminta bersedekah oleh Barbara, Anda bersedekah ke player ~w sebesar 500~n', [PMin]),
     addBalance(PMin, 500),
@@ -198,9 +268,11 @@ balanceMin(PlayerMin) :-
   \+ (balance(Other, BalO), Other \= PlayerMin, Bal > BalO), !.
 
 getbribeZhongli(P) :-
+    write('\nAnda mendapatkan kartu suap zhongli!\n'),
     write('\nKamu mendapatkan 5 toren osmanthus wine!\nkamu bisa menggunakan ini ditambah dengan 7000 Mora untuk menyuap Zhongli mengirimkan meteor dengan command suapZhongli\n'),
     insertToInventory(P, bribezhonglicard), !.
 
+/* Fungsi ini bisa dipanggil oleh pemain */
 suapZhongli :-
     turn(P, 1),
     cardInventory(P, Inventory),
@@ -219,3 +291,7 @@ suapZhongli :-
     getElmt(Board, Idx, Tile),
     format('~nTile ~w terkena meteor zhongli! semua bangunan di tile tersebut kandas :(~n', [Tile]),
     updateKandas(Tile, State, Player).
+
+minigame :-
+    write('\nAnda mendapatkan kartu minigame!\n'),
+    startMinigame.
