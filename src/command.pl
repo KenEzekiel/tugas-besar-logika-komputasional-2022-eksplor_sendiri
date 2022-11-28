@@ -112,7 +112,7 @@ buy(_):-
     turn(Player, 1),
     \+ playerState(Player, diceThrown), !, write('Lempar dadu terlebih dahulu'), fail.
 
-buy(_):-
+buy(Param):-
     turn(Player, 1),
     location(Player, Tile),
     (
@@ -184,7 +184,7 @@ buy(Param):-
     ).
 
 buyGoInit(Param):-
-    write('Kamu bertemu Alice sang penyihir di tile GO, dan dia menawarkan kamu untuk build di tile properti yang sudah kamu punya'),
+    write('Kamu bertemu Alice sang penyihir di tile GO, dan dia menawarka\nkamu untuk build di tile properti yang sudah kamu punya'), nl,
     repeat,
     write('Masukan tile properti yang ingin dibangun oleh Alice: '),
     read(Tile),
