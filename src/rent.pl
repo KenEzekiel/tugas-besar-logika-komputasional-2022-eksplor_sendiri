@@ -38,7 +38,8 @@ payRent(Tile, Payer) :-
     isAbleToPayRent(Tile, Payer) -> (
         rentAmount(Tile, Owner, Rent),
         addBalance(Owner, Rent),
-        subtractBalance(Payer, Rent)
+        subtractBalance(Payer, Rent),
+        format('~w telah membayar sewa sebesar ~d kepada ~w', [Payer, Rent, Owner]), nl
     ) ; (
         rentAmount(Tile, _, Rent),
         cashableWorth(Payer, Worth),
@@ -79,14 +80,15 @@ lanjut :-
     write('Daftar propertimu:'), nl,
     tileInventory(Player, Inventory),
     displayAssets(Inventory, 0),
-    read(No),
     sellTileByIndex(No, Player),
     balance(Player, Balance),
     location(Player, Tile),
     rentAmount(Tile, _, Rent),
     format('Moramu sekarang ~d dan biaya sewa ~d', [Balance, Rent]), nl,
+    write('Masukkan nomor aset yang ingin dijual: '),
+    read(No),
     (
-        isAbleToPayRent(Player) -> (
+        isAbleToPayRent(Tile, Player) -> (
             payRent(Tile, Player),
             write('Hore, sewa sudah bisa dibayar!'), nl,
             resolveBankruptcy(Player),
