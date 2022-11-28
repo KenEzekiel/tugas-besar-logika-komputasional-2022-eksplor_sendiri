@@ -2,7 +2,12 @@ worldTour :- isPlaying(0), !, fail.
 
 worldTour:-
     turn(Player, 1),
-    playerState(Player, diceThrown), !,
+    \+ location(Player, wt), !, 
+    write('Stormterror hanya ada di tile World Tour'), fail.
+
+worldTour:-
+    turn(Player, 1),
+    playerState(Player, DiceThrown), !,
     write('Maaf kamu hanya bisa menaiki Stormterror digiliran selanjutnya'), fail.
 
 worldTour:-
