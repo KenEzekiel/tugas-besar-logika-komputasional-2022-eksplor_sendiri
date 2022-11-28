@@ -7,7 +7,7 @@ worldTour:-
 
 worldTour:-
     turn(Player, 1),
-    playerState(Player, DiceThrown), !,
+    playerState(Player, diceThrown), !,
     write('Maaf kamu hanya bisa menaiki Stormterror digiliran selanjutnya'), fail.
 
 worldTour:-

@@ -49,7 +49,7 @@ payRent(Tile, Payer) :-
             write('Wah, moramu kurang!'), nl,
             format('Jumlah mora dari dompet dan penjualan aset ~d dan biaya sewa ~d', [Worth, Rent]), nl,
             write('Sayang sekali, moramu sudah tidak cukup.'), nl,
-            setGameOver(Player)
+            setGameOver(Payer)
         ))
     )); doNothing.
 

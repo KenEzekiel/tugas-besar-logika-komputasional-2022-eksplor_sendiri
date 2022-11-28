@@ -133,6 +133,7 @@ getkeluarpenjara(P) :-
 
 /* Ini bisa di call oleh user */
 xiaoHelp :-
+    isPlaying(1),
     turn(P, 1),
     cardInventory(P, Inventory),
     isElmt(Inventory, getout, Ans),
@@ -322,6 +323,7 @@ getbribeZhongli(P) :-
 
 /* Fungsi ini bisa dipanggil oleh pemain */
 suapZhongli :-
+    isPlaying(1),
     turn(P, 1),
     cardInventory(P, Inventory),
     isElmt(Inventory, bribezhonglicard, Ans),
