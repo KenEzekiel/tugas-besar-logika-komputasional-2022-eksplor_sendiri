@@ -34,3 +34,12 @@ indexOf([_|Y], El, R) :- indexOf(Y, El, R2), R is R2 + 1.
 sumUntil([], _, 0) :- !.
 sumUntil([X|_], 0, X) :- !.
 sumUntil([X|Y], IndexUntil, Res) :- IndexNext is IndexUntil - 1, sumUntil(Y, IndexNext, Res2), Res is Res2 + X.
+
+isSublist([H|T], ParentTile, Res) :-
+    isElmt(ParentTile, H, 1), isSublist(T, ParentTile, 1) -> (
+        Res is 1
+    ) ; (
+        Res is 0
+    ).
+
+isSublist([], ParentTile, 1).

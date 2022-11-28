@@ -3,7 +3,7 @@
 
 
 tileInventory(v, []).
-tileInventory(w, []).
+tileInventory(w, [h1, h2]).
 % Status aset di tiap tile
 % -2 : tile tidak bertuan
 % -1 : tile sedang di-mortgage
@@ -76,7 +76,7 @@ completeSet(P, Tile, Res):-
     colorGroupOfTile(Tile, GroupName, 1),
     colorGroup(GroupName, TileList),
     tileInventory(P, Inventory),
-    (\+ (isElmt(TileList, Tile_C, 1), isElmt(Inventory, Tile_C, 0)) -> Res is 1; Res is 0).
+    isSublist(TileList, Inventory, Res), !.
 
 % Menghasilkan status aset yang sesuai
 assetStatusWriter(PropStat) :-
