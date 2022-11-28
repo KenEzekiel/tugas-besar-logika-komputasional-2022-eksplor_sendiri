@@ -28,7 +28,7 @@ isAbleToPayRent(Tile, Player) :- % pastikan tile sudah dimiliki oleh player lawa
     balance(Player, Balance),
     Balance >= Rent.
 
-payRent(Tile, Payer) :-
+payRent(Tile, Payer) :- 
     (tileAsset(Tile, _, Owner),
     Owner \== Payer,
     Owner \== none) -> (
@@ -52,7 +52,7 @@ payRent(Tile, Payer) :-
             format('Jumlah mora dari dompet dan penjualan aset ~d dan biaya sewa ~d', [Worth, Rent]), nl,
             write('Sayang sekali, moramu sudah tidak cukup. Selamat tinggal :)'), nl
         ))
-    )); doNothing.
+    ); doNothing.
 
 writeAssetList(Tile, No) :- 
     tileAsset(Tile, PropertyLevel, _),
