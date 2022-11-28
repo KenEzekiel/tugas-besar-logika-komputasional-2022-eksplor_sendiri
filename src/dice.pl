@@ -53,11 +53,11 @@ throwDice :- !,
     (Pos == tx1 ; Pos == tx2) -> (
         payTax(P)
     ) ; (
-        Pos == cc1 ; Pos == cc2 ; Pos == cc3 -> (
+        (Pos == cc1 ; Pos == cc2 ; Pos == cc3) -> (
             drawchancecard(P) 
         ) ; (
-            Pos \== jl, Pos \== go, Pos \== wt, Pos \== fp -> (
-                payRent(P, Pos)
+            (Pos \== jl, Pos \== go, Pos \== wt, Pos \== fp) -> (
+                payRent(Pos, P)
                 ) ; (
                     doNothing
                 )
