@@ -11,7 +11,8 @@ resolveBankruptcy(Player) :-
 cashableWorth(Player, Cash) :- % jumlah cash sekarang + cash hasil penjualan semua asset (80%*totalAsset)
   balance(Player, Balance),
   totalAsset(Player, Asset),
-  Cash is Balance + 0.8*Asset.
+  FCash is Balance + 0.8*Asset,
+  Cash is round(FCash).
 
 rentAmount(Tile, Owner, Rent) :-
     tileAsset(Tile, PropertyLevel, Owner),
@@ -31,7 +32,8 @@ payRent(Tile, Payer) :-
     (tileAsset(Tile, _, Owner),
     Owner \== Payer,
     Owner \== none) -> (
-    (isAbleToPayRent(Tile, Payer) -> (
+    format('Anda menginjak lahan ~w milik ~w', [Tile, Owner]), nl,
+    isAbleToPayRent(Tile, Payer) -> (
         rentAmount(Tile, Owner, Rent),
         addBalance(Owner, Rent),
         subtractBalance(Payer, Rent),
@@ -40,14 +42,16 @@ payRent(Tile, Payer) :-
         rentAmount(Tile, _, Rent),
         cashableWorth(Payer, Worth),
         balance(Payer, Balance),
-        (Worth >= Rent) -> (
+        ((Worth >= Rent) -> (
             write('Wah, moramu kurang! Apakah kamu ingin tetap melanjutkan permainan?'), nl,
             format('Uangmu ~d dan biaya sewa ~d', [Balance, Rent]), nl,
             declarePendingBankruptcy(Payer)
         ) ; (
-            setGameOver(Payer),
+            declarePermanentBankruptcy(Payer),
+            write('Wah, moramu kurang!'), nl,
+            format('Jumlah mora dari dompet dan penjualan aset ~d dan biaya sewa ~d', [Worth, Rent]), nl,
             write('Sayang sekali, moramu sudah tidak cukup. Selamat tinggal :)'), nl
-        )
+        ))
     )); doNothing.
 
 writeAssetList(Tile, No) :- 

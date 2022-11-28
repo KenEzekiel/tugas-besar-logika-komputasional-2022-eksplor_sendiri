@@ -13,7 +13,7 @@ isAbleToPayTax(Player) :-
 % Command untuk player bayar pajak
 payTax(Player) :-
     taxAmount(Player, Amount),
-    format('Kamu datang ke rumah Yanfei untuk membayar pajak sebesar 10 persen dari kekayaanmu, yaitu sebesar ~d mora.', [Amount]), nl,
+    format('Kamu datang ke rumah Yanfei untuk membayar pajak sebesar 5 persen dari kekayaanmu, yaitu sebesar ~d mora.', [Amount]), nl,
     (
     isAbleToPayTax(Player) -> (
         subtractBalance(Player, Amount)
