@@ -46,6 +46,7 @@ subtractBalance(Player, Amount) :-
   asserta(balance(Player,NewX)).
 
 netWorth(Player, Net) :-
+  isPlaying(1),
   player(Player),
   balance(Player, Balance),
   totalAsset(Player, Asset), % ada di aset.pl

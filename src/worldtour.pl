@@ -1,3 +1,5 @@
+worldTour :- isPlaying(0), !, fail.
+
 worldTour:-
     turn(Player, 1),
     playerState(Player, DiceThrown), !,

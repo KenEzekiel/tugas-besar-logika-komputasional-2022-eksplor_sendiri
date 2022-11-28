@@ -12,6 +12,46 @@
 % :- include('./command.pl').
 
 :- dynamic(playerState/2).
+:- dynamic(isPlaying/1).
+
+isPlaying(0).
+
+start :- 
+  retract(isPlaying(0)),
+  asserta(isPlaying(1)),
+  jailUpdater(v, 0),
+  jailUpdater(w, 0),
+  turnInJailUpdater(v, 0),
+  turnInJailUpdater(w, 0),
+  doubleAmountUpdater(v, 0),
+  doubleAmountUpdater(w, 0),
+  retractall(balance(v, _)),
+  asserta(balance(v, 20000)),
+  retractall(balance(w, _)),
+  asserta(balance(w, 20000)),
+  movePlayerTo(v, go),
+  movePlayerTo(w, go),
+  retractall(cardInventory(v, _)),
+  asserta(cardInventory(v, [])),
+  retractall(cardInventory(w, _)),
+  asserta(cardInventory(w, [])),
+  retractall(unresolvedBankruptcy(_)),
+  turnUpdater(v, 1),
+  turnUpdater(w, 0),
+  remainDiceUpdater(v, 1),
+  remainDiceUpdater(w, 0),
+  initAsset,
+  retractall(playerState(_, _)),
+  retractall(guessSuccess(_)),
+  asserta(guessSuccess(0)),
+  retractall(isMinigame(_)),
+  asserta(isMinigame(0)),
+  rollSumUpdater(v, 0),
+  rollSumUpdater(w, 0).
+
+setGameOver :- 
+  retract(isPlaying(1)),
+  asserta(isPlaying(0)).
 
 
 % playerState(v, diceThrown).
@@ -24,6 +64,7 @@ stateChanger(Player, NewState):-
     asserta(playerState(Player, NewState)).
 
 mora:-
+    isPlaying(1),
     turn(Player, 1),
     balance(Player, Balance),
     format('Mora: ~d', [Balance]), !.
@@ -50,6 +91,8 @@ getParam(Param, X):-
 
 getParam(_, _):-
     fail.
+
+buy(_) :- isPlaying(0), !, fail.
 
 buy(Param):-
     \+ getParam(Param, X), !, write('Pastikan parameter dari buy merupakan salah satu dari "tanah", "bangunan1", "bangunan2", "bangunan3", atau "landmark".'), fail.
