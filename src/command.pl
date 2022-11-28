@@ -57,6 +57,13 @@ setGameOver(Loser) :-
   format('Player ~w wins. Player ~w loses.', [Winner, Loser]), nl,
   write('This realm is no home for a princess...'),nl.
 
+helpReadOnly :-
+  isPlaying(1),
+  write('map\t\t\t\t - Menampilkan papan permainan.'), nl,
+  write('checkLocationDetail(Location)\t - Menampilkan detail lokasi.'), nl,
+  write('checkPropertyDetail(Property)\t - Menampilkan detail properti.'), nl,
+  write('checkPlayerDetail(Player)\t - Menampilkan informasi player.'), nl.
+
 
 % playerState(v, diceThrown).
 % playerState(w, diceThrown).
