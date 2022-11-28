@@ -34,7 +34,13 @@ start :-
   retractall(isMinigame(_)),
   asserta(isMinigame(0)),
   rollSumUpdater(v, 0),
-  rollSumUpdater(w, 0). % TODO: Add UI for start game.
+  rollSumUpdater(w, 0),
+  write(' __        __         _                                       _               _____                                  _   '), nl,
+  write(' \\ \\      / /   ___  | |   ___    ___    _ __ ___     ___    | |_    ___     |_   _|   ___  __   __  _   _    __ _  | |_ '), nl,
+  write('  \\ \\ /\\ / /   / _ \\ | |  / __|  / _ \\  | \'_ ` _ \\   / _ \\   | __|  / _ \\      | |    / _ \\ \\ \\ / / | | | |  / _` | | __|'), nl,
+  write('   \\ V  V /   |  __/ | | | (__  | (_) | | | | | | | |  __/   | |_  | (_) |     | |   |  __/  \\ V /  | |_| | | (_| | | |_ '), nl,
+  write('    \\_/\\_/     \\___| |_|  \\___|  \\___/  |_| |_| |_|  \\___|    \\__|  \\___/      |_|    \\___|   \\_/    \\__, |  \\__,_|  \\__|'), nl,
+  write('                                                                                                     |___/               '), nl.
 
 setGameOver(Player) :- 
   retract(isPlaying(1)),

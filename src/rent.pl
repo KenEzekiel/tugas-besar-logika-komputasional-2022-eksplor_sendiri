@@ -1,5 +1,4 @@
 :- dynamic(unresolvedBankruptcy/1).
-:- dynamic(unresolvableBankruptcy/1).
 
 declarePendingBankruptcy(Player) :- 
     retractall(unresolvedBankruptcy(_)),
@@ -52,7 +51,7 @@ payRent(Tile, Payer) :-
             format('Jumlah mora dari dompet dan penjualan aset ~d dan biaya sewa ~d', [Worth, Rent]), nl,
             write('Sayang sekali, moramu sudah tidak cukup. Selamat tinggal :)'), nl
         ))
-    ); doNothing.
+    )); doNothing.
 
 writeAssetList(Tile, No) :- 
     tileAsset(Tile, PropertyLevel, _),
