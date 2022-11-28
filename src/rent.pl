@@ -8,10 +8,6 @@ declarePendingBankruptcy(Player) :-
 resolveBankruptcy(Player) :- 
     retractall(unresolvedBankruptcy(Player)).
 
-declarePermanentBankruptcy(Player) :- 
-    retractall(unresolvableBankruptcy(_)),
-    asserta(unresolvableBankruptcy(Player)).
-
 cashableWorth(Player, Cash) :- % jumlah cash sekarang + cash hasil penjualan semua asset (80%*totalAsset)
   balance(Player, Balance),
   totalAsset(Player, Asset),
@@ -35,7 +31,7 @@ payRent(Tile, Payer) :-
     (tileAsset(Tile, _, Owner),
     Owner \== Payer,
     Owner \== none) -> (
-    isAbleToPayRent(Tile, Payer) -> (
+    (isAbleToPayRent(Tile, Payer) -> (
         rentAmount(Tile, Owner, Rent),
         addBalance(Owner, Rent),
         subtractBalance(Payer, Rent),
@@ -49,7 +45,7 @@ payRent(Tile, Payer) :-
             format('Uangmu ~d dan biaya sewa ~d', [Balance, Rent]), nl,
             declarePendingBankruptcy(Payer)
         ) ; (
-            declarePermanentBankruptcy(Payer),
+            setGameOver(Payer),
             write('Sayang sekali, moramu sudah tidak cukup. Selamat tinggal :)'), nl
         )
     )); doNothing.
@@ -71,7 +67,7 @@ displayAssets([H|T], No) :-
 tidak :-
     unresolvedBankruptcy(Player),
     resolveBankruptcy(Player),
-    declarePermanentBankruptcy(Player), % Permainan selesai. Reset ???
+    setGameOver(Player),
     write('Salah satu pemain telah menyatakan bangkrut, sehingga permainan selesai'), nl.
 
 lanjut :-

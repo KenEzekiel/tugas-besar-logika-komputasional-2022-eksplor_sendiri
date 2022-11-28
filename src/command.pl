@@ -1,16 +1,3 @@
-% :- include('./map_fact.pl').
-% :- include('./list.pl').
-% :- include('./map_rules.pl').
-% :- include('./player.pl').
-% :- include('./chancecard.pl').
-% :- include('./dice.pl').
-% :- include('./jail.pl').
-% :- include('./turns.pl').
-% :- include('./rent.pl').
-% :- include('./aset.pl').
-% :- include('./taxes.pl').
-% :- include('./command.pl').
-
 :- dynamic(playerState/2).
 :- dynamic(isPlaying/1).
 
@@ -47,11 +34,11 @@ start :-
   retractall(isMinigame(_)),
   asserta(isMinigame(0)),
   rollSumUpdater(v, 0),
-  rollSumUpdater(w, 0).
+  rollSumUpdater(w, 0). % TODO: Add UI for start game.
 
-setGameOver :- 
+setGameOver(Player) :- 
   retract(isPlaying(1)),
-  asserta(isPlaying(0)).
+  asserta(isPlaying(0)). % TODO: Add UI for game over.
 
 
 % playerState(v, diceThrown).
