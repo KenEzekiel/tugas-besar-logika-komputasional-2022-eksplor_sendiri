@@ -131,6 +131,7 @@ acquireTile :-
             subtractBalance(P, AP),
             addBalance(Owner, AP),
             inventoryAppender(P, Tile),
+            inventoryDeleter(Owner, Tile),
             tileAssetUpdater(Tile, Level, P),
             write('Berhasil akuisisi properti'), nl
         ) ; (
