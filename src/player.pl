@@ -119,7 +119,7 @@ checkPlayerDetail(Player) :-
   totalAsset(Player, Asset),
   netWorth(Player, Worth),
   format('Informasi Player ~w', [Player]), nl, nl,
-  format('Lokasi \t\t: ~w', [Location]), nl,
+  format('Lokasi \t\t\t: ~w', [Location]), nl,
   format('Total mora\t\t: ~d', [Balance]), nl,
   format('Total nilai properti\t: ~d', [Asset]), nl,
   format('Total asset\t\t: ~d', [Worth]), nl, nl,

@@ -15,12 +15,13 @@ choice(13, brokenteleport).
 choice(14, teleportcard).
 choice(15, sedekahcard).
 choice(16, bribezhonglicard).
+choice(17, minigame).
 
 /* Ini fungsi yang di call saat di petak chancecard */
 drawchancecard(P) :-
     randomize,
     get_seed(M),
-    N is M mod 17,
+    N is M mod 18,
     choice(N, Card),
     chancecard(Card, P).
 
@@ -43,6 +44,7 @@ chancecard(brokenteleport, Player) :- brokenteleport(Player).
 chancecard(teleportcard, Player) :- teleport(Player).
 chancecard(sedekahcard, Player) :- sedekah(Player). 
 chancecard(bribezhonglicard, Player) :- getbribeZhongli(Player).
+chancecard(minigame, _) :- startMinigame.
 /*chancecard(angel, Player) :- */
 
 
