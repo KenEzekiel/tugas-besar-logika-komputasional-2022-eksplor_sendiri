@@ -13,10 +13,9 @@ resetDoubleAmount(P) :-
     doubleAmountUpdater(P, 0).
 
 randomDice(Res) :-
-    Res is 5.
-    % randomize,
-    % get_seed(M),
-    % Res is (M mod 6) + 1.
+    randomize,
+    get_seed(M),
+    Res is (M mod 6) + 1.
 
 rollDices(Res1, Res2, Double):-
     randomDice(Res1),
