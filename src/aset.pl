@@ -129,8 +129,8 @@ canBuyBasicCheck(P, Tile, Res):-
         ).
 
 % Take over tile orang
-acquireTile :-
-    turn(P, 1), !,
+acquireTile :- !,
+    turn(P, 1),
     playerState(P, diceThrown),
     location(P, Tile),
     tileAsset(Tile, Level, Owner),
