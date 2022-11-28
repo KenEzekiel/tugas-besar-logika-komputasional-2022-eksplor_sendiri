@@ -10,3 +10,4 @@
 :- include('./taxes.pl').
 :- include('./command.pl').
 :- include('./minigame.pl').
+:- include('./worldtour.pl').
